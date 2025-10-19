@@ -1,0 +1,29 @@
+name: ShadowSMP
+version: '1.0-SNAPSHOT'
+main: me.nickotato.shadowSMP.ShadowSMP
+api-version: '1.21'
+commands:
+  ability:
+    description: Use your ghost's ability
+    permission: ""
+  ultimate:
+    description: Use your ghost's ultimate
+    permission: ""
+  charm_ability:
+    description: Use your charm's ability
+    permission: ""
+  give_charms:
+    description: Open the charms gui
+    permission: ShadowSMP.give_charms
+  withdraw_charm:
+    description: Withdraws your charm
+    permission: ""
+  give_shadow_items:
+    description: Opens the shadow items gui
+    permission: ShadowSMP.give_shadow_items
+  reset_cooldown:
+    description: Resets the users cooldown
+    permission: ShadowSMP.reset_cooldown
+  manage:
+    description: Manage Players
+    permission: ShadowSMP.manage
