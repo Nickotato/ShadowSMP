@@ -5,5 +5,6 @@ import me.nickotato.shadowSMP.abilities.RevenantAbility
 import me.nickotato.shadowSMP.abilities.RevenantUltimate
 
 enum class Ghost(val ability: Ability, val ultimate: Ability) {
-    REVENANT(RevenantAbility(), RevenantUltimate())
+    REVENANT(RevenantAbility(), RevenantUltimate()),
+    BANSHEE(RevenantAbility(), RevenantAbility())
 }

@@ -25,4 +25,11 @@ object PlayerManager {
             players[player.uniqueId]!!
         }
     }
+
+    fun changePlayerSouls(player: Player, amount: Int) {
+        val playerData = getPlayerData(player)
+        if (playerData.souls + amount > 5) return
+        else if (playerData.souls + amount < -5) return
+        playerData.souls += amount
+    }
 }

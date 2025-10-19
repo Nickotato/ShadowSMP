@@ -15,4 +15,8 @@ enum class Charm(val ability: Ability?, val item: ItemStack) {
             )
         )
     )
+    // Thing that fire a projectile that slows the person it hits
+    // Reduces cooldowns by 1/4th
+    // Auto break trees
+    // Don't lose upgraders on death
 }

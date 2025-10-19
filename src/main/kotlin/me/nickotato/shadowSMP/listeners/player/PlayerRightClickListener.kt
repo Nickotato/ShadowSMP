@@ -2,7 +2,6 @@ package me.nickotato.shadowSMP.listeners.player
 
 import me.nickotato.shadowSMP.enums.Charm
 import me.nickotato.shadowSMP.enums.Ghost
-import me.nickotato.shadowSMP.items.Upgrader
 import me.nickotato.shadowSMP.manager.PlayerManager
 import me.nickotato.shadowSMP.utils.ItemUtils
 import org.bukkit.entity.Player
@@ -49,6 +48,17 @@ class PlayerRightClickListener: Listener {
             ItemUtils.getItemType(item) == "haunted_dice" -> {
                 playerData.ghost = Ghost.entries.random()
                 player.sendMessage("§aYour new ghost is §d${playerData.ghost.name}")
+                consumeOne(player)
+                event.isCancelled = true
+            }
+
+            ItemUtils.getItemType(item) == "soul" -> {
+                if (playerData.souls >= 5) {
+                    player.sendMessage("§cYou already have 5 souls.")
+                    return
+                }
+                PlayerManager.changePlayerSouls(player, 1)
+                player.sendMessage("§aYou now have §d${playerData.souls}§a souls")
                 consumeOne(player)
                 event.isCancelled = true
             }
