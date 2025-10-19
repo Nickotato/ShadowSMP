@@ -21,3 +21,6 @@ commands:
   give_shadow_items:
     description: Opens the shadow items gui
     permission: ShadowSMP.give_shadow_items
+  reset_cooldown:
+    description: Resets the users cooldown
+    permission: ShadowSMP.reset_cooldown

@@ -3,7 +3,7 @@ package me.nickotato.shadowSMP.manager
 object ItemManager {
     data class CustomItemInfo (
         val type: String,
-        val unburnable: Boolean = false,
+        val indestructible: Boolean = false,
         val unbreakable: Boolean = false,
     )
 
@@ -15,5 +15,5 @@ object ItemManager {
 
     fun getInfo(type: String): CustomItemInfo? = items[type]
 
-    fun isUnburnable(type: String): Boolean = items[type]?.unburnable == true
+    fun isIndestructible(type: String): Boolean = items[type]?.indestructible == true
 }

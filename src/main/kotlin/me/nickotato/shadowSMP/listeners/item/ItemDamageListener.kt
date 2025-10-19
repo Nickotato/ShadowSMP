@@ -12,7 +12,7 @@ class ItemDamageListener: Listener {
     fun onItemDamage(event: EntityDamageEvent) {
         val item = event.entity as? Item ?: return
         val type = ItemUtils.getItemType(item.itemStack) ?: return
-        if (ItemManager.isUnburnable(type)) {
+        if (ItemManager.isIndestructible(type)) {
             event.isCancelled = true
         }
     }

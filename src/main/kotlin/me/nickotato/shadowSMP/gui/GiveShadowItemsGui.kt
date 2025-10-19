@@ -1,5 +1,6 @@
 package me.nickotato.shadowSMP.gui
 
+import me.nickotato.shadowSMP.items.HauntedDice
 import me.nickotato.shadowSMP.items.Upgrader
 import net.kyori.adventure.text.Component
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -7,6 +8,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 class GiveShadowItemsGui: Gui(Component.text("§5Shadow items"), 27) {
     init {
         setItem(0, Upgrader.create())
+        setItem(1, HauntedDice.create())
     }
 
     override fun onClick(event: InventoryClickEvent) {

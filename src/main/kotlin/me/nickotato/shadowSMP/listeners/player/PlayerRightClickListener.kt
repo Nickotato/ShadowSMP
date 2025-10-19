@@ -1,6 +1,7 @@
 package me.nickotato.shadowSMP.listeners.player
 
 import me.nickotato.shadowSMP.enums.Charm
+import me.nickotato.shadowSMP.enums.Ghost
 import me.nickotato.shadowSMP.items.Upgrader
 import me.nickotato.shadowSMP.manager.PlayerManager
 import me.nickotato.shadowSMP.utils.ItemUtils
@@ -41,6 +42,13 @@ class PlayerRightClickListener: Listener {
 
                 playerData.isUpgraded = true
                 player.sendMessage("§aUpgraded your ghost")
+                consumeOne(player)
+                event.isCancelled = true
+            }
+
+            ItemUtils.getItemType(item) == "haunted_dice" -> {
+                playerData.ghost = Ghost.entries.random()
+                player.sendMessage("§aYour new ghost is §d${playerData.ghost.name}")
                 consumeOne(player)
                 event.isCancelled = true
             }

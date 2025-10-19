@@ -3,6 +3,7 @@ package me.nickotato.shadowSMP
 import me.nickotato.shadowSMP.commands.AbilityCommand
 import me.nickotato.shadowSMP.commands.GiveCharmsCommand
 import me.nickotato.shadowSMP.commands.GiveShadowItemsCommand
+import me.nickotato.shadowSMP.commands.ResetCooldownCommand
 import me.nickotato.shadowSMP.commands.UltimateCommand
 import me.nickotato.shadowSMP.commands.WithdrawCharmCommand
 import me.nickotato.shadowSMP.listeners.item.ItemBurnListener
@@ -12,7 +13,6 @@ import me.nickotato.shadowSMP.listeners.player.PlayerJoinListener
 import me.nickotato.shadowSMP.listeners.player.PlayerRightClickListener
 import me.nickotato.shadowSMP.manager.GuiManager
 import me.nickotato.shadowSMP.manager.ItemManager
-import me.nickotato.shadowSMP.utils.ItemUtils
 import org.bukkit.plugin.java.JavaPlugin
 
 class ShadowSMP : JavaPlugin() {
@@ -38,8 +38,10 @@ class ShadowSMP : JavaPlugin() {
         getCommand("withdraw_charm")?.setExecutor(WithdrawCharmCommand())
         getCommand("ultimate")?.setExecutor(UltimateCommand())
         getCommand("give_shadow_items")?.setExecutor(GiveShadowItemsCommand())
+        getCommand("reset_cooldown")?.setExecutor(ResetCooldownCommand())
 
-        ItemManager.register(ItemManager.CustomItemInfo("upgrader", unburnable = true))
+        ItemManager.register(ItemManager.CustomItemInfo("upgrader", indestructible = true))
+        ItemManager.register(ItemManager.CustomItemInfo("haunted_dice", indestructible = true))
     }
 
     override fun onDisable() {

@@ -11,11 +11,6 @@ abstract class Ability(val cooldown: Int) {
 
     fun activate(player: Player) {
 
-//        if (isUltimate && !isUpgraded) {
-//            player.sendMessage("§cYou must be upgraded to use your ultimate!")
-//            return
-//        }
-
         val now = System.currentTimeMillis()
         val last = lastUsed[player.uniqueId] ?: 0
         val remaining = cooldown * 1000 - (now - last)

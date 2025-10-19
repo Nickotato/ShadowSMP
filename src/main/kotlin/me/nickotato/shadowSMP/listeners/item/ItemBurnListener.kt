@@ -13,7 +13,7 @@ class ItemBurnListener: Listener {
     fun onItemBurn(event: EntityCombustEvent) {
         val item = event.entity as? Item ?: return
         val type = ItemUtils.getItemType(item.itemStack) ?: return
-        if (ItemManager.isUnburnable(type)) {
+        if (ItemManager.isIndestructible(type)) {
             event.isCancelled = true
         }
     }
@@ -22,7 +22,7 @@ class ItemBurnListener: Listener {
     fun onItemCombustByBlock(event: EntityCombustByBlockEvent) {
         val item = event.entity as? Item ?: return
         val type = ItemUtils.getItemType(item.itemStack) ?: return
-        if (ItemManager.isUnburnable(type)) {
+        if (ItemManager.isIndestructible(type)) {
             event.isCancelled = true
         }
     }
