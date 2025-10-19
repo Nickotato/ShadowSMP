@@ -2,3 +2,13 @@ name: ShadowSMP
 version: '1.0-SNAPSHOT'
 main: me.nickotato.shadowSMP.ShadowSMP
 api-version: '1.21'
+commands:
+  ability:
+    description: Use your ghost's ability
+    permission: ""
+  ultimate:
+    description: Use your ghost's ultimate
+    permission: ""
+  charm_ability:
+    description: Use your charm's ability
+    permission: ""
