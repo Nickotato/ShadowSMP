@@ -2,6 +2,7 @@ package me.nickotato.shadowSMP
 
 import me.nickotato.shadowSMP.commands.AbilityCommand
 import me.nickotato.shadowSMP.commands.GiveCharmsCommand
+import me.nickotato.shadowSMP.commands.GiveShadowItemsCommand
 import me.nickotato.shadowSMP.commands.UltimateCommand
 import me.nickotato.shadowSMP.commands.WithdrawCharmCommand
 import me.nickotato.shadowSMP.listeners.player.PlayerJoinListener
@@ -20,6 +21,7 @@ class ShadowSMP : JavaPlugin() {
         getCommand("give_charms")?.setExecutor(GiveCharmsCommand())
         getCommand("withdraw_charm")?.setExecutor(WithdrawCharmCommand())
         getCommand("ultimate")?.setExecutor(UltimateCommand())
+        getCommand("give_shadow_items")?.setExecutor(GiveShadowItemsCommand())
     }
 
     override fun onDisable() {

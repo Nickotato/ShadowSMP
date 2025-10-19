@@ -1,6 +1,7 @@
 package me.nickotato.shadowSMP.listeners.player
 
 import me.nickotato.shadowSMP.enums.Charm
+import me.nickotato.shadowSMP.items.Upgrader
 import me.nickotato.shadowSMP.manager.PlayerManager
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -27,6 +28,18 @@ class PlayerRightClickListener: Listener {
 
                 playerData.charm = Charm.FEATHER
                 player.sendMessage("§aYou equipped the Feather charm!")
+                consumeOne(player)
+                event.isCancelled = true
+            }
+
+            item.isSimilar(Upgrader()) -> {
+                if (playerData.isUpgraded) {
+                    player.sendMessage("§cAlready Upgraded")
+                    return
+                }
+
+                playerData.isUpgraded = true
+                player.sendMessage("§aUpgraded your ghost")
                 consumeOne(player)
                 event.isCancelled = true
             }

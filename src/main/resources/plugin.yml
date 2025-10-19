@@ -14,7 +14,10 @@ commands:
     permission: ""
   give_charms:
     description: Open the charms gui
-    permission: ShadowSmp.give_charms
+    permission: ShadowSMP.give_charms
   withdraw_charm:
     description: Withdraws your charm
     permission: ""
+  give_shadow_items:
+    description: Opens the shadow items gui
+    permission: ShadowSMP.give_shadow_items
