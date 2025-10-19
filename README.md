@@ -18,7 +18,7 @@
   - Players start with 0 souls.  
   - Gain 1 soul per player kill; lose 1 soul on death.  
   - Max 5 souls; hitting -5 souls results in a ban.
-- **Revive Book:** Bring fallen players back into the game, starting at 3 souls.
+- **Soul Catcher:** Bring fallen players back into the game, starting at 3 souls.
 
 ---
 

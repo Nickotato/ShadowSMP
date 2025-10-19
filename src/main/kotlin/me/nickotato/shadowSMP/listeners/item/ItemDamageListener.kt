@@ -11,8 +11,13 @@ class ItemDamageListener: Listener {
     @EventHandler
     fun onItemDamage(event: EntityDamageEvent) {
         val item = event.entity as? Item ?: return
-        val type = ItemUtils.getItemType(item.itemStack) ?: return
-        if (ItemManager.isIndestructible(type)) {
+        val type = ItemUtils.getItemType(item.itemStack)
+
+//        Bukkit.broadcast(Component.text(ItemUtils.isCharm(item.itemStack).toString()))
+
+        if (type is String && ItemManager.isIndestructible(type)) {
+            event.isCancelled = true
+        } else if (ItemUtils.isCharm(item.itemStack)) {
             event.isCancelled = true
         }
     }

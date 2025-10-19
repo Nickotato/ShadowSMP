@@ -48,4 +48,23 @@ object ItemUtils {
         return item
     }
 
+    fun markAsCharm(item: ItemStack): ItemStack {
+        val meta = item.itemMeta ?: return item
+        val key = NamespacedKey("shadowsmp", "is_charm")
+        meta.persistentDataContainer.set(key, PersistentDataType.BYTE, 1)
+
+        val existingLore = meta.lore()?.toMutableList() ?: mutableListOf()
+        existingLore.add(Component.text("§3§o§lCharm"))
+        meta.lore(existingLore)
+        item.itemMeta = meta
+
+        // Make the item unique AFTER setting charm metadata
+        return item
+    }
+
+    fun isCharm(item: ItemStack?): Boolean {
+        if (item == null || !item.hasItemMeta()) return false
+        val key = NamespacedKey("shadowsmp", "is_charm")
+        return item.itemMeta?.persistentDataContainer?.has(key, PersistentDataType.BYTE) == true
+    }
 }

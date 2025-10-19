@@ -3,6 +3,7 @@ package me.nickotato.shadowSMP
 import me.nickotato.shadowSMP.commands.AbilityCommand
 import me.nickotato.shadowSMP.commands.GiveCharmsCommand
 import me.nickotato.shadowSMP.commands.GiveShadowItemsCommand
+import me.nickotato.shadowSMP.commands.ManageCommand
 import me.nickotato.shadowSMP.commands.ResetCooldownCommand
 import me.nickotato.shadowSMP.commands.UltimateCommand
 import me.nickotato.shadowSMP.commands.WithdrawCharmCommand
@@ -39,6 +40,7 @@ class ShadowSMP : JavaPlugin() {
         getCommand("ultimate")?.setExecutor(UltimateCommand())
         getCommand("give_shadow_items")?.setExecutor(GiveShadowItemsCommand())
         getCommand("reset_cooldown")?.setExecutor(ResetCooldownCommand())
+        getCommand("manage")?.setExecutor(ManageCommand())
 
         ItemManager.register(ItemManager.CustomItemInfo("upgrader", indestructible = true))
         ItemManager.register(ItemManager.CustomItemInfo("haunted_dice", indestructible = true))

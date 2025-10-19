@@ -15,6 +15,8 @@ class ItemBurnListener: Listener {
         val type = ItemUtils.getItemType(item.itemStack) ?: return
         if (ItemManager.isIndestructible(type)) {
             event.isCancelled = true
+        }else if (ItemUtils.isCharm(item.itemStack)) {
+            event.isCancelled = true
         }
     }
 
@@ -23,6 +25,8 @@ class ItemBurnListener: Listener {
         val item = event.entity as? Item ?: return
         val type = ItemUtils.getItemType(item.itemStack) ?: return
         if (ItemManager.isIndestructible(type)) {
+            event.isCancelled = true
+        }else if (ItemUtils.isCharm(item.itemStack)) {
             event.isCancelled = true
         }
     }
