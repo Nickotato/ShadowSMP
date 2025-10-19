@@ -6,7 +6,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 
 class GiveShadowItemsGui: Gui(Component.text("§5Shadow items"), 27) {
     init {
-        setItem(0, Upgrader())
+        setItem(0, Upgrader.create())
     }
 
     override fun onClick(event: InventoryClickEvent) {

@@ -3,6 +3,7 @@ package me.nickotato.shadowSMP.listeners.player
 import me.nickotato.shadowSMP.enums.Charm
 import me.nickotato.shadowSMP.items.Upgrader
 import me.nickotato.shadowSMP.manager.PlayerManager
+import me.nickotato.shadowSMP.utils.ItemUtils
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -32,7 +33,7 @@ class PlayerRightClickListener: Listener {
                 event.isCancelled = true
             }
 
-            item.isSimilar(Upgrader()) -> {
+            ItemUtils.getItemType(item) == "upgrader" -> {
                 if (playerData.isUpgraded) {
                     player.sendMessage("§cAlready Upgraded")
                     return
