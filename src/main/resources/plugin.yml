@@ -12,3 +12,6 @@ commands:
   charm_ability:
     description: Use your charm's ability
     permission: ""
+  give_charms:
+    description: Open the charms gui
+    permission: ShadowSmp.give_charms

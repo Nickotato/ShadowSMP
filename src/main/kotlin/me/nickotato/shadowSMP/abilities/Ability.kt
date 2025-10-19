@@ -30,4 +30,8 @@ abstract class Ability(val cooldown: Int, val isUltimate: Boolean = false) {
 
         lastUsed[player.uniqueId] = now
     }
+
+    fun resetCooldown(player: Player) {
+        lastUsed.remove(player.uniqueId)
+    }
 }
