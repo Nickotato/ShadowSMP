@@ -12,7 +12,7 @@ object CharmItem {
         meta.displayName(name)
 
         val lore = baseLore.toMutableList()
-        lore.add(Component.text("&3&oCharm"))
+        lore.add(Component.text("§3§o§lCharm"))
         meta.lore(lore)
 
         item.itemMeta = meta

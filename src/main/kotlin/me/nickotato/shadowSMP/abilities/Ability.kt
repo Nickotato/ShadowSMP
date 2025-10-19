@@ -4,17 +4,17 @@ import org.bukkit.entity.Player
 import java.util.UUID
 import kotlin.math.ceil
 
-abstract class Ability(val cooldown: Int, val isUltimate: Boolean = false) {
+abstract class Ability(val cooldown: Int) {
     private val lastUsed = mutableMapOf<UUID, Long>()
 
     abstract fun execute(player: Player)
 
-    fun activate(player: Player, isUpgraded: Boolean = false) {
+    fun activate(player: Player) {
 
-        if (isUltimate && !isUpgraded) {
-            player.sendMessage("§cYou must be upgraded to use your ultimate!")
-            return
-        }
+//        if (isUltimate && !isUpgraded) {
+//            player.sendMessage("§cYou must be upgraded to use your ultimate!")
+//            return
+//        }
 
         val now = System.currentTimeMillis()
         val last = lastUsed[player.uniqueId] ?: 0

@@ -15,3 +15,6 @@ commands:
   give_charms:
     description: Open the charms gui
     permission: ShadowSmp.give_charms
+  withdraw_charm:
+    description: Withdraws your charm
+    permission: ""

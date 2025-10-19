@@ -13,5 +13,11 @@ class GiveCharmsGui: Gui(Component.text("Select a charm"), 27) {
 
     override fun onClick(event: InventoryClickEvent) {
         event.isCancelled = true
+
+        val player = event.whoClicked
+        val slot = event.slot
+        val clickedItem = inventory.getItem(slot) ?: return
+
+        player.inventory.addItem(clickedItem.clone())
     }
 }
