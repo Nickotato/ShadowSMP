@@ -1,0 +1,4 @@
+name: ShadowSMP
+version: '1.0-SNAPSHOT'
+main: me.nickotato.shadowSMP.ShadowSMP
+api-version: '1.21'
