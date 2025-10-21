@@ -3,6 +3,7 @@ package me.nickotato.shadowSMP.manager
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.enums.Ghost
 import org.bukkit.Bukkit
+import org.bukkit.Effect
 import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
@@ -21,6 +22,7 @@ object EffectManager {
         val playerData = PlayerManager.getPlayerData(player)
 
         if (playerData.ghost == Ghost.BANSHEE) effect.add(EffectData(PotionEffectType.STRENGTH, 0))
+        if (playerData.ghost == Ghost.GOLEM) effect.add(EffectData(PotionEffectType.RESISTANCE, 0))
 
         return effect
     }

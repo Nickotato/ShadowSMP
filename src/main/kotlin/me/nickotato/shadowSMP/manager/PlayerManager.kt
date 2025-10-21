@@ -19,6 +19,10 @@ object PlayerManager {
         )
     }
 
+    fun addNewPlayerFromData(data: PlayerData) {
+        players[data.uuid] = data
+    }
+
     fun getPlayerData(player: Player): PlayerData {
         return players[player.uniqueId] ?: run {
             addNewPlayer(player)

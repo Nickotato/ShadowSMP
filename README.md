@@ -28,7 +28,7 @@
 - Java Version: 17+ (if applicable)
 
 **Steps:**  
-1. Download `ShadowSMPGhosts.jar`  
+1. Download `shadowsmp.jar`  
 2. Place it in the `plugins/` folder of your server  
 3. Restart the server  
 

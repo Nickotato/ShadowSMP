@@ -1,5 +1,6 @@
 package me.nickotato.shadowSMP.gui
 
+import me.nickotato.shadowSMP.manager.GuiManager
 import me.nickotato.shadowSMP.manager.PlayerManager
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
@@ -7,7 +8,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
 
-class ManagePlayerGui(target: Player): Gui(Component.text("Managing ${target.name}"), 27) {
+class ManagePlayerGui(val target: Player): Gui(Component.text("Managing ${target.name}"), 27) {
     init {
         val targetData = PlayerManager.getPlayerData(target)
 
@@ -48,5 +49,14 @@ class ManagePlayerGui(target: Player): Gui(Component.text("Managing ${target.nam
 
     override fun onClick(event: InventoryClickEvent) {
         event.isCancelled = true
+
+        val player = event.whoClicked
+        if (player !is Player) return
+        val slot = event.slot
+
+        if (slot == 10) {
+            player.closeInventory()
+            GuiManager.open(ManagingGhostGui(target), player)
+        }
     }
 }

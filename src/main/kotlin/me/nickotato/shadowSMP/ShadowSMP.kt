@@ -5,8 +5,10 @@ import me.nickotato.shadowSMP.commands.GiveCharmsCommand
 import me.nickotato.shadowSMP.commands.GiveShadowItemsCommand
 import me.nickotato.shadowSMP.commands.ManageCommand
 import me.nickotato.shadowSMP.commands.ResetCooldownCommand
+import me.nickotato.shadowSMP.commands.SoulsCommand
 import me.nickotato.shadowSMP.commands.UltimateCommand
 import me.nickotato.shadowSMP.commands.WithdrawCharmCommand
+import me.nickotato.shadowSMP.data.PlayerDataStorage
 import me.nickotato.shadowSMP.listeners.item.ItemBurnListener
 import me.nickotato.shadowSMP.listeners.item.ItemDamageListener
 import me.nickotato.shadowSMP.listeners.player.PlayerDeathListener
@@ -44,6 +46,7 @@ class ShadowSMP : JavaPlugin() {
         getCommand("give_shadow_items")?.setExecutor(GiveShadowItemsCommand())
         getCommand("reset_cooldown")?.setExecutor(ResetCooldownCommand())
         getCommand("manage")?.setExecutor(ManageCommand())
+        getCommand("souls")?.setExecutor(SoulsCommand())
 
         ItemManager.register(ItemManager.CustomItemInfo("upgrader", indestructible = true))
         ItemManager.register(ItemManager.CustomItemInfo("haunted_dice", indestructible = true))
@@ -53,6 +56,6 @@ class ShadowSMP : JavaPlugin() {
     }
 
     override fun onDisable() {
-        // Plugin shutdown logic
+        PlayerDataStorage.saveAll()
     }
 }

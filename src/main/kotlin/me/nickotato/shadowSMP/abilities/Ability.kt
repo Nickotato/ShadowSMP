@@ -1,5 +1,6 @@
 package me.nickotato.shadowSMP.abilities
 
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import java.util.UUID
 import kotlin.math.ceil
@@ -13,7 +14,11 @@ abstract class Ability(val cooldown: Int) {
 
         val now = System.currentTimeMillis()
         val last = lastUsed[player.uniqueId] ?: 0
-        val remaining = cooldown * 1000 - (now - last)
+
+        val hasDragonEgg = player.inventory.contains(Material.DRAGON_EGG)
+        val effectiveCooldown = if (hasDragonEgg) cooldown / 2.0 else cooldown.toDouble()
+
+        val remaining = (effectiveCooldown * 1000) - (now - last)
 
         if (remaining > 0) {
             val secondsLeft = ceil(remaining / 1000.0).toInt()

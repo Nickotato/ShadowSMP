@@ -46,8 +46,29 @@ class PlayerRightClickListener: Listener {
             }
 
             ItemUtils.getItemType(item) == "haunted_dice" -> {
-                playerData.ghost = Ghost.entries.random()
-                player.sendMessage("§aYour new ghost is §d${playerData.ghost.name}")
+                // Define which ghosts should be excluded
+                val excludedGhosts = mutableSetOf<Ghost>()
+
+                // Always exclude the player's current ghost
+                playerData.ghost.let { excludedGhosts.add(it) }
+
+                // Optionally exclude others manually (example)
+                // excludedGhosts.add(Ghost.SPOOKY)
+                // excludedGhosts.add(Ghost.HAUNTER)
+
+                // Filter available ghosts
+                val availableGhosts = Ghost.entries.filterNot { it in excludedGhosts }
+
+                if (availableGhosts.isEmpty()) {
+                    player.sendMessage("§cNo available ghosts to choose from!")
+                    return
+                }
+
+                // Pick a new ghost from the available ones
+                val newGhost = availableGhosts.random()
+                playerData.ghost = newGhost
+
+                player.sendMessage("§aYour new ghost is §d${newGhost.name}")
                 consumeOne(player)
                 event.isCancelled = true
             }

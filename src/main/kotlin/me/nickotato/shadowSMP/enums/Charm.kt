@@ -11,7 +11,7 @@ enum class Charm(val ability: Ability?, val item: ItemStack) {
         CharmItem.create(
             Component.text("§eFeather"),
             listOf(
-                Component.text("§7Grants speed boost")
+                Component.text("§7Removes fall damage")
             )
         )
     )

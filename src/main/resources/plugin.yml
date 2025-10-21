@@ -25,5 +25,9 @@ commands:
     description: Resets the users cooldown
     permission: ShadowSMP.reset_cooldown
   manage:
-    description: Manage Players
+    description: "Manage Players"
     permission: ShadowSMP.manage
+  souls:
+    description: "View the amount of souls you have"
+    permission: ""
+    usage: /souls
