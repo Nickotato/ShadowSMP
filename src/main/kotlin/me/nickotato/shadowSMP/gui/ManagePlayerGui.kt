@@ -54,9 +54,33 @@ class ManagePlayerGui(val target: Player): Gui(Component.text("Managing ${target
         if (player !is Player) return
         val slot = event.slot
 
-        if (slot == 10) {
-            player.closeInventory()
-            GuiManager.open(ManagingGhostGui(target), player)
+        when (slot) {
+            10 -> {
+                player.closeInventory()
+                GuiManager.open(ManagingGhostGui(target), player)
+            }
+            12 -> {
+                player.closeInventory()
+                GuiManager.open(ManagingCharmGui(target), player)
+            }
+            14 -> {
+                val playerData = PlayerManager.getPlayerData(player)
+                playerData.isUpgraded = !playerData.isUpgraded
+                val isUpgraded = playerData.isUpgraded
+                val upgraded: ItemStack = if (isUpgraded) ItemStack(Material.LIME_DYE, 1)
+                else ItemStack(Material.RED_DYE, 1)
+
+                val upgradedMeta = upgraded.itemMeta
+                val displayName = if (isUpgraded) "§aUpgraded" else "§cNot Upgraded"
+                upgradedMeta.displayName(Component.text(displayName))
+                upgraded.itemMeta = upgradedMeta
+                setItem(14, upgraded)
+
+            }
+            16 -> {
+                player.closeInventory()
+                GuiManager.open(ManagingSoulsGui(target), player)
+            }
         }
     }
 }

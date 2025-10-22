@@ -2,6 +2,8 @@ package me.nickotato.shadowSMP.listeners.player
 
 import me.nickotato.shadowSMP.enums.Charm
 import me.nickotato.shadowSMP.enums.Ghost
+import me.nickotato.shadowSMP.gui.ReviveBookGui
+import me.nickotato.shadowSMP.manager.GuiManager
 import me.nickotato.shadowSMP.manager.PlayerManager
 import me.nickotato.shadowSMP.utils.ItemUtils
 import org.bukkit.entity.Player
@@ -80,6 +82,12 @@ class PlayerRightClickListener: Listener {
                 }
                 PlayerManager.changePlayerSouls(player, 1)
                 player.sendMessage("§aYou now have §d${playerData.souls}§a souls")
+                consumeOne(player)
+                event.isCancelled = true
+            }
+
+            ItemUtils.getItemType(item) == "revive_book" -> {
+                GuiManager.open(ReviveBookGui(), player)
                 consumeOne(player)
                 event.isCancelled = true
             }

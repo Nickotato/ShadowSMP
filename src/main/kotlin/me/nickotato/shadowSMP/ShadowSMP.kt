@@ -8,6 +8,7 @@ import me.nickotato.shadowSMP.commands.ResetCooldownCommand
 import me.nickotato.shadowSMP.commands.SoulsCommand
 import me.nickotato.shadowSMP.commands.UltimateCommand
 import me.nickotato.shadowSMP.commands.WithdrawCharmCommand
+import me.nickotato.shadowSMP.commands.WithdrawSoulCommand
 import me.nickotato.shadowSMP.data.PlayerDataStorage
 import me.nickotato.shadowSMP.listeners.item.ItemBurnListener
 import me.nickotato.shadowSMP.listeners.item.ItemDamageListener
@@ -47,10 +48,12 @@ class ShadowSMP : JavaPlugin() {
         getCommand("reset_cooldown")?.setExecutor(ResetCooldownCommand())
         getCommand("manage")?.setExecutor(ManageCommand())
         getCommand("souls")?.setExecutor(SoulsCommand())
+        getCommand("withdraw_soul")?.setExecutor(WithdrawSoulCommand())
 
         ItemManager.register(ItemManager.CustomItemInfo("upgrader", indestructible = true))
         ItemManager.register(ItemManager.CustomItemInfo("haunted_dice", indestructible = true))
         ItemManager.register(ItemManager.CustomItemInfo("soul", indestructible = true))
+        ItemManager.register(ItemManager.CustomItemInfo("revive_book", indestructible = true))
 
         EffectManager.startEffectLoop()
     }

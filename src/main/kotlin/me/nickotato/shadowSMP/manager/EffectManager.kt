@@ -3,7 +3,6 @@ package me.nickotato.shadowSMP.manager
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.enums.Ghost
 import org.bukkit.Bukkit
-import org.bukkit.Effect
 import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
