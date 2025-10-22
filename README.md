@@ -5,7 +5,7 @@
 
 ---
 
-## ✨ Features
+##  Features
 - **Random Ghosts:** On first join, each player receives a random ghost.
 - **Abilities & Passives:**  
   - Each ghost comes with a passive, ability, and ultimate.  
@@ -22,7 +22,7 @@
 
 ---
 
-## 🛠️ Installation
+##  Installation
 **Requirements:**  
 - Minecraft Server: 1.21.4  
 - Java Version: 17+ (if applicable)
@@ -34,7 +34,7 @@
 
 ---
 
-## ⚡ Usage
+##  Usage
 **Recommended:** Use [Craftorithm Plugin] for custom crafting features.  
 
 ### Player Commands
@@ -53,7 +53,12 @@
 
 ---
 
-## 🙌 Credits
+## Quirks
+- The Revive Book can unban anyone, so only use this plugin on whitelisted servers.
+
+---
+
+##  Credits
 - **Darbz** – Original Skript plugin creator  
 - **SiRulz** – Original Shadow SMP founder  
 - **Great Mattholio** – Current owner of Shadow SMP  
