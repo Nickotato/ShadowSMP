@@ -1,6 +1,7 @@
 package me.nickotato.shadowSMP.manager
 
 import me.nickotato.shadowSMP.ShadowSMP
+import me.nickotato.shadowSMP.enums.Charm
 import me.nickotato.shadowSMP.enums.Ghost
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -13,7 +14,7 @@ object EffectManager {
     private data class EffectData(val type: PotionEffectType, val amplifier: Int)
 
     fun applyEffect(player: Player, type: PotionEffectType, amplifier: Int) {
-        player.addPotionEffect(PotionEffect(type, 20 * 60, amplifier))
+        player.addPotionEffect(PotionEffect(type, 20 * 10, amplifier))
     }
 
     private fun shouldHaveEffect(player: Player): List<EffectData> {
@@ -22,6 +23,7 @@ object EffectManager {
 
         if (playerData.ghost == Ghost.BANSHEE) effect.add(EffectData(PotionEffectType.STRENGTH, 0))
         if (playerData.ghost == Ghost.GOLEM) effect.add(EffectData(PotionEffectType.RESISTANCE, 0))
+        if (playerData.charm == Charm.ARES_BRACELET) effect.add(EffectData(PotionEffectType.STRENGTH, 0))
 
         return effect
     }
@@ -37,6 +39,6 @@ object EffectManager {
                     }
                 }
             }
-        }.runTaskTimer(ShadowSMP.instance, 0L, 20L * 30)
+        }.runTaskTimer(ShadowSMP.instance, 0L, 20L * 3)
     }
 }

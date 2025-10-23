@@ -35,6 +35,30 @@ class PlayerRightClickListener: Listener {
                 event.isCancelled = true
             }
 
+            item.isSimilar(Charm.ARES_BRACELET.item) -> {
+                if (playerData.charm != null) {
+                    player.sendMessage("§cYou already have a charm equipped.")
+                    return
+                }
+
+                playerData.charm = Charm.ARES_BRACELET
+                player.sendMessage("§aYou equipped Ares's Bracelet")
+                consumeOne(player)
+                event.isCancelled = true
+            }
+
+            item.isSimilar(Charm.FROST_GALE.item) -> {
+                if (playerData.charm != null) {
+                    player.sendMessage("§cYou already have a charm equipped.")
+                    return
+                }
+
+                playerData.charm = Charm.FROST_GALE
+                player.sendMessage("§aYou equipped the Frost Gale")
+                consumeOne(player)
+                event.isCancelled = true
+            }
+
             ItemUtils.getItemType(item) == "upgrader" -> {
                 if (playerData.isUpgraded) {
                     player.sendMessage("§cAlready Upgraded")
@@ -88,7 +112,7 @@ class PlayerRightClickListener: Listener {
 
             ItemUtils.getItemType(item) == "revive_book" -> {
                 GuiManager.open(ReviveBookGui(), player)
-                consumeOne(player)
+                //consumeOne(player)
                 event.isCancelled = true
             }
         }

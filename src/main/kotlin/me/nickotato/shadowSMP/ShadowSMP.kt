@@ -1,6 +1,7 @@
 package me.nickotato.shadowSMP
 
 import me.nickotato.shadowSMP.commands.AbilityCommand
+import me.nickotato.shadowSMP.commands.CharmAbilityCommand
 import me.nickotato.shadowSMP.commands.GiveCharmsCommand
 import me.nickotato.shadowSMP.commands.GiveShadowItemsCommand
 import me.nickotato.shadowSMP.commands.ManageCommand
@@ -14,6 +15,7 @@ import me.nickotato.shadowSMP.listeners.item.ItemBurnListener
 import me.nickotato.shadowSMP.listeners.item.ItemDamageListener
 import me.nickotato.shadowSMP.listeners.player.PlayerDeathListener
 import me.nickotato.shadowSMP.listeners.player.PlayerFallListener
+import me.nickotato.shadowSMP.listeners.player.PlayerGlideListener
 import me.nickotato.shadowSMP.listeners.player.PlayerJoinListener
 import me.nickotato.shadowSMP.listeners.player.PlayerRightClickListener
 import me.nickotato.shadowSMP.manager.EffectManager
@@ -39,6 +41,7 @@ class ShadowSMP : JavaPlugin() {
         server.pluginManager.registerEvents(PlayerFallListener(), this)
         server.pluginManager.registerEvents(ItemDamageListener(), this)
         server.pluginManager.registerEvents(PlayerDeathListener(), this)
+        server.pluginManager.registerEvents(PlayerGlideListener(), this)
 
         getCommand("ability")?.setExecutor(AbilityCommand())
         getCommand("give_charms")?.setExecutor(GiveCharmsCommand())
@@ -49,6 +52,7 @@ class ShadowSMP : JavaPlugin() {
         getCommand("manage")?.setExecutor(ManageCommand())
         getCommand("souls")?.setExecutor(SoulsCommand())
         getCommand("withdraw_soul")?.setExecutor(WithdrawSoulCommand())
+        getCommand("charm_ability")?.setExecutor(CharmAbilityCommand())
 
         ItemManager.register(ItemManager.CustomItemInfo("upgrader", indestructible = true))
         ItemManager.register(ItemManager.CustomItemInfo("haunted_dice", indestructible = true))

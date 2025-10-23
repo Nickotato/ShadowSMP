@@ -23,8 +23,10 @@ class ReviveBookGui: Gui(Component.text("Reviving"), 27) {
 
         PlayerManager.revivePlayer(playerName)
 
-        event.whoClicked.sendMessage("Player $playerName has been revived!")
+        Bukkit.broadcast(Component.text("§c$playerName §6has been revived!"))
         event.inventory.setItem(event.slot, null)
+        event.whoClicked.closeInventory()
+        event.whoClicked.inventory.setItemInMainHand(null)
     }
 
 }

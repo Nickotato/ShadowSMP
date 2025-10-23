@@ -3,6 +3,7 @@ package me.nickotato.shadowSMP.abilities
 import me.nickotato.shadowSMP.ShadowSMP
 import org.bukkit.Color
 import org.bukkit.Particle
+import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
@@ -17,6 +18,11 @@ class BansheeAbility: Ability(90) {
         val saturation = PotionEffect(PotionEffectType.SATURATION, 10 * 20, 1)
         player.addPotionEffect(strength)
         player.addPotionEffect(saturation)
+
+        val world = player.world
+        world.playSound(player.location, Sound.ENTITY_WITHER_SHOOT, 1.5f, 1.3f)
+        world.playSound(player.location, Sound.ENTITY_GHAST_WARN, 0.8f, 0.7f)
+        world.playSound(player.location, Sound.ENTITY_ENDER_DRAGON_GROWL, 1.8f, -3.0f)
 
         object : BukkitRunnable() {
             var tick = 0

@@ -1,9 +1,11 @@
 package me.nickotato.shadowSMP.abilities
 
 import me.nickotato.shadowSMP.ShadowSMP
+import org.bukkit.Bukkit
 import org.bukkit.Color
 import org.bukkit.Particle
 import org.bukkit.entity.Player
+import org.bukkit.event.entity.EntityToggleGlideEvent
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 import kotlin.math.cos
@@ -55,6 +57,15 @@ class RevenantUltimate : Ability(60) {
         // Launch player with a strong upward and forward velocity
         val direction = player.location.direction
         player.velocity = Vector(direction.x, 2.5, direction.z).multiply(2)
+        object: BukkitRunnable() {
+            override fun run() {
+//                player.allowFlight = true
+//                player.isFlying = false
+
+                player.isGliding = true
+
+            }
+        }.runTaskLater(ShadowSMP.instance, 20 * 2L)
 
         // TRAIL EFFECT DURING JUMP
         object : BukkitRunnable() {

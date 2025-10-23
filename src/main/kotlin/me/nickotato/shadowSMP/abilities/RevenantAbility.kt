@@ -3,12 +3,19 @@ package me.nickotato.shadowSMP.abilities
 import me.nickotato.shadowSMP.ShadowSMP
 import org.bukkit.Color
 import org.bukkit.Particle
+import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 
 class RevenantAbility: Ability(5) {
     override fun execute(player: Player) {
+        val world = player.world
+        val loc = player.location
+
+        // 💥 Launch sound (energetic whoosh + soul pulse)
+        world.playSound(loc, Sound.ENTITY_BREEZE_HURT, 2.0f, 1.0f)
+
         player.velocity = Vector(player.location.direction.x, 1.5, player.location.direction.z)
 
         object : BukkitRunnable() {
