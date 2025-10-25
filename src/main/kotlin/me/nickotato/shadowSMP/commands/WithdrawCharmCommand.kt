@@ -17,6 +17,11 @@ class WithdrawCharmCommand: CommandExecutor {
             return false
         }
 
+        if (charm.ability != null && charm.ability.isOnCooldown(player)) {
+            player.sendMessage("§cYou can't withdraw your charm while its ability is on cooldown!")
+            return true
+        }
+
         if (player.inventory.firstEmpty() == -1) {
             player.sendMessage("§cYour inventory is full! Make space before withdrawing your charm.")
             return false

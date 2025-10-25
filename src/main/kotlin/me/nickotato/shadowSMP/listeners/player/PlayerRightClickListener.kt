@@ -59,6 +59,30 @@ class PlayerRightClickListener: Listener {
                 event.isCancelled = true
             }
 
+            item.isSimilar(Charm.LUMBERJACK_AXE.item) -> {
+                if (playerData.charm != null) {
+                    player.sendMessage("§cYou already have a charm equipped.")
+                    return
+                }
+
+                playerData.charm = Charm.LUMBERJACK_AXE
+                player.sendMessage("§aYou equipped the Lumberjack Axe")
+                consumeOne(player)
+                event.isCancelled = true
+            }
+
+            item.isSimilar(Charm.CHRONOS_BAND.item) -> {
+                if (playerData.charm != null) {
+                    player.sendMessage("§cYou already have a charm equipped.")
+                    return
+                }
+
+                playerData.charm = Charm.CHRONOS_BAND
+                player.sendMessage("§aYou equipped Chronos' Band")
+                consumeOne(player)
+                event.isCancelled = true
+            }
+
             ItemUtils.getItemType(item) == "upgrader" -> {
                 if (playerData.isUpgraded) {
                     player.sendMessage("§cAlready Upgraded")
@@ -79,10 +103,8 @@ class PlayerRightClickListener: Listener {
                 playerData.ghost.let { excludedGhosts.add(it) }
 
                 // Optionally exclude others manually (example)
-                // excludedGhosts.add(Ghost.SPOOKY)
                 // excludedGhosts.add(Ghost.HAUNTER)
 
-                // Filter available ghosts
                 val availableGhosts = Ghost.entries.filterNot { it in excludedGhosts }
 
                 if (availableGhosts.isEmpty()) {

@@ -1,7 +1,6 @@
 package me.nickotato.shadowSMP.enums
 
 import me.nickotato.shadowSMP.abilities.Ability
-import me.nickotato.shadowSMP.abilities.RevenantAbility
 import me.nickotato.shadowSMP.abilities.charms.FrostGaleAbility
 import me.nickotato.shadowSMP.items.CharmItem
 import net.kyori.adventure.text.Component
@@ -35,8 +34,24 @@ enum class Charm(val ability: Ability?, val item: ItemStack) {
             )
         )
     ),
-    // Thing that fire a projectile that slows the person it hits
-    // Reduces cooldowns by 1/4th
-    // Auto break trees
+    LUMBERJACK_AXE(
+        null,
+        CharmItem.create(
+            Component.text("§eLumberjack Axe"),
+            listOf(
+                Component.text("§7Automatically chop down connected wood logs")
+            )
+        )
+    ),
+    CHRONOS_BAND(
+        null,
+        CharmItem.create(
+            Component.text("§eChronos' Band"),
+            listOf(
+                Component.text("§7Reduces all cooldowns by 1/4th")
+            )
+        )
+    ),
     // Don't lose upgraders on death
+    // Charm to see invisible players.
 }

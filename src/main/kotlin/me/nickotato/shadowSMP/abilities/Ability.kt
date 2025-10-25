@@ -1,5 +1,7 @@
 package me.nickotato.shadowSMP.abilities
 
+import me.nickotato.shadowSMP.enums.Charm
+import me.nickotato.shadowSMP.manager.PlayerManager
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import java.util.UUID
@@ -11,12 +13,16 @@ abstract class Ability(val cooldown: Int) {
     abstract fun execute(player: Player)
 
     fun activate(player: Player) {
-
+        val data = PlayerManager.getPlayerData(player)
         val now = System.currentTimeMillis()
         val last = lastUsed[player.uniqueId] ?: 0
-
         val hasDragonEgg = player.inventory.contains(Material.DRAGON_EGG)
-        val effectiveCooldown = if (hasDragonEgg) cooldown / 2.0 else cooldown.toDouble()
+
+        var multiplier = 1.0
+        if (data.charm == Charm.CHRONOS_BAND) multiplier *= 0.75
+        if (hasDragonEgg) multiplier *= 0.5
+
+        val effectiveCooldown = cooldown * multiplier
 
         val remaining = (effectiveCooldown * 1000) - (now - last)
 
@@ -33,5 +39,22 @@ abstract class Ability(val cooldown: Int) {
 
     fun resetCooldown(player: Player) {
         lastUsed.remove(player.uniqueId)
+    }
+
+    fun isOnCooldown(player: Player): Boolean {
+        val now = System.currentTimeMillis()
+        val last = lastUsed[player.uniqueId] ?: return false
+
+        val data = PlayerManager.getPlayerData(player)
+
+        // Recalculate effective cooldown like in activate()
+        var multiplier = 1.0
+        if (data.charm == Charm.CHRONOS_BAND) multiplier *= 0.25
+        if (player.inventory.contains(Material.DRAGON_EGG)) multiplier *= 0.5
+
+        val effectiveCooldown = cooldown * multiplier
+        val elapsed = now - last
+
+        return elapsed < effectiveCooldown * 1000
     }
 }
