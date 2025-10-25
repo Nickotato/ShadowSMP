@@ -12,6 +12,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerKickEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
+import org.bukkit.scoreboard.Team
 import java.time.Instant
 import java.util.UUID
 
@@ -24,7 +25,7 @@ object PlayerManager {
             player.name,
             0,
             false,
-            Ghost.entries.random(),
+            getRandomGhost(player),
             null,
         )
     }
@@ -89,4 +90,60 @@ object PlayerManager {
         PlayerDataStorage.savePlayerData(playerData)
         // Need to send a message that the user had been revived.
     }
+
+    fun changeGhost(player: Player, ghost: Ghost) {
+        val data = getPlayerData(player)
+        data.ghost = ghost
+
+        // Update nametag visibility based on new ghost
+        updatePlayerNametag(player)
+    }
+
+    fun getRandomGhost(player: Player): Ghost {
+        val data = getPlayerData(player)
+        val excludedGhosts = mutableSetOf<Ghost>()
+        data.ghost.let {excludedGhosts.add(it)}
+        // excludedGhosts.add(Ghost.REVENANT)
+
+        val availableGhosts = Ghost.entries.filterNot { it in excludedGhosts }
+
+        if (availableGhosts.isEmpty()) {
+            player.sendMessage("§cNo available ghosts to choose from!")
+            return data.ghost
+        }
+
+        val newGhost = availableGhosts.random()
+
+        return newGhost
+    }
+
+    fun changeToRandomGhost(player: Player) {
+        changeGhost(player, getRandomGhost(player))
+    }
+    fun getOrCreateNoNametagTeam(): Team {
+        val board = Bukkit.getScoreboardManager().mainScoreboard
+        var team = board.getTeam("hideNametag")
+        if (team == null) {
+            team = board.registerNewTeam("hideNametag")
+            team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER)
+        }
+        return team
+    }
+    fun updatePlayerNametag(player: Player) {
+        val data = getPlayerData(player)
+        val team = getOrCreateNoNametagTeam()
+
+        if (data.ghost == Ghost.ONI) {
+            // Hide nametag
+            if (!team.hasEntry(player.name)) {
+                team.addEntry(player.name)
+            }
+        } else {
+            // Show nametag
+            if (team.hasEntry(player.name)) {
+                team.removeEntry(player.name)
+            }
+        }
+    }
+
 }

@@ -13,6 +13,7 @@ import me.nickotato.shadowSMP.commands.WithdrawSoulCommand
 import me.nickotato.shadowSMP.data.PlayerDataStorage
 import me.nickotato.shadowSMP.listeners.item.ItemBurnListener
 import me.nickotato.shadowSMP.listeners.item.ItemDamageListener
+import me.nickotato.shadowSMP.listeners.player.ConsecutiveHitListener
 import me.nickotato.shadowSMP.listeners.player.PlayerBreakListener
 import me.nickotato.shadowSMP.listeners.player.PlayerDeathListener
 import me.nickotato.shadowSMP.listeners.player.PlayerFallListener
@@ -44,6 +45,7 @@ class ShadowSMP : JavaPlugin() {
         server.pluginManager.registerEvents(PlayerDeathListener(), this)
         server.pluginManager.registerEvents(PlayerGlideListener(), this)
         server.pluginManager.registerEvents(PlayerBreakListener(), this)
+        server.pluginManager.registerEvents(ConsecutiveHitListener(), this)
 
         getCommand("ability")?.setExecutor(AbilityCommand())
         getCommand("give_charms")?.setExecutor(GiveCharmsCommand())

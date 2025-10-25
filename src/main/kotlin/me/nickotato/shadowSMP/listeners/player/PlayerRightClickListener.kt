@@ -1,7 +1,7 @@
 package me.nickotato.shadowSMP.listeners.player
 
+import me.nickotato.shadowSMP.data.PlayerData
 import me.nickotato.shadowSMP.enums.Charm
-import me.nickotato.shadowSMP.enums.Ghost
 import me.nickotato.shadowSMP.gui.ReviveBookGui
 import me.nickotato.shadowSMP.manager.GuiManager
 import me.nickotato.shadowSMP.manager.PlayerManager
@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 
 class PlayerRightClickListener: Listener {
+
     @EventHandler
     fun onPlayerRightClick(event: PlayerInteractEvent) {
         if (!event.action.isRightClick) return
@@ -22,106 +23,38 @@ class PlayerRightClickListener: Listener {
         val player = event.player
         val playerData = PlayerManager.getPlayerData(player)
 
-        when {
-            item.isSimilar(Charm.FEATHER.item) -> {
-                if (playerData.charm != null) {
-                    player.sendMessage("§cYou already have a charm equipped.")
-                    return
-                }
-
-                playerData.charm = Charm.FEATHER
-                player.sendMessage("§aYou equipped the Feather charm!")
-                consumeOne(player)
+        // Check for charms first
+        Charm.entries.forEach { charm ->
+            if (item.isSimilar(charm.item)) {
+                if (hasCharm(player, playerData)) return
+                equipCharm(player, playerData, charm)
                 event.isCancelled = true
+                return
             }
+        }
 
-            item.isSimilar(Charm.ARES_BRACELET.item) -> {
-                if (playerData.charm != null) {
-                    player.sendMessage("§cYou already have a charm equipped.")
-                    return
-                }
-
-                playerData.charm = Charm.ARES_BRACELET
-                player.sendMessage("§aYou equipped Ares's Bracelet")
-                consumeOne(player)
-                event.isCancelled = true
-            }
-
-            item.isSimilar(Charm.FROST_GALE.item) -> {
-                if (playerData.charm != null) {
-                    player.sendMessage("§cYou already have a charm equipped.")
-                    return
-                }
-
-                playerData.charm = Charm.FROST_GALE
-                player.sendMessage("§aYou equipped the Frost Gale")
-                consumeOne(player)
-                event.isCancelled = true
-            }
-
-            item.isSimilar(Charm.LUMBERJACK_AXE.item) -> {
-                if (playerData.charm != null) {
-                    player.sendMessage("§cYou already have a charm equipped.")
-                    return
-                }
-
-                playerData.charm = Charm.LUMBERJACK_AXE
-                player.sendMessage("§aYou equipped the Lumberjack Axe")
-                consumeOne(player)
-                event.isCancelled = true
-            }
-
-            item.isSimilar(Charm.CHRONOS_BAND.item) -> {
-                if (playerData.charm != null) {
-                    player.sendMessage("§cYou already have a charm equipped.")
-                    return
-                }
-
-                playerData.charm = Charm.CHRONOS_BAND
-                player.sendMessage("§aYou equipped Chronos' Band")
-                consumeOne(player)
-                event.isCancelled = true
-            }
-
-            ItemUtils.getItemType(item) == "upgrader" -> {
+        // Non-charm items
+        when (ItemUtils.getItemType(item)) {
+            "upgrader" -> {
                 if (playerData.isUpgraded) {
                     player.sendMessage("§cAlready Upgraded")
                     return
                 }
-
                 playerData.isUpgraded = true
                 player.sendMessage("§aUpgraded your ghost")
                 consumeOne(player)
                 event.isCancelled = true
             }
-
-            ItemUtils.getItemType(item) == "haunted_dice" -> {
-                // Define which ghosts should be excluded
-                val excludedGhosts = mutableSetOf<Ghost>()
-
-                // Always exclude the player's current ghost
-                playerData.ghost.let { excludedGhosts.add(it) }
-
-                // Optionally exclude others manually (example)
-                // excludedGhosts.add(Ghost.HAUNTER)
-
-                val availableGhosts = Ghost.entries.filterNot { it in excludedGhosts }
-
-                if (availableGhosts.isEmpty()) {
-                    player.sendMessage("§cNo available ghosts to choose from!")
-                    return
+            "haunted_dice" -> {
+                val oldGhost = playerData.ghost
+                PlayerManager.changeToRandomGhost(player)
+                if (playerData.ghost != oldGhost) {
+                    player.sendMessage("§aYour new ghost is §d${playerData.ghost.name}")
+                    consumeOne(player)
+                    event.isCancelled = true
                 }
-
-                // Pick a new ghost from the available ones
-                val newGhost = availableGhosts.random()
-                playerData.ghost = newGhost
-
-                player.sendMessage("§aYour new ghost is §d${newGhost.name}")
-                consumeOne(player)
-                event.isCancelled = true
             }
-
-            ItemUtils.getItemType(item) == "soul" -> {
+            "soul" -> {
                 if (playerData.souls >= 5) {
                     player.sendMessage("§cYou already have 5 souls.")
                     return
@@ -131,13 +64,26 @@ class PlayerRightClickListener: Listener {
                 consumeOne(player)
                 event.isCancelled = true
             }
-
-            ItemUtils.getItemType(item) == "revive_book" -> {
+            "revive_book" -> {
                 GuiManager.open(ReviveBookGui(), player)
-                //consumeOne(player)
                 event.isCancelled = true
             }
         }
+    }
+
+    private fun hasCharm(player: Player, playerData: PlayerData): Boolean {
+        return if (playerData.charm != null) {
+            player.sendMessage("§cYou already have a charm equipped.")
+            true
+        } else {
+            false
+        }
+    }
+
+    private fun equipCharm(player: Player, playerData: PlayerData, charm: Charm) {
+        playerData.charm = charm
+        player.sendMessage("§aYou equipped ${charm.displayName}") // You can add a displayName() method in Charm enum for proper names
+        consumeOne(player)
     }
 
     private fun consumeOne(player: Player) {

@@ -20,7 +20,7 @@ class PlayerJoinListener: Listener {
             player.name,
             0,
             false,
-            Ghost.entries.random(),
+            PlayerManager.getRandomGhost(player),
             null,
         )
 
