@@ -71,4 +71,5 @@ enum class Charm(val ability: Ability?, val item: ItemStack, val displayName: St
     // Don't lose upgraders on death
     // Charm to see invisible players.
     // Mimic ability
+    // Warm back in time to a previous position.
 }

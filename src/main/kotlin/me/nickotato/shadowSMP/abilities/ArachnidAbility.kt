@@ -1,7 +1,7 @@
 package me.nickotato.shadowSMP.abilities
 
 import me.nickotato.shadowSMP.ShadowSMP
-import me.nickotato.shadowSMP.utils.BlockUtils
+//import me.nickotato.shadowSMP.utils.BlockUtils
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.*
@@ -12,7 +12,7 @@ class ArachnidAbility : Ability(60) {
 
     override fun execute(player: Player) {
         val centerBlock = player.location.block
-        val nearbyBlocks = BlockUtils.getNearbyBlocks(centerBlock, 2)
+//        val nearbyBlocks = BlockUtils.getNearbyBlocks(centerBlock, 2)
 
         // Web particle effect at center
         player.world.spawnParticle(Particle.CLOUD, centerBlock.location.add(0.5, 0.5, 0.5), 30, 0.5, 1.0, 0.5, 0.02)
@@ -20,14 +20,15 @@ class ArachnidAbility : Ability(60) {
 
         if (centerBlock.type == Material.AIR) centerBlock.type = Material.COBWEB
 
-        for (block in nearbyBlocks) {
-            if (block.type == Material.AIR) {
-                block.type = Material.COBWEB
-                player.world.spawnParticle(Particle.CLOUD, block.location.add(0.5, 0.5, 0.5), 20, 0.3, 0.5, 0.3, 0.02)
-            }
-        }
+//        for (block in nearbyBlocks) {
+//            if (block.type == Material.AIR) {
+//                block.type = Material.COBWEB
+//                player.world.spawnParticle(Particle.CLOUD, block.location.add(0.5, 0.5, 0.5), 20, 0.3, 0.5, 0.3, 0.02)
+//            }
+//        }
 
-        // === Reveal invisible players for 30 seconds ===
+        // REMOVED MAKING THE PLAYER GENERATE A WEB CAGE AROUND THEM.
+
         val radius = 30.0
         val world = player.world
         val nearbyPlayers = world.getNearbyEntities(player.location, radius, radius, radius)
@@ -36,7 +37,6 @@ class ArachnidAbility : Ability(60) {
 
         if (nearbyPlayers.isEmpty()) return
 
-        // Create a temporary scoreboard team for glowing visibility
         val scoreboard = Bukkit.getScoreboardManager().mainScoreboard
         val teamName = "arachnid_${player.name.take(10)}"
 
@@ -51,11 +51,10 @@ class ArachnidAbility : Ability(60) {
         // Make targets glow only for this player
         for (target in nearbyPlayers) {
             team.addEntry(target.name)
-            player.showEntity(ShadowSMP.instance, target) // Ensure they're visible if hidden
+            player.showEntity(ShadowSMP.instance, target)
             target.isGlowing = true
         }
 
-        // Schedule removal after 30 seconds
         object : BukkitRunnable() {
             override fun run() {
                 for (target in nearbyPlayers) {

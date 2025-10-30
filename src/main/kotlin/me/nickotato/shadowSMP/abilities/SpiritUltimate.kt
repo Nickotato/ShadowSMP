@@ -6,7 +6,7 @@ import org.bukkit.Particle
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 
-class SpiritUltimate: Ability(100) {
+class SpiritUltimate: Ability(90) {
     override fun execute(player: Player) {
         val originalGm = player.gameMode
 

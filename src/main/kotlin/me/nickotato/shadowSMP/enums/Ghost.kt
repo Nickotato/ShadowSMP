@@ -7,6 +7,8 @@ import me.nickotato.shadowSMP.abilities.BansheeAbility
 import me.nickotato.shadowSMP.abilities.BansheeUltimate
 import me.nickotato.shadowSMP.abilities.GolemAbility
 import me.nickotato.shadowSMP.abilities.GolemUltimate
+import me.nickotato.shadowSMP.abilities.JinnAbility
+import me.nickotato.shadowSMP.abilities.JinnUltimate
 import me.nickotato.shadowSMP.abilities.OniAbility
 import me.nickotato.shadowSMP.abilities.OniUltimate
 import me.nickotato.shadowSMP.abilities.RevenantAbility
@@ -23,7 +25,7 @@ enum class Ghost(val ability: Ability, val ultimate: Ability) {
     ARACHNID(ArachnidAbility(), ArachnidUltimate()),
     ONI(OniAbility(), OniUltimate()),
     TIMEKEEPER(TimeKeeperAbility(), TimeKeeperUltimate()),
-    // Ultimate: Spectator, Normal: Immune to hits for time.
     SPIRIT(SpiritAbility(), SpiritUltimate()),
+    JINN(JinnAbility(), JinnUltimate()),
 }
 // NEED TO CHECK FOR PLAYERS LEAVING THE GAME WITH SPECIAL EFFECTS / ABILITIES. Like Spectator or Invincibility.
