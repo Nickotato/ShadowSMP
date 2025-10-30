@@ -2,8 +2,10 @@ package me.nickotato.shadowSMP.listeners.player
 
 import me.nickotato.shadowSMP.data.PlayerData
 import me.nickotato.shadowSMP.data.PlayerDataStorage
+import me.nickotato.shadowSMP.manager.AbilityManager
 import me.nickotato.shadowSMP.manager.PlayerManager
 import net.kyori.adventure.text.Component
+import org.bukkit.GameMode
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -37,8 +39,17 @@ class PlayerJoinListener: Listener {
     @EventHandler
     fun onPlayerQuit(event: PlayerQuitEvent) {
         val player = event.player
-        val data = PlayerManager.players[player.uniqueId] ?: return
+//        val data = PlayerManager.players[player.uniqueId] ?: return
+        val data = PlayerManager.getPlayerData(player)
         PlayerDataStorage.savePlayerData(data)
         PlayerManager.players.remove(player.uniqueId)
+
+        if (player.gameMode == GameMode.SPECTATOR) {
+            player.gameMode = GameMode.SURVIVAL
+        }
+
+        if (AbilityManager.invulnerablePlayers.contains(player.uniqueId)) {
+            AbilityManager.invulnerablePlayers.remove(player.uniqueId)
+        }
     }
 }

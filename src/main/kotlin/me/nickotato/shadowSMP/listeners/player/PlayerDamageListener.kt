@@ -26,10 +26,8 @@ class PlayerDamageListener: Listener {
         }
 
         if (data.ghost == Ghost.JINN) {
-            // 10% chance to take no damage
             if (Random.nextDouble() <= 0.10) { // 0.10 = 10%
                 event.isCancelled = true
-                // Play a sound to indicate Jinn avoided damage
                 player.world.playSound(player.location, Sound.BLOCK_ANVIL_LAND, 1f, 1f)
             }
         }

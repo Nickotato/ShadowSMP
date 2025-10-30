@@ -73,3 +73,5 @@ enum class Charm(val ability: Ability?, val item: ItemStack, val displayName: St
     // Mimic ability
     // Warm back in time to a previous position.
 }
+
+// An item that will give a random charm

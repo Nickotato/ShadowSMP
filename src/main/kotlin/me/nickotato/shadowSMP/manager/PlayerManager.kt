@@ -111,7 +111,9 @@ object PlayerManager {
         val currentData = players[player.uniqueId] // get existing data if present, don't create new one
         val excludedGhosts = mutableSetOf<Ghost>()
         currentData?.ghost?.let { excludedGhosts.add(it) }
-        excludedGhosts.add(Ghost.ARACHNID) // TEMPORARY, CHANGE LATER
+        excludedGhosts.add(Ghost.JINN)
+        excludedGhosts.add(Ghost.ONI)
+
 
         val availableGhosts = Ghost.entries.filterNot { it in excludedGhosts }
 

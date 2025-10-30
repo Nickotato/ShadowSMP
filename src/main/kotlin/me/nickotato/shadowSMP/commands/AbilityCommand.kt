@@ -1,6 +1,7 @@
 package me.nickotato.shadowSMP.commands
 
 import me.nickotato.shadowSMP.data.PlayerData
+import me.nickotato.shadowSMP.enums.Ghost
 import me.nickotato.shadowSMP.manager.PlayerManager
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -16,6 +17,11 @@ class AbilityCommand: CommandExecutor {
 
         val playerData: PlayerData = PlayerManager.getPlayerData(sender)
         val ghost = playerData.ghost
+
+        if (ghost == Ghost.REVENANT) {
+            sender.sendMessage("§cYou use this ability by jumping mid-air")
+            return true
+        }
 
         ghost.ability.activate(sender)
 
