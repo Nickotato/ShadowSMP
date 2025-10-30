@@ -11,6 +11,8 @@ import me.nickotato.shadowSMP.abilities.OniAbility
 import me.nickotato.shadowSMP.abilities.OniUltimate
 import me.nickotato.shadowSMP.abilities.RevenantAbility
 import me.nickotato.shadowSMP.abilities.RevenantUltimate
+import me.nickotato.shadowSMP.abilities.SpiritAbility
+import me.nickotato.shadowSMP.abilities.SpiritUltimate
 import me.nickotato.shadowSMP.abilities.TimeKeeperAbility
 import me.nickotato.shadowSMP.abilities.TimeKeeperUltimate
 
@@ -22,4 +24,6 @@ enum class Ghost(val ability: Ability, val ultimate: Ability) {
     ONI(OniAbility(), OniUltimate()),
     TIMEKEEPER(TimeKeeperAbility(), TimeKeeperUltimate()),
     // Ultimate: Spectator, Normal: Immune to hits for time.
+    SPIRIT(SpiritAbility(), SpiritUltimate()),
 }
+// NEED TO CHECK FOR PLAYERS LEAVING THE GAME WITH SPECIAL EFFECTS / ABILITIES. Like Spectator or Invincibility.

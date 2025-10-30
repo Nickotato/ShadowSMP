@@ -10,34 +10,44 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
-class ConsecutiveHitListener: Listener {
+class ConsecutiveHitListener : Listener {
     private val hitMap = ConcurrentHashMap<UUID, MutableMap<UUID, Int>>()
 
     @EventHandler
     fun onEntityHit(event: EntityDamageByEntityEvent) {
-        val damager = event.damager
-        val entity = event.entity
+        val damager = event.damager as? Player ?: return
+        val entity = event.entity as? LivingEntity ?: return
 
-        if (damager !is Player) return
-        if (PlayerManager.getPlayerData(damager).ghost != Ghost.ARACHNID) return
-        if (entity !is LivingEntity) return
+        val ghostType = PlayerManager.getPlayerData(damager).ghost
+        if (ghostType != Ghost.ARACHNID && ghostType != Ghost.SPIRIT) return
 
         val playerId = damager.uniqueId
         val entityId = entity.uniqueId
-
         val entityHits = hitMap.computeIfAbsent(playerId) { mutableMapOf() }
+
         val hits = entityHits.getOrDefault(entityId, 0) + 1
         entityHits[entityId] = hits
 
-        if (hits >= 5) {
-            entity.addPotionEffect(PotionEffect(PotionEffectType.POISON, 100, 1))
-            entityHits[entityId] = 0
+        when (ghostType) {
+            Ghost.ARACHNID -> {
+                if (hits >= 5) {
+                    entity.addPotionEffect(PotionEffect(PotionEffectType.POISON, 100, 1))
+                    entityHits[entityId] = 0
+                }
+            }
+            Ghost.SPIRIT -> {
+                if (hits >= 20) {
+                    entity.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, 100, 0))
+                    entityHits[entityId] = 0
+                }
+            }
+            else -> {}
         }
 
-        // Clean up dead entities
+        // Remove invalid or dead targets
         entityHits.keys.removeIf { Bukkit.getEntity(it)?.isDead != false }
     }
 }
