@@ -2,15 +2,14 @@ package me.nickotato.shadowSMP.abilities
 
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.utils.BlockUtils
-import org.bukkit.Bukkit
-import org.bukkit.Material
-import org.bukkit.Particle
-import org.bukkit.Sound
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.NamedTextColor
+import org.bukkit.*
 import org.bukkit.entity.Player
-import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 
-class ArachnidAbility: Ability(60) {
+class ArachnidAbility : Ability(60) {
+
     override fun execute(player: Player) {
         val centerBlock = player.location.block
         val nearbyBlocks = BlockUtils.getNearbyBlocks(centerBlock, 2)
@@ -28,43 +27,43 @@ class ArachnidAbility: Ability(60) {
             }
         }
 
-        val invisiblePlayers = mutableSetOf<Player>()
-        for (target in Bukkit.getOnlinePlayers()) {
-            if (target.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
-                player.showPlayer(ShadowSMP.instance, target)
-                target.isGlowing = true
-                invisiblePlayers.add(target)
-            }
+        // === Reveal invisible players for 30 seconds ===
+        val radius = 30.0
+        val world = player.world
+        val nearbyPlayers = world.getNearbyEntities(player.location, radius, radius, radius)
+            .filterIsInstance<Player>()
+            .filter { it != player && it.hasPotionEffect(org.bukkit.potion.PotionEffectType.INVISIBILITY) }
+
+        if (nearbyPlayers.isEmpty()) return
+
+        // Create a temporary scoreboard team for glowing visibility
+        val scoreboard = Bukkit.getScoreboardManager().mainScoreboard
+        val teamName = "arachnid_${player.name.take(10)}"
+
+        // Cleanup existing team if it somehow exists
+        scoreboard.getTeam(teamName)?.unregister()
+
+        val team = scoreboard.registerNewTeam(teamName)
+        team.setCanSeeFriendlyInvisibles(true)
+        team.color(NamedTextColor.DARK_PURPLE)
+        team.prefix(Component.text("§5"))
+
+        // Make targets glow only for this player
+        for (target in nearbyPlayers) {
+            team.addEntry(target.name)
+            player.showEntity(ShadowSMP.instance, target) // Ensure they're visible if hidden
+            target.isGlowing = true
         }
 
+        // Schedule removal after 30 seconds
         object : BukkitRunnable() {
             override fun run() {
-                val iterator = invisiblePlayers.iterator()
-                while (iterator.hasNext()) {
-                    val target = iterator.next()
-                    if (!target.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
-                        // Notify player visually & with a sound
-                        player.world.spawnParticle(Particle.FLASH, target.location.add(0.0, 1.0, 0.0), 10, 0.3, 0.3, 0.3, 0.1)
-                        player.world.playSound(target.location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f)
-
-                        target.isGlowing = false
-                        player.hidePlayer(ShadowSMP.instance, target)
-                        iterator.remove()
-                    }
-                }
-
-                if (invisiblePlayers.isEmpty()) cancel()
-            }
-        }.runTaskTimer(ShadowSMP.instance, 0L, 10L)
-
-        object : BukkitRunnable() {
-            override fun run() {
-                for (target in invisiblePlayers) {
+                for (target in nearbyPlayers) {
                     target.isGlowing = false
-                    player.hidePlayer(ShadowSMP.instance, target)
                 }
-                invisiblePlayers.clear()
+                team.unregister()
+                player.sendMessage("${NamedTextColor.GRAY}Your spider senses fade...")
             }
-        }.runTaskLater(ShadowSMP.instance, 20L * 60)
+        }.runTaskLater(ShadowSMP.instance, 20L * 30)
     }
 }

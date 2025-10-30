@@ -8,6 +8,7 @@ import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
+import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerKickEvent
 import org.bukkit.inventory.ItemStack
@@ -97,25 +98,31 @@ object PlayerManager {
 
         // Update nametag visibility based on new ghost
         updatePlayerNametag(player)
+
+        val maxHp = player.getAttribute(Attribute.MAX_HEALTH) ?: return
+        if (data.ghost == Ghost.TIMEKEEPER) {
+            maxHp.baseValue = 24.0
+        } else {
+            maxHp.baseValue = maxHp.defaultValue
+        }
     }
 
     fun getRandomGhost(player: Player): Ghost {
-        val data = getPlayerData(player)
+        val currentData = players[player.uniqueId] // get existing data if present, don't create new one
         val excludedGhosts = mutableSetOf<Ghost>()
-        data.ghost.let {excludedGhosts.add(it)}
-        // excludedGhosts.add(Ghost.REVENANT)
+        currentData?.ghost?.let { excludedGhosts.add(it) }
+        excludedGhosts.add(Ghost.ARACHNID) // TEMPORARY, CHANGE LATER
 
         val availableGhosts = Ghost.entries.filterNot { it in excludedGhosts }
 
         if (availableGhosts.isEmpty()) {
             player.sendMessage("§cNo available ghosts to choose from!")
-            return data.ghost
+            return currentData?.ghost ?: Ghost.REVENANT
         }
 
-        val newGhost = availableGhosts.random()
-
-        return newGhost
+        return availableGhosts.random()
     }
+
 
     fun changeToRandomGhost(player: Player) {
         changeGhost(player, getRandomGhost(player))

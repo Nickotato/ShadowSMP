@@ -2,7 +2,6 @@ package me.nickotato.shadowSMP.listeners.player
 
 import me.nickotato.shadowSMP.data.PlayerData
 import me.nickotato.shadowSMP.data.PlayerDataStorage
-import me.nickotato.shadowSMP.enums.Ghost
 import me.nickotato.shadowSMP.manager.PlayerManager
 import net.kyori.adventure.text.Component
 import org.bukkit.event.EventHandler

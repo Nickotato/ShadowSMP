@@ -26,11 +26,13 @@
 **Requirements:**  
 - Minecraft Server: 1.21.4  
 - Java Version: 17+ (if applicable)
+- Protocol Lib 5.3.0 or newer
 
 **Steps:**  
 1. Download `shadowsmp.jar`  
 2. Place it in the `plugins/` folder of your server  
-3. Restart the server  
+3. Place `ProtocolLib.jar` in the same directory
+4. Restart the server
 
 ---
 

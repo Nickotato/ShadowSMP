@@ -11,6 +11,8 @@ import me.nickotato.shadowSMP.abilities.OniAbility
 import me.nickotato.shadowSMP.abilities.OniUltimate
 import me.nickotato.shadowSMP.abilities.RevenantAbility
 import me.nickotato.shadowSMP.abilities.RevenantUltimate
+import me.nickotato.shadowSMP.abilities.TimeKeeperAbility
+import me.nickotato.shadowSMP.abilities.TimeKeeperUltimate
 
 enum class Ghost(val ability: Ability, val ultimate: Ability) {
     REVENANT(RevenantAbility(), RevenantUltimate()),
@@ -18,4 +20,6 @@ enum class Ghost(val ability: Ability, val ultimate: Ability) {
     GOLEM(GolemAbility(), GolemUltimate()),
     ARACHNID(ArachnidAbility(), ArachnidUltimate()),
     ONI(OniAbility(), OniUltimate()),
+    TIMEKEEPER(TimeKeeperAbility(), TimeKeeperUltimate()),
+    // Ultimate: Spectator, Normal: Immune to hits for time.
 }
