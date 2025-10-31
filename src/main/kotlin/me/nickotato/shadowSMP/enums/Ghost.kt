@@ -17,6 +17,8 @@ import me.nickotato.shadowSMP.abilities.SpiritAbility
 import me.nickotato.shadowSMP.abilities.SpiritUltimate
 import me.nickotato.shadowSMP.abilities.TimeKeeperAbility
 import me.nickotato.shadowSMP.abilities.TimeKeeperUltimate
+import me.nickotato.shadowSMP.abilities.ignis.IgnisAbility
+import me.nickotato.shadowSMP.abilities.ignis.IgnisUltimate
 import me.nickotato.shadowSMP.abilities.reaper.ReaperAbility
 import me.nickotato.shadowSMP.abilities.reaper.ReaperUltimate
 import me.nickotato.shadowSMP.abilities.titan.TitanAbility
@@ -27,12 +29,13 @@ enum class Ghost(val ability: Ability, val ultimate: Ability) {
     BANSHEE(BansheeAbility(), BansheeUltimate()),
     GOLEM(GolemAbility(), GolemUltimate()),
     ARACHNID(ArachnidAbility(), ArachnidUltimate()),
-    ONI(OniAbility(), OniUltimate()),
+    ONI(OniAbility(), OniUltimate()), //Event
     TIMEKEEPER(TimeKeeperAbility(), TimeKeeperUltimate()),
     SPIRIT(SpiritAbility(), SpiritUltimate()),
-    JINN(JinnAbility(), JinnUltimate()),
+    JINN(JinnAbility(), JinnUltimate()), // Event
     REAPER(ReaperAbility(), ReaperUltimate()),
     TITAN(TitanAbility(), TitanUltimate()),
+    IGNIS(IgnisAbility(), IgnisUltimate()),
 
 }
 // NEED TO CHECK FOR PLAYERS LEAVING THE GAME WITH SPECIAL EFFECTS / ABILITIES. Like Spectator or Invincibility.
@@ -59,8 +62,17 @@ enum class Ghost(val ability: Ability, val ultimate: Ability) {
 
 // MAYBE WARDEN FOR AN EVENT GHOST
 
+//Ignis
+//Passive: Fire heals you instead of damaging.
+//Ability: Summon a wall of fire that lingers for 10 seconds.
+//Ultimate: Erupt, sending fireballs in all directions and igniting everything in range.
+
+// Extra:
+//Passive: Gain 10% life steal on melee hits.
+
+//Finished:
 //Reaper
-//Passive: Gain 10% lifesteal on melee hits.
+//Passive: Glow black all the time
 //Ultimate: do 1 hit that deals true damage that bypasses armor.
 //Ability: Instantly teleport behind the nearest enemy and deal 25% of their max HP as damage.
 
@@ -68,8 +80,3 @@ enum class Ghost(val ability: Ability, val ultimate: Ability) {
 //Passive: Permanent knockback resistance.
 //Ability: Gain Resistance 3 for 5 seconds.
 //Ultimate: Slam the ground to create shock waves that deal damage and send players outward.
-
-//Infernal
-//Passive: Fire heals you instead of damaging.
-//Ability: Summon a wall of fire that lingers for 10 seconds.
-//Ultimate: Erupt, sending fireballs in all directions and igniting everything in range.

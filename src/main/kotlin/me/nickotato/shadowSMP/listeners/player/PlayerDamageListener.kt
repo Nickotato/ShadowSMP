@@ -10,11 +10,12 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.entity.EntityDamageEvent
 import kotlin.random.Random
 
 class PlayerDamageListener: Listener {
     @EventHandler
-    fun onDamage(event: EntityDamageByEntityEvent) {
+    fun onEntityDamage(event: EntityDamageByEntityEvent) {
         val player = event.entity
         if (player !is Player) return
         val data = PlayerManager.getPlayerData(player)
@@ -45,6 +46,24 @@ class PlayerDamageListener: Listener {
             player.world.playSound(player.location, Sound.ENTITY_PLAYER_ATTACK_CRIT, 1f, 1f)
 
             AbilityManager.trueDamagePlayers.remove(damager.uniqueId)
+        }
+    }
+
+    @EventHandler
+    fun onDamage(event: EntityDamageEvent) {
+        val player = event.entity
+        if (player !is  Player) return
+        val data = PlayerManager.getPlayerData(player)
+
+        if (data.ghost == Ghost.IGNIS) {
+            if (
+                event.cause == EntityDamageEvent.DamageCause.FIRE ||
+                event.cause == EntityDamageEvent.DamageCause.FIRE_TICK ||
+                event.cause == EntityDamageEvent.DamageCause.LAVA
+            ) {
+                event.isCancelled = true
+                player.heal(0.05)
+            }
         }
     }
 }
