@@ -105,6 +105,14 @@ object PlayerManager {
         } else {
             maxHp.baseValue = maxHp.defaultValue
         }
+
+//        if (data.ghost == Ghost.TITAN) {
+//            val kbData = player.getAttribute(Attribute.KNOCKBACK_RESISTANCE)
+//            kbData?.baseValue = 1.0
+//        }  else {
+//            val kbData = player.getAttribute(Attribute.KNOCKBACK_RESISTANCE)
+//            kbData?.baseValue = 0.0
+//        }
     }
 
     fun getRandomGhost(player: Player): Ghost {

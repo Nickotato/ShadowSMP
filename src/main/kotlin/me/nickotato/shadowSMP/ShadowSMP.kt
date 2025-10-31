@@ -21,6 +21,7 @@ import me.nickotato.shadowSMP.listeners.player.PlayerFallListener
 import me.nickotato.shadowSMP.listeners.player.PlayerGlideListener
 import me.nickotato.shadowSMP.listeners.player.PlayerJoinListener
 import me.nickotato.shadowSMP.listeners.player.PlayerJumpListener
+import me.nickotato.shadowSMP.listeners.player.PlayerKnockbackListener
 import me.nickotato.shadowSMP.listeners.player.PlayerRightClickListener
 import me.nickotato.shadowSMP.manager.EffectManager
 import me.nickotato.shadowSMP.manager.GuiManager
@@ -50,6 +51,7 @@ class ShadowSMP : JavaPlugin() {
         server.pluginManager.registerEvents(ConsecutiveHitListener(), this)
         server.pluginManager.registerEvents(PlayerDamageListener(), this)
         server.pluginManager.registerEvents(PlayerJumpListener(), this)
+        server.pluginManager.registerEvents(PlayerKnockbackListener(), this)
 
         getCommand("ability")?.setExecutor(AbilityCommand())
         getCommand("give_charms")?.setExecutor(GiveCharmsCommand())

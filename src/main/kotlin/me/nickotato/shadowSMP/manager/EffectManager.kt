@@ -3,6 +3,8 @@ package me.nickotato.shadowSMP.manager
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.enums.Charm
 import me.nickotato.shadowSMP.enums.Ghost
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
@@ -37,8 +39,31 @@ object EffectManager {
                     for (effect in effects) {
                         applyEffect(player, effect.type, effect.amplifier)
                     }
+
+                    applyReaperGlow(player)
                 }
             }
         }.runTaskTimer(ShadowSMP.instance, 0L, 20L * 3)
     }
+
+    private fun applyReaperGlow(player: Player) {
+        val board = Bukkit.getScoreboardManager().mainScoreboard
+        val teamName = "glow_reaper"
+        val team = board.getTeam(teamName) ?: board.registerNewTeam(teamName).apply {
+            prefix(Component.text(""))
+            suffix(Component.text(""))
+            color(NamedTextColor.BLACK)
+        }
+
+        val playerData = PlayerManager.getPlayerData(player)
+        if (playerData.ghost == Ghost.REAPER) {
+            if (!team.hasEntry(player.name)) team.addEntry(player.name)
+            player.isGlowing = true
+        } else {
+            if (team.hasEntry(player.name)) team.removeEntry(player.name)
+            player.isGlowing = false
+        }
+    }
+
 }
+

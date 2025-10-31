@@ -17,6 +17,10 @@ import me.nickotato.shadowSMP.abilities.SpiritAbility
 import me.nickotato.shadowSMP.abilities.SpiritUltimate
 import me.nickotato.shadowSMP.abilities.TimeKeeperAbility
 import me.nickotato.shadowSMP.abilities.TimeKeeperUltimate
+import me.nickotato.shadowSMP.abilities.reaper.ReaperAbility
+import me.nickotato.shadowSMP.abilities.reaper.ReaperUltimate
+import me.nickotato.shadowSMP.abilities.titan.TitanAbility
+import me.nickotato.shadowSMP.abilities.titan.TitanUltimate
 
 enum class Ghost(val ability: Ability, val ultimate: Ability) {
     REVENANT(RevenantAbility(), RevenantUltimate()),
@@ -27,5 +31,45 @@ enum class Ghost(val ability: Ability, val ultimate: Ability) {
     TIMEKEEPER(TimeKeeperAbility(), TimeKeeperUltimate()),
     SPIRIT(SpiritAbility(), SpiritUltimate()),
     JINN(JinnAbility(), JinnUltimate()),
+    REAPER(ReaperAbility(), ReaperUltimate()),
+    TITAN(TitanAbility(), TitanUltimate()),
+
 }
 // NEED TO CHECK FOR PLAYERS LEAVING THE GAME WITH SPECIAL EFFECTS / ABILITIES. Like Spectator or Invincibility.
+
+//    CHRONOMANCER
+//    Passive: Cooldowns reduced by 10%
+//    Ability: Rewind your last 5 seconds of movement
+//    Ultimate: Freeze all entities in a 10-block radius for 3 seconds
+
+//    Blight
+//    Passive: Immune to poison and wither
+//    Ability: Spread corruption that deals wither 1 to enemies standing on it for 10 seconds
+//    Ultimate: Infect all players in a 15-block radius with wither 3 and blindness 5 for 5 seconds
+
+//  Zephyr / Deogen
+//  Passive: Speed 1 always
+//  Ability: Dash forward 10 blocks, dealing small damage to anything in path
+//  Ultimate: Summon a windstorm that pushes all entities outward and upward
+
+//Templar
+//Passive: Permanent regeneration 1
+//Ability: Creates a holy zone (5-block radius) that heals allies for 5 seconds
+//Ultimate: Grants all nearby allies absorption 4 and resistance 2 for 10 seconds
+
+// MAYBE WARDEN FOR AN EVENT GHOST
+
+//Reaper
+//Passive: Gain 10% lifesteal on melee hits.
+//Ultimate: do 1 hit that deals true damage that bypasses armor.
+//Ability: Instantly teleport behind the nearest enemy and deal 25% of their max HP as damage.
+
+//Titan
+//Passive: Permanent knockback resistance.
+//Ability: Gain Resistance 3 for 5 seconds.
+//Ultimate: Slam the ground to create shock waves that deal damage and send players outward.
+
+//Infernal
+//Passive: Fire heals you instead of damaging.
+//Ability: Summon a wall of fire that lingers for 10 seconds.
+//Ultimate: Erupt, sending fireballs in all directions and igniting everything in range.

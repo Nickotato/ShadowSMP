@@ -3,7 +3,9 @@ package me.nickotato.shadowSMP.listeners.player
 import me.nickotato.shadowSMP.enums.Ghost
 import me.nickotato.shadowSMP.manager.AbilityManager
 import me.nickotato.shadowSMP.manager.PlayerManager
+import org.bukkit.Particle
 import org.bukkit.Sound
+import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -30,6 +32,19 @@ class PlayerDamageListener: Listener {
                 event.isCancelled = true
                 player.world.playSound(player.location, Sound.BLOCK_ANVIL_LAND, 1f, 1f)
             }
+        }
+
+        if (damager is Player && AbilityManager.trueDamagePlayers.contains(damager.uniqueId)) {
+            event.isCancelled = true
+
+            val damage = damager.getAttribute(Attribute.ATTACK_DAMAGE)?.value ?: 5.0
+            val targetHealth = player.health
+            player.health = (targetHealth - damage).coerceAtLeast(0.0)
+
+            player.world.spawnParticle(Particle.CRIT, player.location, 15, 0.5, 0.5, 0.5, 0.05)
+            player.world.playSound(player.location, Sound.ENTITY_PLAYER_ATTACK_CRIT, 1f, 1f)
+
+            AbilityManager.trueDamagePlayers.remove(damager.uniqueId)
         }
     }
 }
