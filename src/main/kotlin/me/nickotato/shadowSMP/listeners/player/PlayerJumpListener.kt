@@ -1,6 +1,6 @@
 package me.nickotato.shadowSMP.listeners.player
 
-import com.destroystokyo.paper.event.player.PlayerJumpEvent
+//import com.destroystokyo.paper.event.player.PlayerJumpEvent
 import me.nickotato.shadowSMP.enums.Ghost
 import me.nickotato.shadowSMP.manager.PlayerManager
 import me.nickotato.shadowSMP.ShadowSMP
@@ -12,19 +12,19 @@ import org.bukkit.event.player.PlayerToggleFlightEvent
 
 class PlayerJumpListener : Listener {
 
-    @EventHandler
-    fun onJump(event: PlayerJumpEvent) {
-        val player = event.player
-        val data = PlayerManager.getPlayerData(player)
-
-        if (data.ghost == Ghost.REVENANT) {
-            Bukkit.getScheduler().runTaskLater(ShadowSMP.instance, Runnable {
-                if (!player.isFlying && !player.allowFlight) {
-                    player.allowFlight = true
-                }
-            }, 1L)
-        }
-    }
+//    @EventHandler
+//    fun onJump(event: PlayerJumpEvent) {
+//        val player = event.player
+//        val data = PlayerManager.getPlayerData(player)
+//
+//        if (data.ghost == Ghost.REVENANT) {
+//            Bukkit.getScheduler().runTaskLater(ShadowSMP.instance, Runnable {
+//                if (!player.isFlying && !player.allowFlight) {
+//                    player.allowFlight = true
+//                }
+//            }, 1L)
+//        }
+//    }
 
     @EventHandler
     fun onFlightToggle(event: PlayerToggleFlightEvent) {

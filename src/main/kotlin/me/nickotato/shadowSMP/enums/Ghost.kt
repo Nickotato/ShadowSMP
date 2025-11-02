@@ -17,6 +17,8 @@ import me.nickotato.shadowSMP.abilities.SpiritAbility
 import me.nickotato.shadowSMP.abilities.SpiritUltimate
 import me.nickotato.shadowSMP.abilities.TimeKeeperAbility
 import me.nickotato.shadowSMP.abilities.TimeKeeperUltimate
+import me.nickotato.shadowSMP.abilities.chronomancer.ChronomancerAbility
+import me.nickotato.shadowSMP.abilities.chronomancer.ChronomancerUltimate
 import me.nickotato.shadowSMP.abilities.ignis.IgnisAbility
 import me.nickotato.shadowSMP.abilities.ignis.IgnisUltimate
 import me.nickotato.shadowSMP.abilities.reaper.ReaperAbility
@@ -36,14 +38,11 @@ enum class Ghost(val ability: Ability, val ultimate: Ability) {
     REAPER(ReaperAbility(), ReaperUltimate()),
     TITAN(TitanAbility(), TitanUltimate()),
     IGNIS(IgnisAbility(), IgnisUltimate()),
-
+    CHRONOMANCER(ChronomancerAbility(), ChronomancerUltimate()),
 }
 // NEED TO CHECK FOR PLAYERS LEAVING THE GAME WITH SPECIAL EFFECTS / ABILITIES. Like Spectator or Invincibility.
 
-//    CHRONOMANCER
-//    Passive: Cooldowns reduced by 10%
-//    Ability: Rewind your last 5 seconds of movement
-//    Ultimate: Freeze all entities in a 10-block radius for 3 seconds
+
 
 //    Blight
 //    Passive: Immune to poison and wither
@@ -62,15 +61,14 @@ enum class Ghost(val ability: Ability, val ultimate: Ability) {
 
 // MAYBE WARDEN FOR AN EVENT GHOST
 
-//Ignis
-//Passive: Fire heals you instead of damaging.
-//Ability: Summon a wall of fire that lingers for 10 seconds.
-//Ultimate: Erupt, sending fireballs in all directions and igniting everything in range.
+
 
 // Extra:
 //Passive: Gain 10% life steal on melee hits.
+// GIANT SPIRAL IN AN AREA COVERING AN ENTIRE ARENA.
 
 //Finished:
+
 //Reaper
 //Passive: Glow black all the time
 //Ultimate: do 1 hit that deals true damage that bypasses armor.
@@ -80,3 +78,13 @@ enum class Ghost(val ability: Ability, val ultimate: Ability) {
 //Passive: Permanent knockback resistance.
 //Ability: Gain Resistance 3 for 5 seconds.
 //Ultimate: Slam the ground to create shock waves that deal damage and send players outward.
+
+//CHRONOMANCER
+//Passive: Charm Cooldowns reduced by 10%
+//Ability: Rewind your last 5 seconds of movement
+//Ultimate: Hit People 3 times according to held item.
+
+//Ignis
+//Passive: Fire heals you instead of damaging.
+//Ability: Summon a wall of fire that lingers for 10 seconds.
+//Ultimate: Fire tornado that pulls entities in and lights them on fire.

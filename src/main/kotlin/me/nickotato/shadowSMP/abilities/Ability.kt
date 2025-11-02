@@ -1,6 +1,7 @@
 package me.nickotato.shadowSMP.abilities
 
 import me.nickotato.shadowSMP.enums.Charm
+import me.nickotato.shadowSMP.enums.Ghost
 import me.nickotato.shadowSMP.manager.PlayerManager
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -19,6 +20,7 @@ abstract class Ability(val cooldown: Int) {
         val hasDragonEgg = player.inventory.contains(Material.DRAGON_EGG)
 
         var multiplier = 1.0
+        if (data.ghost == Ghost.CHRONOMANCER) multiplier *= 0.75
         if (data.charm == Charm.CHRONOS_BAND) multiplier *= 0.75
         if (hasDragonEgg) multiplier *= 0.5
 

@@ -51,5 +51,7 @@ class PlayerJoinListener: Listener {
         if (AbilityManager.invulnerablePlayers.contains(player.uniqueId)) {
             AbilityManager.invulnerablePlayers.remove(player.uniqueId)
         }
+
+        AbilityManager.locationHistory.remove(player.uniqueId)
     }
 }

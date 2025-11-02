@@ -23,6 +23,7 @@ import me.nickotato.shadowSMP.listeners.player.PlayerJoinListener
 import me.nickotato.shadowSMP.listeners.player.PlayerJumpListener
 import me.nickotato.shadowSMP.listeners.player.PlayerKnockbackListener
 import me.nickotato.shadowSMP.listeners.player.PlayerRightClickListener
+import me.nickotato.shadowSMP.manager.AbilityManager
 import me.nickotato.shadowSMP.manager.EffectManager
 import me.nickotato.shadowSMP.manager.GuiManager
 import me.nickotato.shadowSMP.manager.ItemManager
@@ -70,6 +71,9 @@ class ShadowSMP : JavaPlugin() {
         ItemManager.register(ItemManager.CustomItemInfo("revive_book", indestructible = true))
 
         EffectManager.startEffectLoop()
+
+        AbilityManager.beginTrackingLocations()
+        AbilityManager.cooldownNotifier()
     }
 
     override fun onDisable() {

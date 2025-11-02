@@ -1,11 +1,9 @@
 package me.nickotato.shadowSMP.abilities
 
 import me.nickotato.shadowSMP.ShadowSMP
-import org.bukkit.Bukkit
 import org.bukkit.Color
 import org.bukkit.Particle
 import org.bukkit.entity.Player
-import org.bukkit.event.entity.EntityToggleGlideEvent
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 import kotlin.math.cos
@@ -22,7 +20,7 @@ class RevenantUltimate : Ability(60) {
             var tick = 0
             override fun run() {
                 tick++
-                val radius = 0.5 + tick * 0.05 // slowly expanding spiral
+                val radius = 0.5 + tick * 0.05
                 val angle = tick * 20.0
                 val x = cos(Math.toRadians(angle)) * radius
                 val z = sin(Math.toRadians(angle)) * radius
@@ -39,7 +37,6 @@ class RevenantUltimate : Ability(60) {
                     Particle.DustOptions(Color.PURPLE, 1f)
                 )
 
-                // Play wind-up sound occasionally (optional)
                 if (tick % 10 == 0) {
                     player.world.playSound(player.location, "entity.evoker.prepare_attack", 1f, 1f)
                 }
@@ -59,8 +56,6 @@ class RevenantUltimate : Ability(60) {
         player.velocity = Vector(direction.x, 2.5, direction.z).multiply(2)
         object: BukkitRunnable() {
             override fun run() {
-//                player.allowFlight = true
-//                player.isFlying = false
 
                 player.isGliding = true
 
