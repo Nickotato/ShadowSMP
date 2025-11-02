@@ -121,6 +121,7 @@ object PlayerManager {
         currentData?.ghost?.let { excludedGhosts.add(it) }
         excludedGhosts.add(Ghost.JINN)
         excludedGhosts.add(Ghost.ONI)
+        excludedGhosts.add(Ghost.GOD)
 
 
         val availableGhosts = Ghost.entries.filterNot { it in excludedGhosts }

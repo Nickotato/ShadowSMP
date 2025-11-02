@@ -65,5 +65,11 @@ class PlayerDamageListener: Listener {
                 player.heal(0.05)
             }
         }
+
+        if (data.ghost == Ghost.ONI) {
+            if (event.cause == EntityDamageEvent.DamageCause.LIGHTNING) {
+                event.isCancelled = true
+            }
+        }
     }
 }

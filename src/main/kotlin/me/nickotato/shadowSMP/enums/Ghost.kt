@@ -19,6 +19,8 @@ import me.nickotato.shadowSMP.abilities.TimeKeeperAbility
 import me.nickotato.shadowSMP.abilities.TimeKeeperUltimate
 import me.nickotato.shadowSMP.abilities.chronomancer.ChronomancerAbility
 import me.nickotato.shadowSMP.abilities.chronomancer.ChronomancerUltimate
+import me.nickotato.shadowSMP.abilities.god.GodAbility
+import me.nickotato.shadowSMP.abilities.god.GodUltimate
 import me.nickotato.shadowSMP.abilities.ignis.IgnisAbility
 import me.nickotato.shadowSMP.abilities.ignis.IgnisUltimate
 import me.nickotato.shadowSMP.abilities.reaper.ReaperAbility
@@ -39,6 +41,7 @@ enum class Ghost(val ability: Ability, val ultimate: Ability) {
     TITAN(TitanAbility(), TitanUltimate()),
     IGNIS(IgnisAbility(), IgnisUltimate()),
     CHRONOMANCER(ChronomancerAbility(), ChronomancerUltimate()),
+    GOD(GodAbility(), GodUltimate()),
 }
 // NEED TO CHECK FOR PLAYERS LEAVING THE GAME WITH SPECIAL EFFECTS / ABILITIES. Like Spectator or Invincibility.
 

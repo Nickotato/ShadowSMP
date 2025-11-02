@@ -41,6 +41,7 @@ object EffectManager {
                     }
 
                     applyReaperGlow(player)
+                    applyGodGlow(player)
                 }
             }
         }.runTaskTimer(ShadowSMP.instance, 0L, 20L * 3)
@@ -60,6 +61,26 @@ object EffectManager {
             if (!team.hasEntry(player.name)) team.addEntry(player.name)
             player.isGlowing = true
         } else {
+            if (team.hasEntry(player.name)) team.removeEntry(player.name)
+            player.isGlowing = false
+        }
+    }
+
+    private fun applyGodGlow(player: Player) {
+        val board = Bukkit.getScoreboardManager().mainScoreboard
+        val teamName = "God"
+        val team = board.getTeam(teamName) ?: board.registerNewTeam(teamName).apply {
+            prefix(Component.text(""))
+            suffix(Component.text(""))
+            color(NamedTextColor.GOLD)
+        }
+
+        val playerData = PlayerManager.getPlayerData(player)
+        if (playerData.ghost == Ghost.GOD) {
+            if (!team.hasEntry(player.name)) team.addEntry(player.name)
+            player.isGlowing = true
+        }
+        else {
             if (team.hasEntry(player.name)) team.removeEntry(player.name)
             player.isGlowing = false
         }
