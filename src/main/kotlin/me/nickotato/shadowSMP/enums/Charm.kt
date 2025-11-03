@@ -68,10 +68,28 @@ enum class Charm(val ability: Ability?, val item: ItemStack, val displayName: St
         ),
         "Hermes' Boots"
     ),
+    VITAL_BAND(
+      null,
+        CharmItem.create(
+            Component.text("§eVital Band"),
+            listOf(
+                Component.text("§7See entities hp when attacking them")
+            )
+        ),
+        "Vital Band"
+    ),
+    KEEPERS_SIGIL(
+        null,
+        CharmItem.create(
+            Component.text("§eKeeper's Sigil"),
+            listOf(
+                Component.text("§7Don't loose upgrader or charm on death")
+            )
+        ),
+        "Keeper's Sigil"
+    )
     // Don't lose upgraders on death
-    // Charm to see invisible players.
     // Mimic ability
-    // Warm back in time to a previous position.
 }
 
 // An item that will give a random charm

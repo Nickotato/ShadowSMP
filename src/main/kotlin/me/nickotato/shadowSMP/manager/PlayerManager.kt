@@ -106,6 +106,11 @@ object PlayerManager {
             maxHp.baseValue = maxHp.defaultValue
         }
 
+        if (data.ghost == Ghost.REVENANT) {
+            player.allowFlight = true
+        } else {
+            player.allowFlight = false
+        }
 //        if (data.ghost == Ghost.TITAN) {
 //            val kbData = player.getAttribute(Attribute.KNOCKBACK_RESISTANCE)
 //            kbData?.baseValue = 1.0

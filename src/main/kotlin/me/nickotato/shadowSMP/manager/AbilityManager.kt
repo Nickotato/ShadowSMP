@@ -12,6 +12,7 @@ object AbilityManager {
     val invulnerablePlayers  = mutableSetOf<UUID>()
     val trueDamagePlayers = mutableSetOf<UUID>()
     val locationHistory = mutableMapOf<UUID, ArrayDeque<Location>>()
+    val tempNoFallPlayers = mutableSetOf<UUID>()
 
     private val notifiedAbility = mutableMapOf<UUID, MutableSet<String>>()
 

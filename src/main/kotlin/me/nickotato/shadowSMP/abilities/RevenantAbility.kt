@@ -13,7 +13,6 @@ class RevenantAbility: Ability(5) {
         val world = player.world
         val loc = player.location
 
-        // 💥 Launch sound (energetic whoosh + soul pulse)
         world.playSound(loc, Sound.ENTITY_BREEZE_HURT, 2.0f, 1.0f)
 
         player.velocity = Vector(player.location.direction.x, 1.5, player.location.direction.z)

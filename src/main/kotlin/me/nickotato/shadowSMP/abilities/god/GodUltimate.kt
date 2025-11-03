@@ -101,4 +101,9 @@ class GodUltimate: Ability(120) {
             }
         }.runTaskTimer(plugin, 0L, 1L)
     }
+
+//    override fun execute(player: Player) {
+//        val dust = Particle.DustOptions(Color.fromRGB(255, 205, 40), 3f)
+//        player.world.spawnParticle(Particle.DUST, player.location.clone().add(0.0, 0.0, 0.0), 500, 10.0, 50.0, 10.0, dust)
+//    }
 }

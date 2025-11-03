@@ -19,6 +19,8 @@ import me.nickotato.shadowSMP.abilities.TimeKeeperAbility
 import me.nickotato.shadowSMP.abilities.TimeKeeperUltimate
 import me.nickotato.shadowSMP.abilities.chronomancer.ChronomancerAbility
 import me.nickotato.shadowSMP.abilities.chronomancer.ChronomancerUltimate
+import me.nickotato.shadowSMP.abilities.deogen.DeogenAbility
+import me.nickotato.shadowSMP.abilities.deogen.DeogenUltimate
 import me.nickotato.shadowSMP.abilities.god.GodAbility
 import me.nickotato.shadowSMP.abilities.god.GodUltimate
 import me.nickotato.shadowSMP.abilities.ignis.IgnisAbility
@@ -42,29 +44,28 @@ enum class Ghost(val ability: Ability, val ultimate: Ability) {
     IGNIS(IgnisAbility(), IgnisUltimate()),
     CHRONOMANCER(ChronomancerAbility(), ChronomancerUltimate()),
     GOD(GodAbility(), GodUltimate()),
+    DEOGEN(DeogenAbility(), DeogenUltimate()),
 }
 // NEED TO CHECK FOR PLAYERS LEAVING THE GAME WITH SPECIAL EFFECTS / ABILITIES. Like Spectator or Invincibility.
-
-
 
 //    Blight
 //    Passive: Immune to poison and wither
 //    Ability: Spread corruption that deals wither 1 to enemies standing on it for 10 seconds
 //    Ultimate: Infect all players in a 15-block radius with wither 3 and blindness 5 for 5 seconds
 
-//  Zephyr / Deogen
-//  Passive: Speed 1 always
-//  Ability: Dash forward 10 blocks, dealing small damage to anything in path
-//  Ultimate: Summon a windstorm that pushes all entities outward and upward
+
 
 //Templar
 //Passive: Permanent regeneration 1
 //Ability: Creates a holy zone (5-block radius) that heals allies for 5 seconds
 //Ultimate: Grants all nearby allies absorption 4 and resistance 2 for 10 seconds
 
+//WRAITH
+//Passive:
+//Ability:
+//Ultimate:
+
 // MAYBE WARDEN FOR AN EVENT GHOST
-
-
 
 // Extra:
 //Passive: Gain 10% life steal on melee hits.
@@ -91,3 +92,8 @@ enum class Ghost(val ability: Ability, val ultimate: Ability) {
 //Passive: Fire heals you instead of damaging.
 //Ability: Summon a wall of fire that lingers for 10 seconds.
 //Ultimate: Fire tornado that pulls entities in and lights them on fire.
+
+//Deogen
+//Passive: Speed 1 always
+//Ability: Dash forward very far and gain temp speed 4
+//Ultimate: Teleport around the closest entity and combo them into the air

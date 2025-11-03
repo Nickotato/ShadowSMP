@@ -2,6 +2,7 @@ package me.nickotato.shadowSMP.listeners.player
 
 import me.nickotato.shadowSMP.enums.Charm
 import me.nickotato.shadowSMP.enums.Ghost
+import me.nickotato.shadowSMP.manager.AbilityManager
 import me.nickotato.shadowSMP.manager.PlayerManager
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -19,6 +20,10 @@ class PlayerFallListener: Listener {
 
         if (data.ghost == Ghost.REVENANT || data.charm == Charm.FEATHER) {
             event.isCancelled = true
+        }
+        if (AbilityManager.tempNoFallPlayers.contains(entity.uniqueId)) {
+            event.isCancelled = true
+            AbilityManager.tempNoFallPlayers.remove(entity.uniqueId)
         }
     }
 }
