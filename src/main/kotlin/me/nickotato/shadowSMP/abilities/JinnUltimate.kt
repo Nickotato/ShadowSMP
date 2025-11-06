@@ -8,6 +8,8 @@ import org.bukkit.Sound
 import org.bukkit.entity.Item
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 import kotlin.math.cos
 import kotlin.math.sin
@@ -103,6 +105,8 @@ class JinnUltimate() : Ability(120) {
                 center.world.getNearbyEntities(center, 45.0, 45.0, 45.0).forEach { entity ->
                     if (entity == player || entity is Item) return@forEach
                     if (entity !is LivingEntity) return@forEach
+
+                    entity.addPotionEffect(PotionEffect(PotionEffectType.LEVITATION, 1, 0))
 
                     val direction = center.toVector().subtract(entity.location.toVector())
                     val distance = entity.location.distance(center)

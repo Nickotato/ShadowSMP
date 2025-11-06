@@ -6,6 +6,7 @@ import me.nickotato.shadowSMP.data.PlayerDataStorage
 import me.nickotato.shadowSMP.enums.Ghost
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
+import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
 import org.bukkit.attribute.Attribute
@@ -96,7 +97,6 @@ object PlayerManager {
         val data = getPlayerData(player)
         data.ghost = ghost
 
-        // Update nametag visibility based on new ghost
         updatePlayerNametag(player)
 
         val maxHp = player.getAttribute(Attribute.MAX_HEALTH) ?: return
@@ -106,17 +106,12 @@ object PlayerManager {
             maxHp.baseValue = maxHp.defaultValue
         }
 
-        if (data.ghost == Ghost.REVENANT) {
-            player.allowFlight = true
-        } else {
-            player.allowFlight = false
-        }
-//        if (data.ghost == Ghost.TITAN) {
-//            val kbData = player.getAttribute(Attribute.KNOCKBACK_RESISTANCE)
-//            kbData?.baseValue = 1.0
-//        }  else {
-//            val kbData = player.getAttribute(Attribute.KNOCKBACK_RESISTANCE)
-//            kbData?.baseValue = 0.0
+//        if (data.ghost == Ghost.REVENANT) {
+//            player.allowFlight = true
+//        } else {
+//            if (player.gameMode != GameMode.CREATIVE && player.gameMode != GameMode.SPECTATOR) {
+//                player.allowFlight = false
+//            }
 //        }
     }
 

@@ -31,8 +31,9 @@ class ManagingGhostGui(val target: Player): Gui(Component.text("Setting ghost of
 
         // Now you can set the ghost to the player
         // e.g., PlayerManager.setGhost(player, selectedGhost)
-        val targetData = PlayerManager.getPlayerData(target)
-        targetData.ghost = selectedGhost
+
+        PlayerManager.changeGhost(target, selectedGhost)
         player.sendMessage(Component.text("Changed ${target.name}'s ghost to: ${selectedGhost.name}"))
+
     }
 }

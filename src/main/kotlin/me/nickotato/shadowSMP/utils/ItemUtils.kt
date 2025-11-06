@@ -1,5 +1,6 @@
 package me.nickotato.shadowSMP.utils
 
+import me.nickotato.shadowSMP.enums.Charm
 import net.kyori.adventure.text.Component
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
@@ -66,5 +67,17 @@ object ItemUtils {
         if (item == null || !item.hasItemMeta()) return false
         val key = NamespacedKey("shadowsmp", "is_charm")
         return item.itemMeta?.persistentDataContainer?.has(key, PersistentDataType.BYTE) == true
+    }
+
+    fun getRandomCharm(): Charm {
+        val excludedCharms = mutableSetOf<Charm>()
+
+        val availableCharms = Charm.entries.filterNot { it in excludedCharms }
+
+        if (availableCharms.isEmpty()) {
+            return Charm.FEATHER
+        }
+
+        return availableCharms.random()
     }
 }

@@ -87,9 +87,7 @@ enum class Charm(val ability: Ability?, val item: ItemStack, val displayName: St
             )
         ),
         "Keeper's Sigil"
-    )
-    // Don't lose upgraders on death
+    ),
+
     // Mimic ability
 }
-
-// An item that will give a random charm

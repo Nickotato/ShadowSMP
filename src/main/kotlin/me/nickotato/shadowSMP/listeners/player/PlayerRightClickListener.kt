@@ -6,6 +6,7 @@ import me.nickotato.shadowSMP.gui.ReviveBookGui
 import me.nickotato.shadowSMP.manager.GuiManager
 import me.nickotato.shadowSMP.manager.PlayerManager
 import me.nickotato.shadowSMP.utils.ItemUtils
+import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -23,7 +24,6 @@ class PlayerRightClickListener: Listener {
         val player = event.player
         val playerData = PlayerManager.getPlayerData(player)
 
-        // Check for charms first
         Charm.entries.forEach { charm ->
             if (item.isSimilar(charm.item)) {
                 if (hasCharm(player, playerData)) return
@@ -33,7 +33,6 @@ class PlayerRightClickListener: Listener {
             }
         }
 
-        // Non-charm items
         when (ItemUtils.getItemType(item)) {
             "upgrader" -> {
                 if (playerData.isUpgraded) {
@@ -68,6 +67,12 @@ class PlayerRightClickListener: Listener {
                 GuiManager.open(ReviveBookGui(), player)
                 event.isCancelled = true
             }
+            "reliquary" -> {
+                consumeOne(player)
+                player.inventory.addItem(ItemUtils.getRandomCharm().item)
+                player.playSound(player.location.clone(), Sound.ENTITY_ITEM_PICKUP, 1f, 1f)
+                event.isCancelled = true
+            }
         }
     }
 
@@ -82,7 +87,7 @@ class PlayerRightClickListener: Listener {
 
     private fun equipCharm(player: Player, playerData: PlayerData, charm: Charm) {
         playerData.charm = charm
-        player.sendMessage("§aYou equipped ${charm.displayName}") // You can add a displayName() method in Charm enum for proper names
+        player.sendMessage("§aYou equipped ${charm.displayName}")
         consumeOne(player)
     }
 

@@ -38,9 +38,8 @@ class BansheeAbility: Ability(90) {
     }
 
     fun mainParticles(player: Player, tick: Int) {
-        val location = player.location.clone().add(0.0, 1.0, 0.0) // adjust height if needed
+        val location = player.location.clone().add(0.0, 1.0, 0.0)
 
-        // Outer loop radius
         val radiusOuter = tick / 4.0
         val yawOuter = Math.toRadians(tick * 50.0)
 
@@ -48,15 +47,12 @@ class BansheeAbility: Ability(90) {
         val zOuter = sin(yawOuter) * radiusOuter
         val offsetOuter = Vector(xOuter, 0.0, zOuter)
 
-        // Dust transition: red -> black
         val dustRedBlack = Particle.DustOptions(Color.fromRGB(255, 0, 0), 2f) // approximate
         player.world.spawnParticle(Particle.DUST, location.clone().add(offsetOuter), 40, 0.1, 0.2, 0.1, dustRedBlack)
 
-        // End rod & soul
         player.world.spawnParticle(Particle.END_ROD, location.clone().add(offsetOuter), 50, 0.3, 0.3, 0.3)
         player.world.spawnParticle(Particle.SOUL, location.clone().add(offsetOuter), 10, 0.2, 0.8, 0.2)
 
-        // Inner loop radius
         val radiusInner = tick / 8.0
         val yawInner = Math.toRadians(tick * 80.0)
 
@@ -64,15 +60,12 @@ class BansheeAbility: Ability(90) {
         val zInner = sin(yawInner) * radiusInner
         val offsetInner = Vector(xInner, 0.0, zInner)
 
-        // Dust transition: blue -> red
         val dustBlueRed = Particle.DustOptions(Color.fromRGB(0, 0, 255), 2f) // approximate
         player.world.spawnParticle(Particle.DUST, location.clone().add(offsetInner), 20, 0.1, 0.2, 0.1, dustBlueRed)
 
-        // End rod & soul
         player.world.spawnParticle(Particle.END_ROD, location.clone().add(offsetInner), 50, 0.3, 0.3, 0.3)
         player.world.spawnParticle(Particle.SOUL, location.clone().add(offsetInner), 10, 0.2, 0.8, 0.2)
 
-        // Innermost spherical particles
         for (i in 0 until 36) {
             val yaw = Math.toRadians(i * 20.0)
             val offsetSphere = Vector(cos(yaw) * 7, 0.0, sin(yaw) * 7)

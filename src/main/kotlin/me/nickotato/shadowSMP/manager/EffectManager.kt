@@ -40,8 +40,6 @@ object EffectManager {
                         applyEffect(player, effect.type, effect.amplifier)
                     }
 
-//                    applyReaperGlow(player)
-//                    applyGodGlow(player)
                     applyGlow(player)
                 }
             }

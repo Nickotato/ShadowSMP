@@ -76,6 +76,7 @@ class ShadowSMP : JavaPlugin() {
 
         AbilityManager.beginTrackingLocations()
         AbilityManager.cooldownNotifier()
+        AbilityManager.beginRevenantFlightCheck()
     }
 
     override fun onDisable() {
