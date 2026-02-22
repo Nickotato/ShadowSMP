@@ -23,7 +23,7 @@ commands:
     permission: ShadowSMP.give_shadow_items
   reset_cooldown:
     description: Resets the users cooldown
-    permission: "" #ShadowSMP.reset_cooldown  <-- NEED TO ADD THIS BACK
+    permission: ShadowSMP.reset_cooldown
   manage:
     description: "Manage Players"
     permission: ShadowSMP.manage
@@ -35,3 +35,18 @@ commands:
     description: "Withdraw one soul"
     permission: ""
     usage: /withdraw_soul
+  withdraw_upgrader:
+    description: "Withdraw your upgrader"
+    permission: ""
+  check_revenant:
+    description: "Check if Revenant is working for a player"
+    permission: ShadowSMP.check_revenant
+  restarting_in:
+    description: "Sends a message to everyone saying the server is restarting"
+    permission: ShadowSMP.restarting_in
+  ghost:
+    description: "Check what ghost you have and it's abilities"
+    permission: ""
+  config:
+    description: "Open the config for shadow smp"
+    permission: ShadowSMP.config

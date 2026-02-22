@@ -2,14 +2,19 @@ package me.nickotato.shadowSMP
 
 import me.nickotato.shadowSMP.commands.AbilityCommand
 import me.nickotato.shadowSMP.commands.CharmAbilityCommand
+import me.nickotato.shadowSMP.commands.CheckRevenantWorkingCommand
+import me.nickotato.shadowSMP.commands.ConfigCommand
+import me.nickotato.shadowSMP.commands.GhostCommand
 import me.nickotato.shadowSMP.commands.GiveCharmsCommand
 import me.nickotato.shadowSMP.commands.GiveShadowItemsCommand
 import me.nickotato.shadowSMP.commands.ManageCommand
 import me.nickotato.shadowSMP.commands.ResetCooldownCommand
+import me.nickotato.shadowSMP.commands.RestartingInCommand
 import me.nickotato.shadowSMP.commands.SoulsCommand
 import me.nickotato.shadowSMP.commands.UltimateCommand
 import me.nickotato.shadowSMP.commands.WithdrawCharmCommand
 import me.nickotato.shadowSMP.commands.WithdrawSoulCommand
+import me.nickotato.shadowSMP.commands.WithdrawUpgrader
 import me.nickotato.shadowSMP.data.PlayerDataStorage
 import me.nickotato.shadowSMP.listeners.entity.EntityDamage
 import me.nickotato.shadowSMP.listeners.item.ItemBurnListener
@@ -18,11 +23,13 @@ import me.nickotato.shadowSMP.listeners.player.ConsecutiveHitListener
 import me.nickotato.shadowSMP.listeners.player.PlayerBreakListener
 import me.nickotato.shadowSMP.listeners.player.PlayerDamageListener
 import me.nickotato.shadowSMP.listeners.player.PlayerDeathListener
+import me.nickotato.shadowSMP.listeners.player.PlayerDropItem
 import me.nickotato.shadowSMP.listeners.player.PlayerFallListener
 import me.nickotato.shadowSMP.listeners.player.PlayerGlideListener
 import me.nickotato.shadowSMP.listeners.player.PlayerJoinListener
 import me.nickotato.shadowSMP.listeners.player.PlayerJumpListener
 import me.nickotato.shadowSMP.listeners.player.PlayerKnockbackListener
+import me.nickotato.shadowSMP.listeners.player.PlayerPlaceListener
 import me.nickotato.shadowSMP.listeners.player.PlayerRightClickListener
 import me.nickotato.shadowSMP.manager.AbilityManager
 import me.nickotato.shadowSMP.manager.EffectManager
@@ -55,6 +62,8 @@ class ShadowSMP : JavaPlugin() {
         server.pluginManager.registerEvents(PlayerJumpListener(), this)
         server.pluginManager.registerEvents(PlayerKnockbackListener(), this)
         server.pluginManager.registerEvents(EntityDamage(), this)
+        server.pluginManager.registerEvents(PlayerDropItem(), this)
+        server.pluginManager.registerEvents(PlayerPlaceListener(), this)
 
         getCommand("ability")?.setExecutor(AbilityCommand())
         getCommand("give_charms")?.setExecutor(GiveCharmsCommand())
@@ -66,17 +75,25 @@ class ShadowSMP : JavaPlugin() {
         getCommand("souls")?.setExecutor(SoulsCommand())
         getCommand("withdraw_soul")?.setExecutor(WithdrawSoulCommand())
         getCommand("charm_ability")?.setExecutor(CharmAbilityCommand())
+        getCommand("withdraw_upgrader")?.setExecutor(WithdrawUpgrader())
+        getCommand("check_revenant")?.setExecutor(CheckRevenantWorkingCommand())
+        getCommand("restarting_in")?.setExecutor(RestartingInCommand())
+        getCommand("ghost")?.setExecutor(GhostCommand())
+        getCommand("config")?.setExecutor(ConfigCommand())
 
         ItemManager.register(ItemManager.CustomItemInfo("upgrader", indestructible = true))
         ItemManager.register(ItemManager.CustomItemInfo("haunted_dice", indestructible = true))
         ItemManager.register(ItemManager.CustomItemInfo("soul", indestructible = true))
         ItemManager.register(ItemManager.CustomItemInfo("revive_book", indestructible = true))
+        ItemManager.register(ItemManager.CustomItemInfo("spooky_obsidian", indestructible = true))
 
         EffectManager.startEffectLoop()
 
         AbilityManager.beginTrackingLocations()
         AbilityManager.cooldownNotifier()
         AbilityManager.beginRevenantFlightCheck()
+
+        ItemManager.startItemChecks()
     }
 
     override fun onDisable() {
