@@ -24,7 +24,7 @@
 
 ##  Installation
 **Requirements:**  
-- Minecraft Server: 1.21.4  
+- Minecraft Server: 1.21.* 
 - Java Version: 17+ (if applicable)
 - Protocol Lib 5.3.0 or newer
 
