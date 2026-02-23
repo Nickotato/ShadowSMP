@@ -1,5 +1,6 @@
 package me.nickotato.shadowSMP.listeners.player
 
+import me.nickotato.shadowSMP.config.Settings
 import me.nickotato.shadowSMP.enums.Charm
 import me.nickotato.shadowSMP.items.Soul
 import me.nickotato.shadowSMP.items.Upgrader
@@ -25,7 +26,9 @@ class PlayerDeathListener: Listener {
             playerData.isUpgraded = false
         }
 
-        player.world.dropItemNaturally(player.location, Soul.create())
-        PlayerManager.changePlayerSouls(player, -1)
+        if (Settings.soulsEnabled) {
+            player.world.dropItemNaturally(player.location, Soul.create())
+            PlayerManager.changePlayerSouls(player, -1)
+        }
     }
 }

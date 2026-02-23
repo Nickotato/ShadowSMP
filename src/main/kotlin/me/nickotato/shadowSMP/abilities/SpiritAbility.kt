@@ -16,7 +16,7 @@ class SpiritAbility: Ability(120) {
             override fun run() {
                 AbilityManager.invulnerablePlayers.remove(player.uniqueId)
             }
-        }.runTaskLater(ShadowSMP.instance, 30 * 20)
+        }.runTaskLater(ShadowSMP.instance, 5 * 20)
 
         object : BukkitRunnable() {
             var timesRun = 0

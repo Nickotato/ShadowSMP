@@ -8,7 +8,7 @@ import org.bukkit.potion.PotionEffectType
 
 class TitanAbility: Ability(90) {
     override fun execute(player: Player) {
-        player.addPotionEffect(PotionEffect(PotionEffectType.RESISTANCE, 5 * 20, 2))
+        player.addPotionEffect(PotionEffect(PotionEffectType.RESISTANCE, 15 * 20, 2))
 
         player.world.spawnParticle(Particle.WAX_ON, player.location.clone(), 200, 1.0, 3.0, 1.0)
     }

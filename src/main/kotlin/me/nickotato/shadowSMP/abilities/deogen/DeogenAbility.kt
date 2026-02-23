@@ -51,8 +51,24 @@ class DeogenAbility: Ability(30) {
         player.addPotionEffect(PotionEffect(PotionEffectType.SPEED, 100, 3))
 
         val direction = player.location.direction.normalize()
-        val launchVelocity = direction.multiply(50.0)
-        player.velocity = launchVelocity
+//        val launchVelocity = direction.multiply(3) // was 50 before
+//        player.velocity = launchVelocity
+
+        val multiplyValue = 1.1
+         // small per tick
+        object : BukkitRunnable() {
+            var ticks = 0
+            override fun run() {
+                if (ticks > 20) { // fling duration
+                    cancel()
+                    return
+                }
+                val flingVelocity = direction.multiply(multiplyValue)
+//                multiplyValue += 0.05
+                player.velocity = flingVelocity
+                ticks++
+            }
+        }.runTaskTimer(ShadowSMP.instance, 0L, 1L)
 
         player.playSound(player.location, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1.0f, 1.0f)
 
