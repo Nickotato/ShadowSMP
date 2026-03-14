@@ -10,10 +10,11 @@ import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 import me.nickotato.shadowSMP.ShadowSMP
+import me.nickotato.shadowSMP.manager.AbilityManager
 
 class DeogenUltimate: Ability(90) {
 
-    private val hitCount = 10
+    private val hitCount = 20
     private val hitInterval = 5L
     private val damagePerHit = 2.0
 
@@ -28,6 +29,8 @@ class DeogenUltimate: Ability(90) {
         if (target is LivingEntity) {
             target.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, (hitCount * hitInterval + 20).toInt(), 1, false, false, true))
         }
+
+        AbilityManager.tempNoFallPlayers.add(player.uniqueId)
 
         object : BukkitRunnable() {
             var hits = 0

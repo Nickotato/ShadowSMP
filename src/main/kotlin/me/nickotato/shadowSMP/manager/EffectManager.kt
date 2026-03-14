@@ -47,7 +47,8 @@ object EffectManager {
     }
 
     private fun applyGlow(player: Player) {
-        val board = Bukkit.getScoreboardManager().mainScoreboard
+//        val board = Bukkit.getScoreboardManager().mainScoreboard
+        val board = player.scoreboard
         val playerData = PlayerManager.getPlayerData(player)
 
         val (teamName, color) = when (playerData.ghost) {

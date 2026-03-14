@@ -24,7 +24,7 @@ class EntityDamage: Listener {
             if (attackerData.charm == Charm.VITAL_BAND && victim is LivingEntity) {
                 object : BukkitRunnable() {
                     override fun run() {
-                        attacker.sendActionBar(Component.text("§c${floor(victim.health)} / ${victim.getAttribute(Attribute.MAX_HEALTH)?.value ?: "§7Unknown"}"))
+                        attacker.sendActionBar(Component.text("§c${floor(victim.health)} / ${victim.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.value ?: "§7Unknown"}"))
                     }
                 }.runTaskLater(ShadowSMP.instance, 1L)
 

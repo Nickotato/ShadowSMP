@@ -1,11 +1,14 @@
 package me.nickotato.shadowSMP.listeners.player
 
+import me.nickotato.shadowSMP.abilities.mace.MaceAbility
+import me.nickotato.shadowSMP.abilities.mace.MaceAbility2
 import me.nickotato.shadowSMP.data.PlayerData
 import me.nickotato.shadowSMP.enums.Charm
 import me.nickotato.shadowSMP.gui.ReviveBookGui
 import me.nickotato.shadowSMP.manager.GuiManager
 import me.nickotato.shadowSMP.manager.PlayerManager
 import me.nickotato.shadowSMP.utils.ItemUtils
+import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -73,6 +76,17 @@ class PlayerRightClickListener: Listener {
                 player.playSound(player.location.clone(), Sound.ENTITY_ITEM_PICKUP, 1f, 1f)
                 event.isCancelled = true
             }
+        }
+
+//        val hasMace = player.inventory.contains(Material.MACE)
+
+        if (item.type == Material.MACE) {
+            if (player.isSneaking) {
+                MaceAbility2.activate(player)
+              return
+            }
+            MaceAbility.activate(player)
+            return
         }
     }
 

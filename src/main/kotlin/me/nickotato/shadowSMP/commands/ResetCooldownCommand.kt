@@ -1,5 +1,7 @@
 package me.nickotato.shadowSMP.commands
 
+import me.nickotato.shadowSMP.abilities.mace.MaceAbility
+import me.nickotato.shadowSMP.abilities.mace.MaceAbility2
 import me.nickotato.shadowSMP.manager.PlayerManager
 import me.nickotato.shadowSMP.utils.CommandUtils
 import org.bukkit.Bukkit
@@ -34,6 +36,8 @@ class ResetCooldownCommand: CommandExecutor {
         playerData.ghost.ability.resetCooldown(targetPlayer)
         playerData.ghost.ultimate.resetCooldown(targetPlayer)
         playerData.charm?.ability?.resetCooldown(targetPlayer)
+        MaceAbility2.resetCooldown(targetPlayer)
+        MaceAbility.resetCooldown(targetPlayer)
 
         // Optional feedback
         sender.sendMessage("§aCooldowns reset for §f${targetPlayer.name}§a!")

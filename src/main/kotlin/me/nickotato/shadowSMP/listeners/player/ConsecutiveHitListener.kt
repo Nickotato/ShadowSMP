@@ -44,7 +44,6 @@ class ConsecutiveHitListener : Listener {
                     entityHits[entityId] = 0
                 }
             }
-            else -> {}
         }
 
         // Remove invalid or dead targets

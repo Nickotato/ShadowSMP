@@ -43,7 +43,7 @@ class ChronomancerUltimate : Ability(120) { // 5 min cooldown
             Material.IRON_AXE -> 9.0
             Material.DIAMOND_AXE -> 9.0
             Material.NETHERITE_AXE -> 10.0
-            else -> player.getAttribute(Attribute.ATTACK_DAMAGE)?.baseValue ?: 1.0
+            else -> player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue ?: 1.0
         }
 
         // Add Sharpness bonus

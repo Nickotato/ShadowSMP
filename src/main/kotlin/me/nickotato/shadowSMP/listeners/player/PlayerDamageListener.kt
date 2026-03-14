@@ -38,7 +38,7 @@ class PlayerDamageListener: Listener {
         if (damager is Player && AbilityManager.trueDamagePlayers.contains(damager.uniqueId)) {
             event.isCancelled = true
 
-            val damage = damager.getAttribute(Attribute.ATTACK_DAMAGE)?.value ?: 5.0
+            val damage = damager.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.value ?: 5.0
             val targetHealth = player.health
             player.health = (targetHealth - damage).coerceAtLeast(0.0)
 

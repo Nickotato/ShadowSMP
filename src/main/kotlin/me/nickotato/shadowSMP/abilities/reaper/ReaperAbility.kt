@@ -31,7 +31,7 @@ class ReaperAbility : Ability(90) {
             return
         }
 
-        val maxHp = nearest.getAttribute(Attribute.MAX_HEALTH)?.value ?: return
+        val maxHp = nearest.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.value ?: return
         if (maxHp > 150) {
             player.sendMessage("§7That entity is too powerful to reap.")
             return

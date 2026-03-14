@@ -43,7 +43,6 @@ class ArachnidUltimate: Ability(60) {
                 headBlock.type = Material.COBWEB
             }
 
-            // Spawn particles around the entity for feedback
             val entityCenter = entity.location.add(0.0, 1.0, 0.0)
             for (i in 0 until 20) {
                 val offsetX = Math.random() - 0.5      // random double between -0.5 and 0.5
@@ -63,12 +62,11 @@ class ArachnidUltimate: Ability(60) {
             entity.world.playSound(
                 entity.location,
                 Sound.BLOCK_COBWEB_PLACE,
-                2.0f, // louder
-                1.2f // slightly higher pitch
+                2.0f,
+                1.2f
             )
         }
 
-        // Optional: global sound to indicate ultimate activation
         player.world.playSound(
             player.location,
             Sound.ENTITY_SPIDER_AMBIENT,

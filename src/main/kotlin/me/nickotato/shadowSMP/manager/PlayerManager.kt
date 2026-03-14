@@ -6,7 +6,6 @@ import me.nickotato.shadowSMP.data.PlayerDataStorage
 import me.nickotato.shadowSMP.enums.Ghost
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
-import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
 import org.bukkit.attribute.Attribute
@@ -99,20 +98,15 @@ object PlayerManager {
 
         updatePlayerNametag(player)
 
-        val maxHp = player.getAttribute(Attribute.MAX_HEALTH) ?: return
-        if (data.ghost == Ghost.TIMEKEEPER) {
-            maxHp.baseValue = 24.0
-        } else {
-            maxHp.baseValue = maxHp.defaultValue
-        }
-
-//        if (data.ghost == Ghost.REVENANT) {
-//            player.allowFlight = true
+//        val maxHp = player.getAttribute(Attribute.GENERIC_MAX_HEALTH) ?: return
+//        if (data.ghost == Ghost.TIMEKEEPER) {
+//            maxHp.baseValue = 24.0
 //        } else {
-//            if (player.gameMode != GameMode.CREATIVE && player.gameMode != GameMode.SPECTATOR) {
-//                player.allowFlight = false
-//            }
+//            maxHp.baseValue = maxHp.defaultValue
 //        }
+
+        updatePlayerMaxHP(player)
+
     }
 
     fun getRandomGhost(player: Player): Ghost {
@@ -164,4 +158,23 @@ object PlayerManager {
         }
     }
 
+    fun updatePlayerMaxHP(player: Player) {
+        val data = getPlayerData(player)
+        val maxHpAttr = player.getAttribute(Attribute.GENERIC_MAX_HEALTH) ?: return
+
+        var newMaxHp = maxHpAttr.defaultValue
+
+        newMaxHp += when (data.ghost) {
+            Ghost.TIMEKEEPER -> 4.0
+            else -> 0.0
+        }
+
+        val hasDragonEgg = player.inventory.contains(Material.DRAGON_EGG)
+
+        if (hasDragonEgg) {
+            newMaxHp += 10.0
+        }
+
+        maxHpAttr.baseValue = newMaxHp
+    }
 }

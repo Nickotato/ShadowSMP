@@ -22,7 +22,7 @@ class OniUltimate : Ability(120) {
             val wallHeight = 6
 
             override fun run() {
-                if (ticksRun >= 20 * 30) { // 30 seconds
+                if (ticksRun >= 20 * 15) { // 15 seconds
                     cancel()
                     return
                 }
