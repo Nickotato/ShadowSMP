@@ -12,7 +12,7 @@ import kotlin.random.Random
 
 class BansheeUltimate: Ability(60) {
     override fun execute(player: Player) {
-        val nearbyPlayers = player.world.getNearbyPlayers(player.location, 1.0)
+        val nearbyPlayers = player.world.getNearbyPlayers(player.location, 1.5)
         val blindness = PotionEffect(PotionEffectType.BLINDNESS, 20 * 5, 6)
         val slowness = PotionEffect(PotionEffectType.SLOWNESS, 20*5, 6)
 
@@ -60,19 +60,14 @@ class BansheeUltimate: Ability(60) {
         val world = player.world
         val loc = player.location
 
-        // 👻 Low haunting ambient wind
         world.playSound(loc, Sound.AMBIENT_SOUL_SAND_VALLEY_ADDITIONS, 1.0f, 0.6f)
 
-        // 💨 Whoosh burst when the ability activates
         world.playSound(loc, Sound.ENTITY_PHANTOM_FLAP, 1.5f, 0.5f)
 
-        // 😱 The banshee “scream” effect
         world.playSound(loc, Sound.ENTITY_GHAST_SCREAM, 1.0f, 1.2f)
 
-        // 💀 Optional subtle after-echo / reverb style
         world.playSound(loc, Sound.BLOCK_BEACON_DEACTIVATE, 0.7f, 0.8f)
 
-        // For nearby players: a slightly quieter echo to increase immersion
         for (nearby in world.getNearbyPlayers(loc, 10.0)) {
             if (nearby != player) {
                 nearby.playSound(loc, Sound.ENTITY_PHANTOM_AMBIENT, 0.7f, 0.6f)

@@ -50,7 +50,7 @@ class BansheeAbility: Ability(90) {
         val dustRedBlack = Particle.DustOptions(Color.fromRGB(255, 0, 0), 2f) // approximate
         player.world.spawnParticle(Particle.DUST, location.clone().add(offsetOuter), 40, 0.1, 0.2, 0.1, dustRedBlack)
 
-        player.world.spawnParticle(Particle.END_ROD, location.clone().add(offsetOuter), 50, 0.3, 0.3, 0.3)
+        player.world.spawnParticle(Particle.END_ROD, location.clone().add(offsetOuter), 2, 0.3, 0.3, 0.3) //2 End Rod Particles used to be 50 count instead of 2.
         player.world.spawnParticle(Particle.SOUL, location.clone().add(offsetOuter), 10, 0.2, 0.8, 0.2)
 
         val radiusInner = tick / 8.0
@@ -63,7 +63,7 @@ class BansheeAbility: Ability(90) {
         val dustBlueRed = Particle.DustOptions(Color.fromRGB(0, 0, 255), 2f) // approximate
         player.world.spawnParticle(Particle.DUST, location.clone().add(offsetInner), 20, 0.1, 0.2, 0.1, dustBlueRed)
 
-        player.world.spawnParticle(Particle.END_ROD, location.clone().add(offsetInner), 50, 0.3, 0.3, 0.3)
+        player.world.spawnParticle(Particle.END_ROD, location.clone().add(offsetInner), 2, 0.3, 0.3, 0.3)
         player.world.spawnParticle(Particle.SOUL, location.clone().add(offsetInner), 10, 0.2, 0.8, 0.2)
 
         for (i in 0 until 36) {

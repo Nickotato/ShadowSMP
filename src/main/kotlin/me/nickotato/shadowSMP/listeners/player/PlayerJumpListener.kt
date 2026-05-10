@@ -4,6 +4,7 @@ package me.nickotato.shadowSMP.listeners.player
 import me.nickotato.shadowSMP.enums.Ghost
 import me.nickotato.shadowSMP.manager.PlayerManager
 import me.nickotato.shadowSMP.ShadowSMP
+import me.nickotato.shadowSMP.config.Settings
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.event.EventHandler
@@ -20,6 +21,12 @@ class PlayerJumpListener : Listener {
 
         if (data.ghost != Ghost.REVENANT) return
         if (player.gameMode == GameMode.CREATIVE || player.gameMode == GameMode.SPECTATOR) return
+        val souls = data.souls
+
+        if (souls < -5 && Settings.disableGhostOnSoulLimit) {
+            player.sendMessage("§cYou need -5 souls or more to use this ability")
+            return
+        }
 
         event.isCancelled = true // cancel default flight
 

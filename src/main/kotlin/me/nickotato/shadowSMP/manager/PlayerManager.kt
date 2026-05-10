@@ -1,6 +1,7 @@
 package me.nickotato.shadowSMP.manager
 
 import io.papermc.paper.ban.BanListType
+import me.nickotato.shadowSMP.config.Settings
 import me.nickotato.shadowSMP.data.PlayerData
 import me.nickotato.shadowSMP.data.PlayerDataStorage
 import me.nickotato.shadowSMP.enums.Ghost
@@ -45,7 +46,7 @@ object PlayerManager {
     fun changePlayerSouls(player: Player, amount: Int) {
         val playerData = getPlayerData(player)
         if (playerData.souls + amount > 5) return
-        else if (playerData.souls + amount < -5) {
+        else if (playerData.souls + amount < -5 && Settings.banOnSoulLimit) {
             banPlayer(player, "ran out of souls")
             return
         }

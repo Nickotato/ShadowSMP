@@ -33,7 +33,7 @@ class ConsecutiveHitListener : Listener {
 
         when (ghostType) {
             Ghost.ARACHNID -> {
-                if (hits >= 5) {
+                if (hits >= 10) {
                     entity.addPotionEffect(PotionEffect(PotionEffectType.POISON, 100, 1))
                     entityHits[entityId] = 0
                 }

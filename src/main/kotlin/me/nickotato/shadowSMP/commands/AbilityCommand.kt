@@ -1,5 +1,6 @@
 package me.nickotato.shadowSMP.commands
 
+import me.nickotato.shadowSMP.config.Settings
 import me.nickotato.shadowSMP.data.PlayerData
 import me.nickotato.shadowSMP.enums.Ghost
 import me.nickotato.shadowSMP.manager.PlayerManager
@@ -16,11 +17,19 @@ class AbilityCommand: CommandExecutor {
         }
 
         val playerData: PlayerData = PlayerManager.getPlayerData(sender)
+
+        val souls = playerData.souls
+
+        if (souls < -5 && Settings.disableGhostOnSoulLimit) {
+            sender.sendMessage("§cYou need -5 souls or more to use this ability")
+            return true
+        }
+
         val ghost = playerData.ghost
 
         if (ghost == Ghost.REVENANT) {
-            sender.sendMessage("§cYou use this ability by jumping mid-air")
-            return true
+            sender.sendMessage("§cYou can use this ability by jumping mid-air")
+//            return true
         }
 
         ghost.ability.activate(sender)

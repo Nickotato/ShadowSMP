@@ -1,5 +1,6 @@
 package me.nickotato.shadowSMP.commands
 
+import me.nickotato.shadowSMP.config.Settings
 import me.nickotato.shadowSMP.manager.PlayerManager
 import me.nickotato.shadowSMP.utils.CommandUtils
 import org.bukkit.command.Command
@@ -14,6 +15,13 @@ class UltimateCommand: CommandExecutor {
         if (!playerData.isUpgraded) {
             player.sendMessage("§cYou need to upgrade your ghost to use this ability.")
             return false
+        }
+
+        val souls = playerData.souls
+
+        if (souls < -5 && Settings.disableGhostOnSoulLimit) {
+            sender.sendMessage("§cYou need -5 souls or more to use this ability")
+            return true
         }
 
         playerData.ghost.ultimate.activate(player)

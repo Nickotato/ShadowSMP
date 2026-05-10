@@ -14,7 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable
 import kotlin.math.cos
 import kotlin.math.sin
 
-class DeogenAbility: Ability(30) {
+class DeogenAbility: Ability(120) {
     override fun execute(player: Player) {
         object : BukkitRunnable() {
             var timesRun = 0
