@@ -31,7 +31,7 @@ class PlayerJumpListener : Listener {
         event.isCancelled = true // cancel default flight
 
         Bukkit.getScheduler().runTaskLater(ShadowSMP.instance, Runnable {
-            player.allowFlight = false
+//            player.allowFlight = false
             player.isFlying = false
         }, 2L)
 

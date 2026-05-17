@@ -96,15 +96,15 @@ object PlayerManager {
     }
 
     fun changeGhost(player: Player, ghost: Ghost) {
+        val oldData = getPlayerData(player).copy()
+
         val data = getPlayerData(player)
         data.ghost = ghost
 
-        updatePlayerNametag(player)
-
-        updatePlayerMaxHP(player)
+        val newData = data.copy()
 
         Bukkit.getPluginManager().callEvent(
-            PlayerDataChangeEvent(player, null, null)
+            PlayerDataChangeEvent(player, oldData, newData)
         )
     }
 
@@ -126,7 +126,6 @@ object PlayerManager {
 
         return availableGhosts.random()
     }
-
 
     fun changeToRandomGhost(player: Player) {
         changeGhost(player, getRandomGhost(player))

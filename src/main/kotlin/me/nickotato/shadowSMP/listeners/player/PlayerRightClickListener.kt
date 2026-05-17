@@ -102,12 +102,14 @@ class PlayerRightClickListener: Listener {
     }
 
     private fun equipCharm(player: Player, playerData: PlayerData, charm: Charm) {
+        val oldData = playerData.copy()
         playerData.charm = charm
         player.sendMessage("§aYou equipped ${charm.displayName}")
         Bukkit.getPluginManager().callEvent(
-            PlayerDataChangeEvent(player, null, null)
+            PlayerDataChangeEvent(player, oldData, playerData)
         )
         consumeOne(player)
+        // THIS SHOULD BE IN PLAYER MANAGER MOST LIKELY
     }
 
     private fun consumeOne(player: Player) {

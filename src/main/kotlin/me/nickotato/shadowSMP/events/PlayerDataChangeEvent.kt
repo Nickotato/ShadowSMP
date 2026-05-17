@@ -7,8 +7,8 @@ import org.bukkit.event.HandlerList
 
 class PlayerDataChangeEvent(
     val player: Player,
-    val oldData: PlayerData?,
-    val newData: PlayerData?
+    val oldData: PlayerData,
+    val newData: PlayerData
 ) : Event() {
 
     override fun getHandlers(): HandlerList = handlerList

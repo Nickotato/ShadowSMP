@@ -2,6 +2,7 @@ package me.nickotato.shadowSMP.listeners.player
 
 import me.nickotato.shadowSMP.data.PlayerData
 import me.nickotato.shadowSMP.data.PlayerDataStorage
+import me.nickotato.shadowSMP.enums.Ghost
 import me.nickotato.shadowSMP.manager.AbilityManager
 import me.nickotato.shadowSMP.manager.PlayerManager
 import net.kyori.adventure.text.Component
@@ -34,6 +35,8 @@ class PlayerJoinListener: Listener {
             player.sendMessage("§3Your ghost is §d${playerData.ghost.name}")
 
         }
+
+//        player.allowFlight = playerData.ghost == Ghost.REVENANT || player.gameMode == GameMode.CREATIVE || player.gameMode == GameMode.SPECTATOR
     }
 
     @EventHandler

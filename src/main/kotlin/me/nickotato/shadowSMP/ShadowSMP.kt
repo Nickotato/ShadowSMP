@@ -1,37 +1,10 @@
 package me.nickotato.shadowSMP
 
-import me.nickotato.shadowSMP.commands.AbilityCommand
-import me.nickotato.shadowSMP.commands.CharmAbilityCommand
-import me.nickotato.shadowSMP.commands.CheckWorking
-import me.nickotato.shadowSMP.commands.ConfigCommand
-import me.nickotato.shadowSMP.commands.GhostCommand
-import me.nickotato.shadowSMP.commands.GiveCharmsCommand
-import me.nickotato.shadowSMP.commands.GiveShadowItemsCommand
-import me.nickotato.shadowSMP.commands.ManageCommand
-import me.nickotato.shadowSMP.commands.ResetCooldownCommand
-import me.nickotato.shadowSMP.commands.RestartingInCommand
-import me.nickotato.shadowSMP.commands.SoulsCommand
-import me.nickotato.shadowSMP.commands.UltimateCommand
-import me.nickotato.shadowSMP.commands.WithdrawCharmCommand
-import me.nickotato.shadowSMP.commands.WithdrawSoulCommand
-import me.nickotato.shadowSMP.commands.WithdrawUpgrader
+import me.nickotato.shadowSMP.commands.*
 import me.nickotato.shadowSMP.data.PlayerDataStorage
-import me.nickotato.shadowSMP.listeners.entity.EntityDamage
-import me.nickotato.shadowSMP.listeners.item.ItemBurnListener
-import me.nickotato.shadowSMP.listeners.item.ItemDamageListener
-import me.nickotato.shadowSMP.listeners.player.ConsecutiveHitListener
-import me.nickotato.shadowSMP.listeners.player.EffectListener
-import me.nickotato.shadowSMP.listeners.player.PlayerBreakListener
-import me.nickotato.shadowSMP.listeners.player.PlayerDamageListener
-import me.nickotato.shadowSMP.listeners.player.PlayerDeathListener
-import me.nickotato.shadowSMP.listeners.player.PlayerDropItem
-import me.nickotato.shadowSMP.listeners.player.PlayerFallListener
-import me.nickotato.shadowSMP.listeners.player.PlayerGlideListener
-import me.nickotato.shadowSMP.listeners.player.PlayerJoinListener
-import me.nickotato.shadowSMP.listeners.player.PlayerJumpListener
-import me.nickotato.shadowSMP.listeners.player.PlayerKnockbackListener
-import me.nickotato.shadowSMP.listeners.player.PlayerPlaceListener
-import me.nickotato.shadowSMP.listeners.player.PlayerRightClickListener
+import me.nickotato.shadowSMP.listeners.entity.*
+import me.nickotato.shadowSMP.listeners.item.*
+import me.nickotato.shadowSMP.listeners.player.*
 import me.nickotato.shadowSMP.manager.AbilityManager
 import me.nickotato.shadowSMP.manager.GuiManager
 import me.nickotato.shadowSMP.manager.ItemManager
@@ -66,7 +39,7 @@ class ShadowSMP : JavaPlugin() {
         server.pluginManager.registerEvents(PlayerPlaceListener(), this)
 
         server.pluginManager.registerEvents(EffectListener(), this)
-//        server.pluginManager.registerEvents(PlayerDataChangeEvent(), this)
+        server.pluginManager.registerEvents(PlayerDataChangeListener(), this)
 
         getCommand("ability")?.setExecutor(AbilityCommand())
         getCommand("give_charms")?.setExecutor(GiveCharmsCommand())
