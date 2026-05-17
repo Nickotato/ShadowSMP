@@ -6,6 +6,8 @@ object Settings {
     var banOnSoulLimit = false
     var disableGhostOnSoulLimit = false
 
+    var revenantCausesSlowness = false
+
 
     fun toggleSoulsEnabled() {
         soulsEnabled = !soulsEnabled
@@ -23,4 +25,7 @@ object Settings {
         disableGhostOnSoulLimit = !disableGhostOnSoulLimit
     }
 
+    fun toggleRevenantSlowness() {
+        revenantCausesSlowness = !revenantCausesSlowness
+    }
 }

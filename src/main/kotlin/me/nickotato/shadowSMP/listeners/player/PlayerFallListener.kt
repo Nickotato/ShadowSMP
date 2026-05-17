@@ -1,5 +1,6 @@
 package me.nickotato.shadowSMP.listeners.player
 
+import me.nickotato.shadowSMP.config.Settings
 import me.nickotato.shadowSMP.enums.Charm
 import me.nickotato.shadowSMP.enums.Ghost
 import me.nickotato.shadowSMP.manager.AbilityManager
@@ -27,7 +28,7 @@ class PlayerFallListener: Listener {
         }
 
         if (data.ghost == Ghost.REVENANT || data.charm == Charm.FEATHER) {
-            if (data.ghost == Ghost.REVENANT) {
+            if (data.ghost == Ghost.REVENANT && data.charm != Charm.FEATHER && Settings.revenantCausesSlowness) {
                 entity.addPotionEffect(PotionEffect(PotionEffectType.SLOWNESS, 20*5, 4))
             }
             event.isCancelled = true

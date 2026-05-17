@@ -12,7 +12,7 @@ class UltimateCommand: CommandExecutor {
         val player = CommandUtils.requirePlayer(sender) ?: return false
         val playerData = PlayerManager.getPlayerData(player)
 
-        if (!playerData.isUpgraded) {
+        if (!playerData.isUpgraded && Settings.upgradersNeeded) {
             player.sendMessage("§cYou need to upgrade your ghost to use this ability.")
             return false
         }

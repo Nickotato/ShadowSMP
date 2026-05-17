@@ -1,6 +1,7 @@
 package me.nickotato.shadowSMP.commands
 
 import me.nickotato.shadowSMP.enums.Ghost
+import me.nickotato.shadowSMP.manager.AbilityManager
 import me.nickotato.shadowSMP.manager.PlayerManager
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
@@ -37,7 +38,7 @@ class CheckWorking : CommandExecutor {
         val onGround = target.location.block.getRelative(BlockFace.DOWN).type.isSolid
         val wearingElytra = target.inventory.chestplate?.type == Material.ELYTRA
 
-        sender.sendMessage("== Revenant Flight Check ==")
+        sender.sendMessage("== Revenant Check ==")
         sender.sendMessage("Revenant? $isRevenant")
         sender.sendMessage("Ability Ready? $abilityReady")
         sender.sendMessage("Allow Flight? $canNormallyFly")
@@ -45,6 +46,7 @@ class CheckWorking : CommandExecutor {
         sender.sendMessage("In Creative/Spectator? $inCreative")
         sender.sendMessage("On Ground? $onGround")
         sender.sendMessage("Wearing Elytra? $wearingElytra")
+        sender.sendMessage("In Temp No Fall? ${AbilityManager.tempNoFallPlayers.contains(target.uniqueId)}")
 
         val hasDragonEgg = target.inventory.contains(Material.DRAGON_EGG)
         sender.sendMessage("== Dragon Egg Check ==")

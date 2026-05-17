@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 
-class RevenantAbility: Ability(5) {
+class RevenantAbility: Ability(60) {
     override fun execute(player: Player) {
         AbilityManager.tempNoFallPlayers.add(player.uniqueId)
         val world = player.world

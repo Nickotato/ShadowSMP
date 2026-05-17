@@ -101,13 +101,6 @@ object PlayerManager {
 
         updatePlayerNametag(player)
 
-//        val maxHp = player.getAttribute(Attribute.GENERIC_MAX_HEALTH) ?: return
-//        if (data.ghost == Ghost.TIMEKEEPER) {
-//            maxHp.baseValue = 24.0
-//        } else {
-//            maxHp.baseValue = maxHp.defaultValue
-//        }
-
         updatePlayerMaxHP(player)
 
         Bukkit.getPluginManager().callEvent(

@@ -8,6 +8,14 @@ import org.bukkit.inventory.ItemStack
 
 class ConfigGui : Gui(Component.text("ShadowSMP Config"), 27) {
 
+    companion object {
+        private const val SLOT_SOULS_ENABLED = 11
+        private const val SLOT_UPGRADER_NEEDED = 12
+        private const val SLOT_BAN_ON_SOUL_LIMIT = 13
+        private const val SLOT_DISABLE_GHOST = 14
+        private const val SLOT_REVENANT_SLOWNESS = 15
+    }
+
     init {
         reloadGui()
     }
@@ -16,53 +24,21 @@ class ConfigGui : Gui(Component.text("ShadowSMP Config"), 27) {
 
         inventory.clear()
 
-        val soulsMaterial =
-            if (Settings.soulsEnabled) Material.LIME_DYE else Material.RED_DYE
+        makeToggleItem(SLOT_SOULS_ENABLED, Settings.soulsEnabled, "Souls Enabled")
+        makeToggleItem(SLOT_UPGRADER_NEEDED, Settings.upgradersNeeded, "Upgraders Needed")
+        makeToggleItem(SLOT_BAN_ON_SOUL_LIMIT, Settings.banOnSoulLimit, "Ban On Soul Limit")
+        makeToggleItem(SLOT_DISABLE_GHOST, Settings.disableGhostOnSoulLimit,"Disable Ghost On Soul Limit")
+        makeToggleItem(SLOT_REVENANT_SLOWNESS, Settings.revenantCausesSlowness, "Revenant Causes Slowness")
+    }
 
-        val soulsItem = ItemStack(soulsMaterial)
-        val soulsMeta = soulsItem.itemMeta
-        soulsMeta.displayName(
-            Component.text("Souls Enabled: ${Settings.soulsEnabled}")
-        )
-        soulsItem.itemMeta = soulsMeta
+    private fun makeToggleItem(slot: Int, value: Boolean, label: String) {
+        val material = if (value) Material.LIME_DYE else Material.RED_DYE
+        val item = ItemStack(material)
+        val meta = item.itemMeta
+        meta.displayName(Component.text("$label: $value"))
 
-        setItem(10, soulsItem)
-
-        val upgradersMaterial =
-            if (Settings.upgradersNeeded) Material.LIME_DYE else Material.RED_DYE
-
-        val upgradersItem = ItemStack(upgradersMaterial)
-        val upgradersMeta = upgradersItem.itemMeta
-        upgradersMeta.displayName(
-            Component.text("Upgraders Needed: ${Settings.upgradersNeeded}")
-        )
-        upgradersItem.itemMeta = upgradersMeta
-
-        setItem(12, upgradersItem)
-
-        val banMaterial =
-            if (Settings.banOnSoulLimit) Material.LIME_DYE else Material.RED_DYE
-
-        val banItem = ItemStack(banMaterial)
-        val banMeta = banItem.itemMeta
-        banMeta.displayName(
-            Component.text("Ban On Soul Limit: ${Settings.banOnSoulLimit}")
-        )
-        banItem.itemMeta = banMeta
-
-        setItem(14, banItem)
-
-        val ghostMaterial =
-            if (Settings.disableGhostOnSoulLimit) Material.LIME_DYE else Material.RED_DYE
-
-        val ghostItem = ItemStack(ghostMaterial)
-        val ghostMeta = ghostItem.itemMeta
-        ghostMeta.displayName(
-            Component.text("Disable Ghost On Soul Limit: ${Settings.disableGhostOnSoulLimit}")
-        )
-        ghostItem.itemMeta = ghostMeta
-
-        setItem(16, ghostItem)
+        item.itemMeta = meta
+        setItem(slot, item)
     }
 
     override fun onClick(event: InventoryClickEvent) {
@@ -70,23 +46,28 @@ class ConfigGui : Gui(Component.text("ShadowSMP Config"), 27) {
 
         when (event.slot) {
 
-            10 -> {
+            SLOT_SOULS_ENABLED -> {
                 Settings.toggleSoulsEnabled()
                 reloadGui()
             }
 
-            12 -> {
+            SLOT_UPGRADER_NEEDED -> {
                 Settings.toggleUpgradersNeeded()
                 reloadGui()
             }
 
-            14 -> {
+            SLOT_BAN_ON_SOUL_LIMIT -> {
                 Settings.toggleBanOnSoulLimit()
                 reloadGui()
             }
 
-            16 -> {
+            SLOT_DISABLE_GHOST -> {
                 Settings.toggleDisableGhostOnSoulLimit()
+                reloadGui()
+            }
+
+            SLOT_REVENANT_SLOWNESS -> {
+                Settings.toggleRevenantSlowness()
                 reloadGui()
             }
         }
