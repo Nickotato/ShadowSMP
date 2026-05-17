@@ -38,9 +38,9 @@ commands:
   withdraw_upgrader:
     description: "Withdraw your upgrader"
     permission: ""
-  check_revenant:
-    description: "Check if Revenant is working for a player"
-    permission: ShadowSMP.check_revenant
+  check_working:
+    description: "Check if things is working"
+    permission: ShadowSMP.check_working
   restarting_in:
     description: "Sends a message to everyone saying the server is restarting"
     permission: ShadowSMP.restarting_in

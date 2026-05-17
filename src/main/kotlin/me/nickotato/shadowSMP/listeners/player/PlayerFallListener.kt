@@ -8,6 +8,8 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageEvent
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
 
 class PlayerFallListener: Listener {
     @EventHandler
@@ -18,12 +20,19 @@ class PlayerFallListener: Listener {
         if (entity !is Player) return
         val data = PlayerManager.getPlayerData(entity)
 
-        if (data.ghost == Ghost.REVENANT || data.charm == Charm.FEATHER) {
-            event.isCancelled = true
-        }
         if (AbilityManager.tempNoFallPlayers.contains(entity.uniqueId)) {
             event.isCancelled = true
             AbilityManager.tempNoFallPlayers.remove(entity.uniqueId)
+            return
         }
+
+        if (data.ghost == Ghost.REVENANT || data.charm == Charm.FEATHER) {
+            if (data.ghost == Ghost.REVENANT) {
+                entity.addPotionEffect(PotionEffect(PotionEffectType.SLOWNESS, 20*5, 4))
+            }
+            event.isCancelled = true
+            return
+        }
+
     }
 }

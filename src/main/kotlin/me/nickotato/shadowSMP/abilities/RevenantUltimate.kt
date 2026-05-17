@@ -9,7 +9,7 @@ import org.bukkit.util.Vector
 import kotlin.math.cos
 import kotlin.math.sin
 
-class RevenantUltimate : Ability(60) {
+class RevenantUltimate : Ability(240) {
 
     override fun execute(player: Player) {
         val plugin = ShadowSMP.instance

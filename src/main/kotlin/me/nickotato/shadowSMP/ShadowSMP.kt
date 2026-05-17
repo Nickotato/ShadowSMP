@@ -2,7 +2,7 @@ package me.nickotato.shadowSMP
 
 import me.nickotato.shadowSMP.commands.AbilityCommand
 import me.nickotato.shadowSMP.commands.CharmAbilityCommand
-import me.nickotato.shadowSMP.commands.CheckRevenantWorkingCommand
+import me.nickotato.shadowSMP.commands.CheckWorking
 import me.nickotato.shadowSMP.commands.ConfigCommand
 import me.nickotato.shadowSMP.commands.GhostCommand
 import me.nickotato.shadowSMP.commands.GiveCharmsCommand
@@ -20,6 +20,7 @@ import me.nickotato.shadowSMP.listeners.entity.EntityDamage
 import me.nickotato.shadowSMP.listeners.item.ItemBurnListener
 import me.nickotato.shadowSMP.listeners.item.ItemDamageListener
 import me.nickotato.shadowSMP.listeners.player.ConsecutiveHitListener
+import me.nickotato.shadowSMP.listeners.player.EffectListener
 import me.nickotato.shadowSMP.listeners.player.PlayerBreakListener
 import me.nickotato.shadowSMP.listeners.player.PlayerDamageListener
 import me.nickotato.shadowSMP.listeners.player.PlayerDeathListener
@@ -32,7 +33,6 @@ import me.nickotato.shadowSMP.listeners.player.PlayerKnockbackListener
 import me.nickotato.shadowSMP.listeners.player.PlayerPlaceListener
 import me.nickotato.shadowSMP.listeners.player.PlayerRightClickListener
 import me.nickotato.shadowSMP.manager.AbilityManager
-import me.nickotato.shadowSMP.manager.EffectManager
 import me.nickotato.shadowSMP.manager.GuiManager
 import me.nickotato.shadowSMP.manager.ItemManager
 import org.bukkit.plugin.java.JavaPlugin
@@ -65,6 +65,9 @@ class ShadowSMP : JavaPlugin() {
         server.pluginManager.registerEvents(PlayerDropItem(), this)
         server.pluginManager.registerEvents(PlayerPlaceListener(), this)
 
+        server.pluginManager.registerEvents(EffectListener(), this)
+//        server.pluginManager.registerEvents(PlayerDataChangeEvent(), this)
+
         getCommand("ability")?.setExecutor(AbilityCommand())
         getCommand("give_charms")?.setExecutor(GiveCharmsCommand())
         getCommand("withdraw_charm")?.setExecutor(WithdrawCharmCommand())
@@ -76,7 +79,7 @@ class ShadowSMP : JavaPlugin() {
         getCommand("withdraw_soul")?.setExecutor(WithdrawSoulCommand())
         getCommand("charm_ability")?.setExecutor(CharmAbilityCommand())
         getCommand("withdraw_upgrader")?.setExecutor(WithdrawUpgrader())
-        getCommand("check_revenant")?.setExecutor(CheckRevenantWorkingCommand())
+        getCommand("check_working")?.setExecutor(CheckWorking())
         getCommand("restarting_in")?.setExecutor(RestartingInCommand())
         getCommand("ghost")?.setExecutor(GhostCommand())
         getCommand("config")?.setExecutor(ConfigCommand())
@@ -87,7 +90,7 @@ class ShadowSMP : JavaPlugin() {
         ItemManager.register(ItemManager.CustomItemInfo("revive_book", indestructible = true))
         ItemManager.register(ItemManager.CustomItemInfo("spooky_obsidian", indestructible = true))
 
-        EffectManager.startEffectLoop()
+//        EffectManager.startEffectLoop()
 
         AbilityManager.beginTrackingLocations()
         AbilityManager.cooldownNotifier()

@@ -1,6 +1,7 @@
 package me.nickotato.shadowSMP.abilities
 
 import me.nickotato.shadowSMP.ShadowSMP
+import me.nickotato.shadowSMP.manager.AbilityManager
 import org.bukkit.Color
 import org.bukkit.Particle
 import org.bukkit.Sound
@@ -10,6 +11,7 @@ import org.bukkit.util.Vector
 
 class RevenantAbility: Ability(5) {
     override fun execute(player: Player) {
+        AbilityManager.tempNoFallPlayers.add(player.uniqueId)
         val world = player.world
         val loc = player.location
 

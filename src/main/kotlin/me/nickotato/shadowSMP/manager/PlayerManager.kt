@@ -5,6 +5,7 @@ import me.nickotato.shadowSMP.config.Settings
 import me.nickotato.shadowSMP.data.PlayerData
 import me.nickotato.shadowSMP.data.PlayerDataStorage
 import me.nickotato.shadowSMP.enums.Ghost
+import me.nickotato.shadowSMP.events.PlayerDataChangeEvent
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -38,6 +39,7 @@ object PlayerManager {
 
     fun getPlayerData(player: Player): PlayerData {
         return players[player.uniqueId] ?: run {
+            Bukkit.getLogger().severe("[PlayerManager] No data found for ${player.name} (${player.uniqueId}) — creating fresh! This should not happen after join.")
             addNewPlayer(player)
             players[player.uniqueId]!!
         }
@@ -108,6 +110,9 @@ object PlayerManager {
 
         updatePlayerMaxHP(player)
 
+        Bukkit.getPluginManager().callEvent(
+            PlayerDataChangeEvent(player, null, null)
+        )
     }
 
     fun getRandomGhost(player: Player): Ghost {

@@ -11,12 +11,12 @@ import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class CheckRevenantWorkingCommand : CommandExecutor {
+class CheckWorking : CommandExecutor {
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
 
         if (args.isEmpty()) {
-            sender.sendMessage("Usage: /check_revenant <player>")
+            sender.sendMessage("Usage: /check_working <player>")
             return true
         }
 
@@ -45,6 +45,10 @@ class CheckRevenantWorkingCommand : CommandExecutor {
         sender.sendMessage("In Creative/Spectator? $inCreative")
         sender.sendMessage("On Ground? $onGround")
         sender.sendMessage("Wearing Elytra? $wearingElytra")
+
+        val hasDragonEgg = target.inventory.contains(Material.DRAGON_EGG)
+        sender.sendMessage("== Dragon Egg Check ==")
+        sender.sendMessage("Has Dragon Egg? $hasDragonEgg")
 
         return true
     }

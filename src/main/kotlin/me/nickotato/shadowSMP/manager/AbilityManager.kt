@@ -82,8 +82,8 @@ object AbilityManager {
                 for (player in Bukkit.getOnlinePlayers()) {
                     val data = PlayerManager.getPlayerData(player)
                     if (data.ghost != Ghost.REVENANT) {
-                        if (player.gameMode == GameMode.SURVIVAL || player.gameMode == GameMode.ADVENTURE) player.allowFlight = false;
-                        return
+                        if (player.gameMode == GameMode.SURVIVAL || player.gameMode == GameMode.ADVENTURE) player.allowFlight = false
+                        continue
                     }
 
                     if (data.ghost.ability.isOnCooldown(player)) {

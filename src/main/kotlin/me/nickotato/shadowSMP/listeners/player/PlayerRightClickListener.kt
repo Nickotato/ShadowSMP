@@ -4,10 +4,12 @@ import me.nickotato.shadowSMP.abilities.mace.MaceAbility
 import me.nickotato.shadowSMP.abilities.mace.MaceAbility2
 import me.nickotato.shadowSMP.data.PlayerData
 import me.nickotato.shadowSMP.enums.Charm
+import me.nickotato.shadowSMP.events.PlayerDataChangeEvent
 import me.nickotato.shadowSMP.gui.ReviveBookGui
 import me.nickotato.shadowSMP.manager.GuiManager
 import me.nickotato.shadowSMP.manager.PlayerManager
 import me.nickotato.shadowSMP.utils.ItemUtils
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.Player
@@ -102,6 +104,9 @@ class PlayerRightClickListener: Listener {
     private fun equipCharm(player: Player, playerData: PlayerData, charm: Charm) {
         playerData.charm = charm
         player.sendMessage("§aYou equipped ${charm.displayName}")
+        Bukkit.getPluginManager().callEvent(
+            PlayerDataChangeEvent(player, null, null)
+        )
         consumeOne(player)
     }
 
