@@ -1,6 +1,7 @@
-package me.nickotato.shadowSMP.abilities
+package me.nickotato.shadowSMP.abilities.oni
 
 import me.nickotato.shadowSMP.ShadowSMP
+import me.nickotato.shadowSMP.abilities.Ability
 import org.bukkit.Color
 import org.bukkit.Particle
 import org.bukkit.entity.EntityType

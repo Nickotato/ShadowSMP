@@ -1,6 +1,7 @@
-package me.nickotato.shadowSMP.abilities
+package me.nickotato.shadowSMP.abilities.spirit
 
 import me.nickotato.shadowSMP.ShadowSMP
+import me.nickotato.shadowSMP.abilities.Ability
 import org.bukkit.GameMode
 import org.bukkit.Particle
 import org.bukkit.entity.Player

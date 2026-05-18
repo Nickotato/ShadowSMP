@@ -1,6 +1,7 @@
-package me.nickotato.shadowSMP.abilities
+package me.nickotato.shadowSMP.abilities.revenant
 
 import me.nickotato.shadowSMP.ShadowSMP
+import me.nickotato.shadowSMP.abilities.Ability
 import me.nickotato.shadowSMP.manager.AbilityManager
 import org.bukkit.Color
 import org.bukkit.Particle

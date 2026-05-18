@@ -1,5 +1,6 @@
-package me.nickotato.shadowSMP.abilities
+package me.nickotato.shadowSMP.abilities.arachnid
 
+import me.nickotato.shadowSMP.abilities.Ability
 import org.bukkit.Color
 import org.bukkit.Material
 import org.bukkit.Particle

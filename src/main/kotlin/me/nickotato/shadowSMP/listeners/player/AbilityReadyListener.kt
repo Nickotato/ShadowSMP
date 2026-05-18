@@ -1,6 +1,6 @@
 package me.nickotato.shadowSMP.listeners.player
 
-import me.nickotato.shadowSMP.abilities.RevenantAbility
+import me.nickotato.shadowSMP.abilities.revenant.RevenantAbility
 import me.nickotato.shadowSMP.enums.AbilityType
 import me.nickotato.shadowSMP.events.AbilityReadyEvent
 import net.kyori.adventure.text.Component
@@ -32,6 +32,8 @@ class AbilityReadyListener: Listener {
         }
 
         player.sendActionBar(Component.text("§a$message"))
+//        player.sendMessage(Component.text("§6[ShadowSMP] §a$message"))
+        player.sendMessage(Component.text("§a$message"))
         player.playSound(player.location, org.bukkit.Sound.BLOCK_BEACON_POWER_SELECT, 1f, 1f)
     }
 }

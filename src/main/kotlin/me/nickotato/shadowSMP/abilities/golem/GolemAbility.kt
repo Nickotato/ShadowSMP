@@ -1,6 +1,7 @@
-package me.nickotato.shadowSMP.abilities
+package me.nickotato.shadowSMP.abilities.golem
 
 import me.nickotato.shadowSMP.ShadowSMP
+import me.nickotato.shadowSMP.abilities.Ability
 import org.bukkit.Particle
 import org.bukkit.Sound
 import org.bukkit.entity.Player

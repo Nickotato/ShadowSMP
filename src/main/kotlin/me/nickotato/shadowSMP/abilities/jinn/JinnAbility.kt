@@ -1,7 +1,9 @@
-package me.nickotato.shadowSMP.abilities
+package me.nickotato.shadowSMP.abilities.jinn
 
+import me.nickotato.shadowSMP.abilities.Ability
 import org.bukkit.Color
 import org.bukkit.Particle
+import org.bukkit.entity.Item
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
@@ -10,7 +12,7 @@ class JinnAbility(): Ability(90) {
 
     override fun execute(player: Player) {
         val entities = player.getNearbyEntities(10.0, 10.0, 10.0).filter {
-            it != player && it !is org.bukkit.entity.Item && it is LivingEntity
+            it != player && it !is Item && it is LivingEntity
         }.map { it as LivingEntity }
 
         if (entities.isEmpty()) return

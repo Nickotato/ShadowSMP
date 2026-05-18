@@ -79,7 +79,6 @@ abstract class Ability(val cooldown: Int) {
 
             val storedEnd = cooldownEnd[player.uniqueId] ?: return@Runnable
 
-            // only fire if this is still the same cooldown instance
             if (storedEnd == endTime) {
                 Bukkit.getPluginManager().callEvent(
                     AbilityReadyEvent(player, this, type)

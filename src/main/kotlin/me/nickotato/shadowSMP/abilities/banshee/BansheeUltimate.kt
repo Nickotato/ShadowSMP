@@ -1,5 +1,6 @@
-package me.nickotato.shadowSMP.abilities
+package me.nickotato.shadowSMP.abilities.banshee
 
+import me.nickotato.shadowSMP.abilities.Ability
 import org.bukkit.Color
 import org.bukkit.Particle
 import org.bukkit.Sound

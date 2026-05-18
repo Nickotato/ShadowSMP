@@ -1,6 +1,7 @@
-package me.nickotato.shadowSMP.abilities
+package me.nickotato.shadowSMP.abilities.arachnid
 
 import me.nickotato.shadowSMP.ShadowSMP
+import me.nickotato.shadowSMP.abilities.Ability
 import org.bukkit.*
 import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
