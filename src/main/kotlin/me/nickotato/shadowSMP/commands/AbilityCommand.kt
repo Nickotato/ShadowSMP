@@ -2,6 +2,7 @@ package me.nickotato.shadowSMP.commands
 
 import me.nickotato.shadowSMP.config.Settings
 import me.nickotato.shadowSMP.data.PlayerData
+import me.nickotato.shadowSMP.enums.AbilityType
 import me.nickotato.shadowSMP.enums.Ghost
 import me.nickotato.shadowSMP.manager.PlayerManager
 import org.bukkit.command.Command
@@ -32,7 +33,7 @@ class AbilityCommand: CommandExecutor {
 //            return true
         }
 
-        ghost.ability.activate(sender)
+        ghost.ability.activate(sender, AbilityType.NORMAL)
 
         return true
     }

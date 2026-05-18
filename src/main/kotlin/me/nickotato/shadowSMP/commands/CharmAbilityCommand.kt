@@ -1,5 +1,6 @@
 package me.nickotato.shadowSMP.commands
 
+import me.nickotato.shadowSMP.enums.AbilityType
 import me.nickotato.shadowSMP.manager.PlayerManager
 import me.nickotato.shadowSMP.utils.CommandUtils
 import net.kyori.adventure.text.Component
@@ -21,7 +22,7 @@ class CharmAbilityCommand: CommandExecutor {
             return true
         }
 
-        charm.ability.activate(player)
+        charm.ability.activate(player, AbilityType.CHARM)
 
         return true
     }

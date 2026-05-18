@@ -36,7 +36,7 @@ class PlayerJoinListener: Listener {
 
         }
 
-//        player.allowFlight = playerData.ghost == Ghost.REVENANT || player.gameMode == GameMode.CREATIVE || player.gameMode == GameMode.SPECTATOR
+        player.allowFlight = playerData.ghost == Ghost.REVENANT || player.gameMode == GameMode.CREATIVE || player.gameMode == GameMode.SPECTATOR
     }
 
     @EventHandler

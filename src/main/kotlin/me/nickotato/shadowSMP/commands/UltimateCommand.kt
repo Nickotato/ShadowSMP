@@ -1,6 +1,7 @@
 package me.nickotato.shadowSMP.commands
 
 import me.nickotato.shadowSMP.config.Settings
+import me.nickotato.shadowSMP.enums.AbilityType
 import me.nickotato.shadowSMP.manager.PlayerManager
 import me.nickotato.shadowSMP.utils.CommandUtils
 import org.bukkit.command.Command
@@ -24,7 +25,7 @@ class UltimateCommand: CommandExecutor {
             return true
         }
 
-        playerData.ghost.ultimate.activate(player)
+        playerData.ghost.ultimate.activate(player, AbilityType.ULTIMATE)
 
         return true
     }

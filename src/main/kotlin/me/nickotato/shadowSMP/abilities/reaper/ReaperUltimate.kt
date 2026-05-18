@@ -6,7 +6,7 @@ import me.nickotato.shadowSMP.manager.AbilityManager
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 
-class ReaperUltimate: Ability(120) {
+class ReaperUltimate: Ability(240) {
     override fun execute(player: Player) {
         AbilityManager.trueDamagePlayers.add(player.uniqueId)
         player.sendMessage("§4§oYour next hit against a player will deal true damage... §7unless you wait 10 seconds")

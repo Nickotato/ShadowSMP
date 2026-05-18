@@ -35,11 +35,11 @@ class ShadowSMP : JavaPlugin() {
         server.pluginManager.registerEvents(PlayerJumpListener(), this)
         server.pluginManager.registerEvents(PlayerKnockbackListener(), this)
         server.pluginManager.registerEvents(EntityDamage(), this)
-        server.pluginManager.registerEvents(PlayerDropItem(), this)
         server.pluginManager.registerEvents(PlayerPlaceListener(), this)
 
         server.pluginManager.registerEvents(EffectListener(), this)
         server.pluginManager.registerEvents(PlayerDataChangeListener(), this)
+        server.pluginManager.registerEvents(AbilityReadyListener(), this)
 
         getCommand("ability")?.setExecutor(AbilityCommand())
         getCommand("give_charms")?.setExecutor(GiveCharmsCommand())
@@ -61,13 +61,8 @@ class ShadowSMP : JavaPlugin() {
         ItemManager.register(ItemManager.CustomItemInfo("haunted_dice", indestructible = true))
         ItemManager.register(ItemManager.CustomItemInfo("soul", indestructible = true))
         ItemManager.register(ItemManager.CustomItemInfo("revive_book", indestructible = true))
-        ItemManager.register(ItemManager.CustomItemInfo("spooky_obsidian", indestructible = true))
-
-//        EffectManager.startEffectLoop()
 
         AbilityManager.beginTrackingLocations()
-        AbilityManager.cooldownNotifier()
-        AbilityManager.beginRevenantFlightCheck()
 
         ItemManager.startItemChecks()
     }

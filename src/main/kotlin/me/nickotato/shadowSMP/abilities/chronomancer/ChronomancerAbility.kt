@@ -25,16 +25,12 @@ class ChronomancerAbility: Ability(80) {
         val start = player.location
         val target = deque.last()
 
-        // Starting sound and particles
         playStartEffects(start)
 
-        // Teleport the player
         player.teleport(target)
 
-        // Ending sound and particles
         playEndEffects(target)
 
-        // Particle trail from start to end
         spawnTrail(start, target)
     }
 

@@ -12,26 +12,23 @@ import org.bukkit.scheduler.BukkitRunnable
 class HermesBootsAbility : Ability(60) {
 
     override fun execute(player: Player) {
-        // Give Speed 5 for 30 seconds (20 ticks = 1 second)
-        player.addPotionEffect(PotionEffect(PotionEffectType.SPEED, 30 * 20, 4)) // amplifier is 0-indexed, so 4 = Speed V
-
-        // Schedule a repeating task to create a particle trail
+        player.addPotionEffect(PotionEffect(PotionEffectType.SPEED, 5 * 20, 4))
         val taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(
-            ShadowSMP.instance,  // Replace with your plugin instance
+            ShadowSMP.instance,
             {
                 if (!player.isOnline) return@scheduleSyncRepeatingTask
 
                 // Particle trail at player's location
                 player.world.spawnParticle(
                     Particle.CLOUD,
-                    player.location.add(0.0, 1.0, 0.0), // slightly above ground
+                    player.location.add(0.0, 1.0, 0.0),
                     5, // number of particles
-                    0.2, 0.2, 0.2, // offset for randomness
+                    0.2, 0.2, 0.2,
                     0.0 // speed
                 )
             },
-            0L, // delay before first run
-            2L  // repeat every 2 ticks (~0.1 seconds)
+            0L,
+            2L
         )
 
         object : BukkitRunnable() {

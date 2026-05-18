@@ -3,13 +3,12 @@ package me.nickotato.shadowSMP.listeners.player
 import me.nickotato.shadowSMP.abilities.mace.MaceAbility
 import me.nickotato.shadowSMP.abilities.mace.MaceAbility2
 import me.nickotato.shadowSMP.data.PlayerData
+import me.nickotato.shadowSMP.enums.AbilityType
 import me.nickotato.shadowSMP.enums.Charm
-import me.nickotato.shadowSMP.events.PlayerDataChangeEvent
 import me.nickotato.shadowSMP.gui.ReviveBookGui
 import me.nickotato.shadowSMP.manager.GuiManager
 import me.nickotato.shadowSMP.manager.PlayerManager
 import me.nickotato.shadowSMP.utils.ItemUtils
-import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.Player
@@ -32,7 +31,9 @@ class PlayerRightClickListener: Listener {
         Charm.entries.forEach { charm ->
             if (item.isSimilar(charm.item)) {
                 if (hasCharm(player, playerData)) return
-                equipCharm(player, playerData, charm)
+                player.sendMessage("§aYou equipped ${charm.displayName}")
+                PlayerManager.equipCharm(player, charm)
+                consumeOne(player)
                 event.isCancelled = true
                 return
             }
@@ -44,7 +45,7 @@ class PlayerRightClickListener: Listener {
                     player.sendMessage("§cAlready Upgraded")
                     return
                 }
-                playerData.isUpgraded = true
+                PlayerManager.setUpgraded(player, true)
                 player.sendMessage("§aUpgraded your ghost")
                 consumeOne(player)
                 event.isCancelled = true
@@ -84,10 +85,10 @@ class PlayerRightClickListener: Listener {
 
         if (item.type == Material.MACE) {
             if (player.isSneaking) {
-                MaceAbility2.activate(player)
+                MaceAbility2.activate(player, AbilityType.ITEM)
               return
             }
-            MaceAbility.activate(player)
+            MaceAbility.activate(player, AbilityType.ITEM)
             return
         }
     }
@@ -101,16 +102,6 @@ class PlayerRightClickListener: Listener {
         }
     }
 
-    private fun equipCharm(player: Player, playerData: PlayerData, charm: Charm) {
-        val oldData = playerData.copy()
-        playerData.charm = charm
-        player.sendMessage("§aYou equipped ${charm.displayName}")
-        Bukkit.getPluginManager().callEvent(
-            PlayerDataChangeEvent(player, oldData, playerData)
-        )
-        consumeOne(player)
-        // THIS SHOULD BE IN PLAYER MANAGER MOST LIKELY
-    }
 
     private fun consumeOne(player: Player) {
         val itemInHand = player.inventory.itemInMainHand

@@ -12,6 +12,7 @@ import org.bukkit.util.Vector
 class RevenantAbility: Ability(10) {
     override fun execute(player: Player) {
         AbilityManager.tempNoFallPlayers.add(player.uniqueId)
+        player.allowFlight = false
         val world = player.world
         val loc = player.location
 

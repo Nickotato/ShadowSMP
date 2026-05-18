@@ -62,17 +62,14 @@ class PlayerFallListener: Listener {
         val isOnGround = playerAsEntity.isOnGround
         val fallDistance = player.fallDistance
 
-        println("[FALL-DEBUG] wasOnGround=$wasOnGround isOnGround=$isOnGround fallDistance=$fallDistance")
 
         // update tracking FIRST
         lastOnGround[uuid] = isOnGround
 
         // landing detection
         if (!wasOnGround && isOnGround) {
-            println("[FALL-DEBUG] LANDING DETECTED")
 
             if (fallDistance >= 6.0f) {
-                println("[FALL-DEBUG] Triggering fake FALL event")
 
                 val fallEvent = EntityDamageEvent(
                     player,
@@ -82,8 +79,6 @@ class PlayerFallListener: Listener {
                 )
 
                 Bukkit.getPluginManager().callEvent(fallEvent)
-            } else {
-                println("[FALL-DEBUG] Fall too small: $fallDistance")
             }
         }
     }

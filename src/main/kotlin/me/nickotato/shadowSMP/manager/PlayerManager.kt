@@ -4,6 +4,7 @@ import io.papermc.paper.ban.BanListType
 import me.nickotato.shadowSMP.config.Settings
 import me.nickotato.shadowSMP.data.PlayerData
 import me.nickotato.shadowSMP.data.PlayerDataStorage
+import me.nickotato.shadowSMP.enums.Charm
 import me.nickotato.shadowSMP.enums.Ghost
 import me.nickotato.shadowSMP.events.PlayerDataChangeEvent
 import net.kyori.adventure.text.Component
@@ -39,20 +40,28 @@ object PlayerManager {
 
     fun getPlayerData(player: Player): PlayerData {
         return players[player.uniqueId] ?: run {
-            Bukkit.getLogger().severe("[PlayerManager] No data found for ${player.name} (${player.uniqueId}) — creating fresh! This should not happen after join.")
+//            Bukkit.getLogger().severe("[PlayerManager] No data found for ${player.name} (${player.uniqueId}) — creating fresh! This should not happen after join.")
             addNewPlayer(player)
             players[player.uniqueId]!!
         }
     }
 
     fun changePlayerSouls(player: Player, amount: Int) {
+        val oldData = getPlayerData(player).copy()
         val playerData = getPlayerData(player)
+
         if (playerData.souls + amount > 5) return
         else if (playerData.souls + amount < -5 && Settings.banOnSoulLimit) {
             banPlayer(player, "ran out of souls")
             return
         }
         playerData.souls += amount
+
+        val newData = playerData.copy()
+
+        Bukkit.getPluginManager().callEvent(
+            PlayerDataChangeEvent(player, oldData, newData)
+        )
     }
 
     fun banPlayer(player: Player, reason: String) {
@@ -107,7 +116,6 @@ object PlayerManager {
             PlayerDataChangeEvent(player, oldData, newData)
         )
     }
-
     fun getRandomGhost(player: Player): Ghost {
         val currentData = players[player.uniqueId] // get existing data if present, don't create new one
         val excludedGhosts = mutableSetOf<Ghost>()
@@ -126,7 +134,6 @@ object PlayerManager {
 
         return availableGhosts.random()
     }
-
     fun changeToRandomGhost(player: Player) {
         changeGhost(player, getRandomGhost(player))
     }
@@ -174,5 +181,29 @@ object PlayerManager {
         }
 
         maxHpAttr.baseValue = newMaxHp
+    }
+    fun equipCharm(player: Player, charm: Charm?) {
+        val oldData = getPlayerData(player).copy()
+
+        val data = getPlayerData(player)
+        data.charm = charm
+
+        val newData = data.copy()
+
+        Bukkit.getPluginManager().callEvent(
+            PlayerDataChangeEvent(player, oldData, newData)
+        )
+    }
+
+    fun setUpgraded(player: Player, value: Boolean) {
+        val oldData = getPlayerData(player).copy()
+        val data = getPlayerData(player)
+        data.isUpgraded = value
+        val newData = data.copy()
+
+        Bukkit.getPluginManager().callEvent(
+            PlayerDataChangeEvent(player, oldData, newData)
+        )
+
     }
 }

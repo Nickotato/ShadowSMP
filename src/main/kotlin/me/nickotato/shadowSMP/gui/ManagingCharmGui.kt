@@ -9,11 +9,6 @@ import org.bukkit.event.inventory.InventoryClickEvent
 class ManagingCharmGui(val target: Player): Gui(Component.text("Setting charm of ${target.name}"), 27){
     init {
         for ((index, charm) in Charm.entries.withIndex()) {
-//            val item = ItemStack(Material.ENCHANTED_BOOK, 1)
-//            val meta = item.itemMeta
-//            meta.displayName(Component.text("§d${charm.name}"))
-//            item.itemMeta = meta
-
             setItem(index, charm.item)
         }
     }
@@ -22,15 +17,12 @@ class ManagingCharmGui(val target: Player): Gui(Component.text("Setting charm of
         event.isCancelled = true
 
         val slot = event.slot
-        if (slot < 0 || slot >= Charm.entries.size) return  // safety check
+        if (slot < 0 || slot >= Charm.entries.size) return
 
-        val selectedCharm = Charm.entries[slot]  // Get the ghost by the slot index
+        val selectedCharm = Charm.entries[slot]
         val player = event.whoClicked as Player
 
-        // Now you can set the ghost to the player
-        // e.g., PlayerManager.setGhost(player, selectedGhost)
-        val targetData = PlayerManager.getPlayerData(target)
-        targetData.charm = selectedCharm
+        PlayerManager.equipCharm(player, selectedCharm)
         player.sendMessage(Component.text("Changed ${target.name}'s charm to: ${selectedCharm.name}"))
     }
 }

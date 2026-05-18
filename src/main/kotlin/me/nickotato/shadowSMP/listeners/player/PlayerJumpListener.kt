@@ -5,6 +5,7 @@ import me.nickotato.shadowSMP.enums.Ghost
 import me.nickotato.shadowSMP.manager.PlayerManager
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.config.Settings
+import me.nickotato.shadowSMP.enums.AbilityType
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.event.EventHandler
@@ -35,6 +36,6 @@ class PlayerJumpListener : Listener {
             player.isFlying = false
         }, 2L)
 
-        data.ghost.ability.activate(player)
+        data.ghost.ability.activate(player, AbilityType.NORMAL)
     }
 }

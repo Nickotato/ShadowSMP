@@ -28,7 +28,7 @@ class WithdrawCharmCommand: CommandExecutor {
         }
 
         player.inventory.addItem(charm.item)
-        playerData.charm = null
+        PlayerManager.equipCharm(player, null)
 
         return true
     }

@@ -16,7 +16,7 @@ class WithdrawUpgrader: CommandExecutor {
             return true
         }
 
-        data.isUpgraded = false
+        PlayerManager.setUpgraded(player, false)
         player.inventory.addItem(Upgrader.create())
         player.sendMessage("§dWithdrew upgrader")
 

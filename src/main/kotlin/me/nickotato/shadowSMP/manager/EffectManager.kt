@@ -1,6 +1,6 @@
 package me.nickotato.shadowSMP.manager
 
-import me.nickotato.shadowSMP.ShadowSMP
+import me.nickotato.shadowSMP.data.PlayerData
 import me.nickotato.shadowSMP.enums.Charm
 import me.nickotato.shadowSMP.enums.Ghost
 import net.kyori.adventure.text.format.NamedTextColor
@@ -8,77 +8,21 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
-import org.bukkit.scheduler.BukkitRunnable
-import org.bukkit.scheduler.BukkitTask
+import org.bukkit.scoreboard.Scoreboard
 import org.bukkit.scoreboard.Team
 
 object EffectManager {
-
-    private var task: BukkitTask? = null
-    private const val LOOP_INTERVAL = 20L * 2   // every 2 seconds
-
-    private data class EffectData(
+    data class EffectData(
         val type: PotionEffectType,
         val amplifier: Int
     )
 
-    fun startEffectLoop() {
-        stopEffectLoop()
-
-        task = object : BukkitRunnable() {
-            override fun run() {
-
-                try {
-
-                    for (player in Bukkit.getOnlinePlayers()) {
-
-                        try {
-                            updateGlow(player)
-
-                        } catch (t: Throwable) {
-                            Bukkit.getLogger().severe(
-                                "[EffectManager] Failed updating ${player.name}"
-                            )
-                            t.printStackTrace()
-                        }
-                    }
-
-                } catch (t: Throwable) {
-
-                    Bukkit.getLogger().severe(
-                        "[EffectManager] EFFECT LOOP CRASHED — restarting"
-                    )
-
-                    t.printStackTrace()
-
-                    cancel()
-
-                    Bukkit.getScheduler().runTaskLater(
-                        ShadowSMP.instance,
-                        Runnable {
-                            startEffectLoop()
-                        },
-                        20L
-                    )
-                }
-            }
-        }.runTaskTimer(
-            ShadowSMP.instance,
-            0L,
-            LOOP_INTERVAL
-        )
-    }
-
-    fun stopEffectLoop() {
-        task?.cancel()
-        task = null
-    }
-
-
-    private fun getDesiredEffects(player: Player): List<EffectData> {
-
+    fun getDesiredEffects(player: Player): List<EffectData> {
         val data = PlayerManager.getPlayerData(player)
+        return getDesiredEffects(data)
+    }
 
+    fun getDesiredEffects(data: PlayerData): List<EffectData> {
         val effects = mutableListOf<EffectData>()
 
         when (data.ghost) {
@@ -109,66 +53,41 @@ object EffectManager {
                 )
             }
 
+            Ghost.REAPER -> {
+                effects.add(
+                    EffectData(
+                        PotionEffectType.GLOWING,
+                        0
+                    )
+                )
+            }
+
+            Ghost.GOD -> {
+                effects.add(
+                    EffectData(PotionEffectType.GLOWING, 0)
+                )
+            }
+
             else -> {}
         }
 
-        if (data.charm == Charm.ARES_BRACELET) {
-            effects.add(
-                EffectData(
-                    PotionEffectType.STRENGTH,
-                    0
+        when (data.charm) {
+            Charm.ARES_BRACELET -> {
+                effects.add(
+                    EffectData(
+                        PotionEffectType.STRENGTH,
+                        0
+                    )
                 )
-            )
+            }
+            else -> {}
         }
 
         return effects
     }
 
-
-    private fun updateGlow(player: Player) {
-
-        val board = Bukkit.getScoreboardManager()?.mainScoreboard ?: return
-        val data = PlayerManager.getPlayerData(player)
-
-        val glowInfo = when (data.ghost) {
-            Ghost.REAPER -> Pair("glow_reaper", NamedTextColor.BLACK)
-            Ghost.GOD -> Pair("glow_god", NamedTextColor.GOLD)
-            else -> null
-        }
-
-        try {
-
-            removeFromGlowTeams(board, player)
-
-            if (glowInfo == null) {
-                player.isGlowing = false
-                return
-            }
-
-            val (teamName, color) = glowInfo
-
-            val team = getOrCreateTeam(board, teamName, color) ?: run {
-                player.isGlowing = false
-                return
-            }
-
-            if (!team.hasEntry(player.name)) {
-                team.addEntry(player.name)
-            }
-
-            player.isGlowing = true
-
-        } catch (e: Exception) {
-
-            Bukkit.getLogger().warning("[EffectManager] Glow update failed for ${player.name}")
-            e.printStackTrace()
-
-            player.isGlowing = false
-        }
-    }
-
     private fun removeFromGlowTeams(
-        board: org.bukkit.scoreboard.Scoreboard,
+        board: Scoreboard,
         player: Player
     ) {
 
@@ -177,7 +96,7 @@ object EffectManager {
     }
 
     private fun getOrCreateTeam(
-        board: org.bukkit.scoreboard.Scoreboard,
+        board: Scoreboard,
         teamName: String,
         color: NamedTextColor
     ): Team? {
@@ -201,10 +120,34 @@ object EffectManager {
         }
     }
 
+
+    private fun addPlayerToGlowTeam(player: Player) {
+        val board = Bukkit.getScoreboardManager().mainScoreboard
+        val data = PlayerManager.getPlayerData(player)
+
+        val glowInfo = when (data.ghost) {
+            Ghost.REAPER -> Pair("glow_reaper", NamedTextColor.BLACK)
+            Ghost.GOD -> Pair("glow_god", NamedTextColor.GOLD)
+            else -> null
+        }
+
+        if (glowInfo == null) {
+            removeFromGlowTeams(board, player)
+            return
+        }
+
+        val (teamName, color) = glowInfo
+        val team = getOrCreateTeam(board, teamName, color) ?: return
+
+        if (!team.hasEntry(player.name)) {
+            team.addEntry(player.name)
+        }
+    }
     fun applyPassiveEffects(player: Player) {
 
-        val effects = getDesiredEffects(player)
+        addPlayerToGlowTeam(player)
 
+        val effects = getDesiredEffects(player)
 
         for (effect in effects) {
             player.addPotionEffect(
@@ -219,4 +162,5 @@ object EffectManager {
             )
         }
     }
+
 }
