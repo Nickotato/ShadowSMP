@@ -39,7 +39,7 @@ class ConsecutiveHitListener : Listener {
                 }
             }
             Ghost.SPIRIT -> {
-                if (hits >= 20) {
+                if (hits >= 10) {
                     entity.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, 100, 0))
                     entityHits[entityId] = 0
                 }

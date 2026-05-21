@@ -3,6 +3,7 @@ package me.nickotato.shadowSMP.listeners.player
 import me.nickotato.shadowSMP.data.PlayerData
 import me.nickotato.shadowSMP.enums.Ghost
 import me.nickotato.shadowSMP.events.PlayerDataChangeEvent
+import me.nickotato.shadowSMP.manager.AbilityManager
 import me.nickotato.shadowSMP.manager.EffectManager
 import me.nickotato.shadowSMP.manager.PlayerManager
 import org.bukkit.GameMode
@@ -18,6 +19,9 @@ class PlayerDataChangeListener: Listener {
 
         PlayerManager.updatePlayerNametag(player)
         PlayerManager.updatePlayerMaxHP(player)
+
+        AbilityManager.sprigganUltimatePlayers.remove(player.uniqueId)
+        AbilityManager.sprigganAbilityPlayers.remove(player.uniqueId)
 
         player.allowFlight = newData.ghost == Ghost.REVENANT || player.gameMode == GameMode.CREATIVE || player.gameMode == GameMode.SPECTATOR
 

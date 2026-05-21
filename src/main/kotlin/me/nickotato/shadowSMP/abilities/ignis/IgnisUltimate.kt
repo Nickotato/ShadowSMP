@@ -40,14 +40,17 @@ class IgnisUltimate : Ability(60) {
 
                 val nearby = player.getNearbyEntities(baseRadius + 2, height.toDouble(), baseRadius + 2)
                 for (entity in nearby) {
-                    if (entity is LivingEntity && entity != player) {
+//                    if (entity is LivingEntity && entity != player) { Old, didn't work with entities like boats.
+                    if (entity == player) continue
                         val center = playerLoc.clone().add(0.0, height / 2.0, 0.0)
                         val direction = center.toVector().subtract(entity.location.toVector()).normalize().multiply(pullStrength)
-                        entity.velocity = direction.add(Vector(0.0, 0.1, 0.0))
+//                        entity.velocity = direction.add(Vector(0.0, 0.1, 0.0))
+                    entity.velocity = entity.velocity.add(
+                        direction.add(Vector(0.0, 0.03, 0.0))
+                    )
 
                         entity.fireTicks = 40
-                        entity.damage(damagePerTick, player)
-                    }
+                    if (entity is LivingEntity) entity.damage(damagePerTick, player)
                 }
 
                 if (ticks >= durationTicks) cancel()

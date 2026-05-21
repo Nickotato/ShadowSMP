@@ -26,12 +26,10 @@ class ChronomancerUltimate : Ability(120) { // 5 min cooldown
         val center = player.location
         val radius = 5.0
         val hits = 3
-        val delayBetweenHits = 5L // ticks (0.25 sec per echo)
+        val delayBetweenHits = 5L
 
-        // Get weapon in main hand
         val weapon = player.inventory.itemInMainHand
 
-        // Calculate base weapon damage based on type
         val weaponDamage = when (weapon.type) {
             Material.WOODEN_SWORD -> 4.0
             Material.STONE_SWORD -> 5.0
@@ -46,19 +44,15 @@ class ChronomancerUltimate : Ability(120) { // 5 min cooldown
             else -> player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue ?: 1.0
         }
 
-        // Add Sharpness bonus
         val sharpnessLevel = weapon.getEnchantmentLevel(Enchantment.SHARPNESS)
-        val totalDamage = weaponDamage + sharpnessLevel * 1.25
+        val totalDamage = weaponDamage + sharpnessLevel * 4
 
-        // Show AoE pulse for players
         spawnAoEPulse(center, radius, 3.0, 40)
 
-        // Start initial visual effects
         spawnSpiral(center, Particle.SOUL_FIRE_FLAME, 2.0, 2.0, 25)
         spawnSpiral(center, Particle.END_ROD, 2.0, 2.0, 25)
         world.playSound(center, Sound.ENTITY_ILLUSIONER_CAST_SPELL, 1.5f, 1.0f)
 
-        // Schedule repeated hits
         object : BukkitRunnable() {
             var count = 0
             override fun run() {

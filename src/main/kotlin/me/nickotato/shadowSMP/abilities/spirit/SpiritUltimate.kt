@@ -17,7 +17,7 @@ class SpiritUltimate: Ability(90) {
             override fun run() {
                 player.gameMode = originalGm
             }
-        }.runTaskLater(ShadowSMP.instance, 10 * 20)
+        }.runTaskLater(ShadowSMP.instance, 20 * 20)
 
         object : BukkitRunnable(){
             override fun run() {

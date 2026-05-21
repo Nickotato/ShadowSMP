@@ -11,6 +11,8 @@ object AbilityManager {
     val trueDamagePlayers = mutableSetOf<UUID>()
     val locationHistory = mutableMapOf<UUID, ArrayDeque<Location>>()
     val tempNoFallPlayers = mutableSetOf<UUID>()
+    val sprigganAbilityPlayers = mutableSetOf<UUID>()
+    val sprigganUltimatePlayers = mutableSetOf<UUID>()
 
 
     fun beginTrackingLocations() {

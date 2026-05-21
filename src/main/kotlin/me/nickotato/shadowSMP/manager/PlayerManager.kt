@@ -123,6 +123,7 @@ object PlayerManager {
         excludedGhosts.add(Ghost.JINN)
         excludedGhosts.add(Ghost.ONI)
         excludedGhosts.add(Ghost.GOD)
+        excludedGhosts.add(Ghost.SPRIGGAN) // remove later
 
 
         val availableGhosts = Ghost.entries.filterNot { it in excludedGhosts }
@@ -171,6 +172,7 @@ object PlayerManager {
 
         newMaxHp += when (data.ghost) {
             Ghost.TIMEKEEPER -> 4.0
+            Ghost.GOLEM -> 2.0
             else -> 0.0
         }
 

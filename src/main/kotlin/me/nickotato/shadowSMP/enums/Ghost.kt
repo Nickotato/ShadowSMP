@@ -27,6 +27,8 @@ import me.nickotato.shadowSMP.abilities.ignis.IgnisAbility
 import me.nickotato.shadowSMP.abilities.ignis.IgnisUltimate
 import me.nickotato.shadowSMP.abilities.reaper.ReaperAbility
 import me.nickotato.shadowSMP.abilities.reaper.ReaperUltimate
+import me.nickotato.shadowSMP.abilities.spriggan.SprigganAbility
+import me.nickotato.shadowSMP.abilities.spriggan.SprigganUltimate
 import me.nickotato.shadowSMP.abilities.titan.TitanAbility
 import me.nickotato.shadowSMP.abilities.titan.TitanUltimate
 
@@ -45,6 +47,8 @@ enum class Ghost(val ability: Ability, val ultimate: Ability) {
     CHRONOMANCER(ChronomancerAbility(), ChronomancerUltimate()),
     GOD(GodAbility(), GodUltimate()),
     DEOGEN(DeogenAbility(), DeogenUltimate()),
+
+    SPRIGGAN(SprigganAbility(), SprigganUltimate()),
 }
 // NEED TO CHECK FOR PLAYERS LEAVING THE GAME WITH SPECIAL EFFECTS / ABILITIES. Like Spectator or Invincibility.
 
@@ -52,13 +56,6 @@ enum class Ghost(val ability: Ability, val ultimate: Ability) {
 //    Passive: Immune to poison and wither
 //    Ability: Spread corruption that deals wither 1 to enemies standing on it for 10 seconds
 //    Ultimate: Infect all players in a 15-block radius with wither 3 and blindness 5 for 5 seconds
-
-
-
-//Templar
-//Passive: Permanent regeneration 1
-//Ability: Creates a holy zone (5-block radius) that heals allies for 5 seconds
-//Ultimate: Grants all nearby allies absorption 4 and resistance 2 for 10 seconds
 
 //WRAITH
 //Passive:

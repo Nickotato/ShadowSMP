@@ -3,6 +3,7 @@ package me.nickotato.shadowSMP
 import me.nickotato.shadowSMP.commands.*
 import me.nickotato.shadowSMP.data.PlayerDataStorage
 import me.nickotato.shadowSMP.listeners.entity.*
+import me.nickotato.shadowSMP.listeners.ghost.SprigganListener
 import me.nickotato.shadowSMP.listeners.item.*
 import me.nickotato.shadowSMP.listeners.player.*
 import me.nickotato.shadowSMP.manager.AbilityManager
@@ -36,10 +37,11 @@ class ShadowSMP : JavaPlugin() {
         server.pluginManager.registerEvents(PlayerKnockbackListener(), this)
         server.pluginManager.registerEvents(EntityDamage(), this)
         server.pluginManager.registerEvents(PlayerPlaceListener(), this)
-
         server.pluginManager.registerEvents(EffectListener(), this)
         server.pluginManager.registerEvents(PlayerDataChangeListener(), this)
         server.pluginManager.registerEvents(AbilityReadyListener(), this)
+
+        server.pluginManager.registerEvents(SprigganListener(), this)
 
         getCommand("ability")?.setExecutor(AbilityCommand())
         getCommand("give_charms")?.setExecutor(GiveCharmsCommand())
