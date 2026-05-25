@@ -2,6 +2,7 @@ package me.nickotato.shadowSMP
 
 import me.nickotato.shadowSMP.commands.*
 import me.nickotato.shadowSMP.data.PlayerDataStorage
+import me.nickotato.shadowSMP.data.SettingsDataStorage
 import me.nickotato.shadowSMP.listeners.entity.*
 import me.nickotato.shadowSMP.listeners.ghost.SprigganListener
 import me.nickotato.shadowSMP.listeners.item.*
@@ -22,6 +23,8 @@ class ShadowSMP : JavaPlugin() {
 
         instance = this
 
+        loadData()
+
         server.pluginManager.registerEvents(PlayerJoinListener(), this)
         server.pluginManager.registerEvents(GuiManager, this)
         server.pluginManager.registerEvents(PlayerRightClickListener(), this)
@@ -40,7 +43,6 @@ class ShadowSMP : JavaPlugin() {
         server.pluginManager.registerEvents(EffectListener(), this)
         server.pluginManager.registerEvents(PlayerDataChangeListener(), this)
         server.pluginManager.registerEvents(AbilityReadyListener(), this)
-
         server.pluginManager.registerEvents(SprigganListener(), this)
 
         getCommand("ability")?.setExecutor(AbilityCommand())
@@ -71,5 +73,10 @@ class ShadowSMP : JavaPlugin() {
 
     override fun onDisable() {
         PlayerDataStorage.saveAll()
+        SettingsDataStorage.saveSettings()
+    }
+
+    private fun loadData() {
+        SettingsDataStorage.loadSettings()
     }
 }
