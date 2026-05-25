@@ -123,7 +123,6 @@ object PlayerManager {
         excludedGhosts.add(Ghost.JINN)
         excludedGhosts.add(Ghost.ONI)
         excludedGhosts.add(Ghost.GOD)
-        excludedGhosts.add(Ghost.SPRIGGAN) // remove later
 
 
         val availableGhosts = Ghost.entries.filterNot { it in excludedGhosts }

@@ -64,7 +64,7 @@ class ManagePlayerGui(val target: Player): Gui(Component.text("Managing ${target
                 GuiManager.open(ManagingCharmGui(target), player)
             }
             14 -> {
-                val playerData = PlayerManager.getPlayerData(player)
+                val playerData = PlayerManager.getPlayerData(target)
                 playerData.isUpgraded = !playerData.isUpgraded
                 val isUpgraded = playerData.isUpgraded
                 val upgraded: ItemStack = if (isUpgraded) ItemStack(Material.LIME_DYE, 1)

@@ -18,7 +18,7 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
-class ChronomancerUltimate : Ability(120) { // 5 min cooldown
+class ChronomancerUltimate : Ability(160) {
     override fun execute(player: Player) {
         if (!player.isOnline) return
 

@@ -23,30 +23,38 @@ class PlayerDamageListener: Listener {
 
         if (AbilityManager.invulnerablePlayers.contains(player.uniqueId)) {
             event.isCancelled = true
-            // Play a sound
             if (damager !is Player) return
             damager.playSound(player.location, Sound.BLOCK_ANVIL_LAND, 0.5f, 1f)
         }
 
         if (data.ghost == Ghost.JINN) {
-            if (Random.nextDouble() <= 0.10) { // 0.10 = 10%
+            if (Random.nextDouble() <= 0.10) {
                 event.isCancelled = true
                 player.world.playSound(player.location, Sound.BLOCK_ANVIL_LAND, 1f, 1f)
             }
         }
 
         if (damager is Player && AbilityManager.trueDamagePlayers.contains(damager.uniqueId)) {
-            event.isCancelled = true
-
-            val damage = damager.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.value ?: 5.0
-            val targetHealth = player.health
-            player.health = (targetHealth - damage).coerceAtLeast(0.0)
-
-            player.world.spawnParticle(Particle.CRIT, player.location, 15, 0.5, 0.5, 0.5, 0.05)
-            player.world.playSound(player.location, Sound.ENTITY_PLAYER_ATTACK_CRIT, 1f, 1f)
-
-            AbilityManager.trueDamagePlayers.remove(damager.uniqueId)
+            handleTrueDamage(event, damager, player)
         }
+    }
+
+    private fun handleTrueDamage(event: EntityDamageEvent, damager: Player, player: Player) {
+        event.isCancelled = true
+        AbilityManager.trueDamagePlayers.remove(damager.uniqueId)
+
+        val damage = damager.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.value ?: 5.0
+        val targetHealth = player.health
+        val minHealth = 1.0
+
+        player.health = (targetHealth - damage).coerceAtLeast(minHealth)
+
+
+        if (player.health - damage <= minHealth) {
+            player.world.playSound(player.location, Sound.BLOCK_ANVIL_LAND, 1f, 0.8f)
+        }
+        player.world.spawnParticle(Particle.CRIT, player.location, 15, 0.5, 0.5, 0.5, 0.05)
+        player.world.playSound(player.location, Sound.ENTITY_PLAYER_ATTACK_CRIT, 1f, 1f)
     }
 
     @EventHandler

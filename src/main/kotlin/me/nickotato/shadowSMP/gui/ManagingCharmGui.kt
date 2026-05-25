@@ -22,7 +22,7 @@ class ManagingCharmGui(val target: Player): Gui(Component.text("Setting charm of
         val selectedCharm = Charm.entries[slot]
         val player = event.whoClicked as Player
 
-        PlayerManager.equipCharm(player, selectedCharm)
+        PlayerManager.equipCharm(target, selectedCharm)
         player.sendMessage(Component.text("Changed ${target.name}'s charm to: ${selectedCharm.name}"))
     }
 }

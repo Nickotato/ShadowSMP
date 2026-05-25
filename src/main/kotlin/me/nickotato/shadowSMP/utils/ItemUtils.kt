@@ -72,6 +72,11 @@ object ItemUtils {
     fun getRandomCharm(): Charm {
         val excludedCharms = mutableSetOf<Charm>()
 
+        //The Pursuit Update
+        excludedCharms.add(Charm.FATES_THREAD) // Damage if either is too far
+        excludedCharms.add(Charm.HUNTERS_VERDICT) // Stop if too far
+        excludedCharms.add(Charm.HERMES_PURSUIT) // speed if too far
+
         val availableCharms = Charm.entries.filterNot { it in excludedCharms }
 
         if (availableCharms.isEmpty()) {

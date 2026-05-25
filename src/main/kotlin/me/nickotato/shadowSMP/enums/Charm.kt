@@ -1,6 +1,7 @@
 package me.nickotato.shadowSMP.enums
 
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.abilities.charms.ApollosReachAbility
 import me.nickotato.shadowSMP.abilities.charms.FrostGaleAbility
 import me.nickotato.shadowSMP.abilities.charms.HermesBootsAbility
 import me.nickotato.shadowSMP.items.CharmItem
@@ -87,6 +88,46 @@ enum class Charm(val ability: Ability?, val item: ItemStack, val displayName: St
             )
         ),
         "Keeper's Sigil"
+    ),
+    APOLLOS_REACH(
+        ApollosReachAbility(),
+        CharmItem.create(
+            Component.text("§eApollo's Reach"),
+            listOf(
+                Component.text("§7Increases interaction and attack range to 6")
+            )
+        ),
+        "Apollo's Reach"
+    ),
+    FATES_THREAD(
+        null,
+        CharmItem.create(
+            Component.text("§eFates' Thread"),
+            listOf(
+                Component.text("§7Links you and the last person you hit")
+            )
+        ),
+        "Fates' Thread"
+    ),
+    HUNTERS_VERDICT(
+        null,
+        CharmItem.create(
+            Component.text("§eHunter's Verdict"),
+            listOf(
+                Component.text("§7Escaping too far stops marked enemies")
+            )
+        ),
+        "Hunter's Verdict"
+    ),
+    HERMES_PURSUIT(
+        null,
+        CharmItem.create(
+            Component.text("§eHermes' Pursuit"),
+            listOf(
+                Component.text("§7Gain immense speed while chasing fleeing enemies")
+            )
+        ),
+        "Hermes' Pursuit"
     ),
 
     // Mimic ability

@@ -15,7 +15,6 @@ class SprigganUltimate: Ability(60) {
     override fun execute(player: Player) {
         playActivationParticles(player)
         AbilityManager.sprigganUltimatePlayers.add(player.uniqueId)
-        disableShields(player)
         player.sendActionBar(Component.text("§aUltimate Enabled"))
 
         object : BukkitRunnable() {
@@ -77,11 +76,5 @@ class SprigganUltimate: Ability(60) {
         )
     }
 
-    private fun disableShields(player: Player) {
-//        val radius = 10.0
-//        for (nearbyPlayer in player.world.getNearbyPlayers(player.location.clone(), radius)) {
-//            nearbyPlayer.setCooldown(Material.SHIELD, 200)
-//        }
-    }
 
 }

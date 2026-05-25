@@ -4,7 +4,7 @@ import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.enums.Ghost
 import me.nickotato.shadowSMP.manager.AbilityManager
 import me.nickotato.shadowSMP.manager.PlayerManager
-import org.bukkit.Material
+import net.kyori.adventure.text.Component
 import org.bukkit.Sound
 import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
@@ -23,45 +23,47 @@ class SprigganListener: Listener {
     private val onGround = mutableSetOf<UUID>()
     private val canLaunch = mutableSetOf<UUID>()
 
-    private val moveStartTime = mutableMapOf<UUID, Int>()
+    private val moveStartTime = mutableMapOf<UUID, Long>()
     private val lastMoveTick = mutableMapOf<UUID, Int>()
+
+    private val launchDisabledUntil = mutableMapOf<UUID, Long>()
 
     @EventHandler
     fun onHit(event: EntityDamageByEntityEvent) {
 
-        val attacker = event.damager as? Player ?: return
-        val target = event.entity as? LivingEntity ?: return
+    val attacker = event.damager as? Player ?: return
+    val target = event.entity as? LivingEntity ?: return
 
-        if (!AbilityManager.sprigganUltimatePlayers.contains(attacker.uniqueId)) return
+    if (!AbilityManager.sprigganUltimatePlayers.contains(attacker.uniqueId)) return
 
-        attacker.world.playSound(attacker.location.clone(), Sound.ENTITY_RABBIT_HURT, 1.0F, 1.0F)
+    attacker.world.playSound(
+        attacker.location,
+        Sound.ENTITY_RABBIT_HURT,
+        1f,
+        1f
+    )
 
-        if (target is Player) {
-            target.setCooldown(Material.SHIELD, 200)
-        }
-
-
+    // Apply your custom damage
         event.damage *= 1.5
 
-        val direction = target.location.toVector()
-            .subtract(attacker.location.toVector())
+    val direction = target.location.toVector()
+        .subtract(attacker.location.toVector())
 
-        if (direction.lengthSquared() < 0.0001) return
+    if (direction.lengthSquared() < 0.0001) return
 
-        val normalized = direction.normalize()
+    val normalized = direction.normalize()
 
-        val launch = normalized.multiply(0.4).setY(0.9)
-        attacker.velocity = launch
+    val launch = normalized.multiply(0.4).setY(0.9)
+    attacker.velocity = launch
 
-        target.velocity = target.velocity.add(Vector(0.0, 0.25, 0.0))
+    target.velocity = target.velocity.add(Vector(0.0, 0.25, 0.0))
 
-        object : BukkitRunnable() {
-            override fun run() {
-                startSprigganPull(attacker, target)
-            }
-        }.runTaskLater(ShadowSMP.instance, 3L)
-
-    }
+    object : BukkitRunnable() {
+        override fun run() {
+            startSprigganPull(attacker, target)
+        }
+    }.runTaskLater(ShadowSMP.instance, 3L)
+}
 
     private fun startSprigganPull(player: Player, target: LivingEntity) {
 
@@ -108,6 +110,10 @@ class SprigganListener: Listener {
         val player = event.player
         val uuid = player.uniqueId
         if (!AbilityManager.sprigganAbilityPlayers.contains(uuid)) return
+
+        val disabledUntil = launchDisabledUntil[uuid] ?: 0L
+        if (System.currentTimeMillis() < disabledUntil) return
+
         val playerAsEntity = player as Entity
 
         val wasOnGround = onGround.contains(uuid)
@@ -145,41 +151,40 @@ class SprigganListener: Listener {
         val from = event.from
         val to = event.to
 
-        val moved = from.distanceSquared(to) > 0.001
+        val moved = from.toVector().distanceSquared(to.toVector()) > 0.04
 
-        val currentTick = player.ticksLived
+        val now = System.currentTimeMillis()
 
         if (moved) {
-            lastMoveTick[uuid] = currentTick
+            lastMoveTick[uuid] = player.ticksLived
 
             if (!moveStartTime.containsKey(uuid)) {
-                moveStartTime[uuid] = currentTick
+                moveStartTime[uuid] = now
             }
         }
 
         val last = lastMoveTick[uuid] ?: return
 
-        if (currentTick - last > 10) {
+        if (player.ticksLived - last > 10) {
             moveStartTime.remove(uuid)
+            lastMoveTick.remove(uuid)
+
+            player.removePotionEffect(PotionEffectType.SPEED)
             player.walkSpeed = 0.2f
             return
         }
 
         val start = moveStartTime[uuid] ?: return
-        val movingTime = currentTick - start
+        val movingTime = now - start
 
-        when {
-            movingTime >= 300 -> {
-                applySpeed(player, 1)
-            }
+        val amplifier = when {
+            movingTime < 10000 -> -1
+            movingTime < 30000 -> 0
+            else -> 1
+        }
 
-            movingTime >= 100 -> {
-                applySpeed(player, 0)
-            }
-
-            else -> {
-                player.removePotionEffect(PotionEffectType.SPEED)
-            }
+        if (amplifier >= 0) {
+            applySpeed(player, amplifier)
         }
     }
 
@@ -195,5 +200,22 @@ class SprigganListener: Listener {
                 true
             )
         )
+    }
+
+    @EventHandler
+    fun onEntityHit(event: EntityDamageByEntityEvent) {
+        val player = event.entity as? Player?: return
+        val uuid = player.uniqueId
+
+        if (!AbilityManager.sprigganAbilityPlayers.contains(uuid)) return
+
+        val current = launchDisabledUntil[uuid] ?: 0L
+
+        if (System.currentTimeMillis() >= current) {
+            player.sendActionBar(Component.text("Your leap was disabled for 5 seconds!"))
+        }
+
+        launchDisabledUntil[uuid] = System.currentTimeMillis() + 5000
+        canLaunch.remove(uuid)
     }
 }
