@@ -1,8 +1,11 @@
-package me.nickotato.shadowSMP.gui
+package me.nickotato.shadowSMP.gui.config
 
 import me.nickotato.shadowSMP.config.Settings
+import me.nickotato.shadowSMP.gui.Gui
+import me.nickotato.shadowSMP.manager.GuiManager
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
+import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
 
@@ -14,6 +17,8 @@ class ConfigGui : Gui(Component.text("ShadowSMP Config"), 27) {
         private const val SLOT_BAN_ON_SOUL_LIMIT = 13
         private const val SLOT_DISABLE_GHOST = 14
         private const val SLOT_REVENANT_SLOWNESS = 15
+
+        private const val SLOT_CONFIGURE_GHOSTS = 22
     }
 
     init {
@@ -29,7 +34,11 @@ class ConfigGui : Gui(Component.text("ShadowSMP Config"), 27) {
         makeToggleItem(SLOT_BAN_ON_SOUL_LIMIT, Settings.banOnSoulLimit, "Ban On Soul Limit")
         makeToggleItem(SLOT_DISABLE_GHOST, Settings.disableGhostOnSoulLimit,"Disable Ghost On Soul Limit")
         makeToggleItem(SLOT_REVENANT_SLOWNESS, Settings.revenantCausesSlowness, "Revenant Causes Slowness")
+
+        makeGhostConfigureButton()
     }
+
+
 
     private fun makeToggleItem(slot: Int, value: Boolean, label: String) {
         val material = if (value) Material.LIME_DYE else Material.RED_DYE
@@ -41,8 +50,20 @@ class ConfigGui : Gui(Component.text("ShadowSMP Config"), 27) {
         setItem(slot, item)
     }
 
+    private fun makeGhostConfigureButton() {
+        val material = Material.ELYTRA
+        val item = ItemStack(material)
+        val meta = item.itemMeta
+        meta.displayName(Component.text("Configure Ghosts"))
+        item.itemMeta = meta
+        setItem(SLOT_CONFIGURE_GHOSTS, item)
+    }
+
     override fun onClick(event: InventoryClickEvent) {
         event.isCancelled = true
+
+        if (event.whoClicked !is Player) return
+        val player = event.whoClicked as Player
 
         when (event.slot) {
 
@@ -69,6 +90,10 @@ class ConfigGui : Gui(Component.text("ShadowSMP Config"), 27) {
             SLOT_REVENANT_SLOWNESS -> {
                 Settings.toggleRevenantSlowness()
                 reloadGui()
+            }
+            SLOT_CONFIGURE_GHOSTS -> {
+                player.closeInventory()
+                GuiManager.open(ConfigureGhostsGui(), player)
             }
         }
     }

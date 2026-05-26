@@ -117,15 +117,17 @@ object PlayerManager {
         )
     }
     fun getRandomGhost(player: Player): Ghost {
-        val currentData = players[player.uniqueId] // get existing data if present, don't create new one
+        val currentData = players[player.uniqueId]
         val excludedGhosts = mutableSetOf<Ghost>()
+
         currentData?.ghost?.let { excludedGhosts.add(it) }
-        excludedGhosts.add(Ghost.JINN)
-        excludedGhosts.add(Ghost.ONI)
-        excludedGhosts.add(Ghost.GOD)
 
 
-        val availableGhosts = Ghost.entries.filterNot { it in excludedGhosts }
+        val availableGhosts = Ghost.entries.filter { ghost ->
+            ghost !in excludedGhosts &&
+                    Settings.isGhostEnabled(ghost) &&
+                    !Settings.isEventGhost(ghost)
+        }
 
         if (availableGhosts.isEmpty()) {
             player.sendMessage("§cNo available ghosts to choose from!")

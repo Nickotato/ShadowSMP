@@ -2,6 +2,7 @@ package me.nickotato.shadowSMP.data
 
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.config.Settings
+import me.nickotato.shadowSMP.enums.Ghost
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 
@@ -23,6 +24,15 @@ object SettingsDataStorage {
         config.set("banOnSoulLimit", Settings.banOnSoulLimit)
         config.set("disableGhostOnSoulLimit", Settings.disableGhostOnSoulLimit)
         config.set("revenantCausesSlowness", Settings.revenantCausesSlowness)
+
+        config.set("disabledGhosts",
+            Settings.disabledGhosts.map { it.name }
+        )
+
+        config.set("eventGhosts",
+            Settings.eventGhosts.map { it.name }
+            )
+
         config.save(file)
     }
 
@@ -42,5 +52,24 @@ object SettingsDataStorage {
         Settings.banOnSoulLimit = banOnSoulLimit
         Settings.disableGhostOnSoulLimit = disableGhostOnSoulLimit
         Settings.revenantCausesSlowness = revenantCausesSlowness
+
+        Settings.disabledGhosts.clear()
+        Settings.eventGhosts.clear()
+
+        config.getStringList("disabledGhosts").forEach { ghostName ->
+            runCatching {
+                Ghost.valueOf(ghostName.uppercase())
+            }.getOrNull()?.let {
+                Settings.disabledGhosts.add(it)
+            }
+        }
+
+        config.getStringList("eventGhosts").forEach { ghostName ->
+            runCatching {
+                Ghost.valueOf(ghostName.uppercase())
+            }.getOrNull()?.let {
+                Settings.eventGhosts.add(it)
+            }
+        }
     }
 }

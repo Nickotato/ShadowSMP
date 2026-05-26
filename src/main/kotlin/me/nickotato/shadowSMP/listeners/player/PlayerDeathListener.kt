@@ -2,6 +2,7 @@ package me.nickotato.shadowSMP.listeners.player
 
 import me.nickotato.shadowSMP.config.Settings
 import me.nickotato.shadowSMP.enums.Charm
+import me.nickotato.shadowSMP.items.GhostItem
 import me.nickotato.shadowSMP.items.Soul
 import me.nickotato.shadowSMP.items.Upgrader
 import me.nickotato.shadowSMP.manager.PlayerManager
@@ -15,6 +16,7 @@ class PlayerDeathListener: Listener {
         val player = event.player
         val playerData = PlayerManager.getPlayerData(player)
         val charm = playerData.charm
+        val ghost = playerData.ghost
         val isUpgraded = playerData.isUpgraded
 
         if (charm != null && charm != Charm.KEEPERS_SIGIL) {
@@ -29,6 +31,11 @@ class PlayerDeathListener: Listener {
         if (Settings.soulsEnabled) {
             player.world.dropItemNaturally(player.location, Soul.create())
             PlayerManager.changePlayerSouls(player, -1)
+        }
+
+        if (ghost in Settings.eventGhosts) {
+            player.world.dropItemNaturally(player.location, GhostItem.create(ghost))
+            PlayerManager.changeToRandomGhost(player)
         }
     }
 }

@@ -36,13 +36,10 @@ object ItemUtils {
     fun addRelicLore(item: ItemStack): ItemStack {
         val meta = item.itemMeta ?: return item
 
-        // Get existing lore or create a new mutable list
         val existingLore = meta.lore()?.toMutableList() ?: mutableListOf()
 
-        // Add the "Relic" line
         existingLore.add(Component.text("§6§l§oRelic"))
 
-        // Set the lore back
         meta.lore(existingLore)
         item.itemMeta = meta
 
@@ -59,7 +56,6 @@ object ItemUtils {
         meta.lore(existingLore)
         item.itemMeta = meta
 
-        // Make the item unique AFTER setting charm metadata
         return item
     }
 
@@ -84,5 +80,17 @@ object ItemUtils {
         }
 
         return availableCharms.random()
+    }
+
+    fun markAsGhost(item: ItemStack): ItemStack {
+        val meta = item.itemMeta ?: return item
+        val key = NamespacedKey("shadowsmp", "is_ghost")
+        meta.persistentDataContainer.set(key, PersistentDataType.BYTE, 1)
+
+        val existingLore = meta.lore()?.toMutableList() ?: mutableListOf()
+        existingLore.add(Component.text("§5§o§lGhost"))
+        meta.lore(existingLore)
+        item.itemMeta = meta
+        return item
     }
 }

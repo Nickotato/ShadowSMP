@@ -5,6 +5,7 @@ import me.nickotato.shadowSMP.abilities.mace.MaceAbility2
 import me.nickotato.shadowSMP.data.PlayerData
 import me.nickotato.shadowSMP.enums.AbilityType
 import me.nickotato.shadowSMP.enums.Charm
+import me.nickotato.shadowSMP.enums.Ghost
 import me.nickotato.shadowSMP.gui.ReviveBookGui
 import me.nickotato.shadowSMP.manager.GuiManager
 import me.nickotato.shadowSMP.manager.PlayerManager
@@ -39,7 +40,9 @@ class PlayerRightClickListener: Listener {
             }
         }
 
-        when (ItemUtils.getItemType(item)) {
+        val itemType = ItemUtils.getItemType(item)
+
+        when (itemType) {
             "upgrader" -> {
                 if (playerData.isUpgraded) {
                     player.sendMessage("§cAlready Upgraded")
@@ -81,7 +84,8 @@ class PlayerRightClickListener: Listener {
             }
         }
 
-//        val hasMace = player.inventory.contains(Material.MACE)
+        handleGhostItems(itemType, player)
+
 
         if (item.type == Material.MACE) {
             if (player.isSneaking) {
@@ -109,6 +113,20 @@ class PlayerRightClickListener: Listener {
             itemInHand.amount--
         } else {
             player.inventory.setItemInMainHand(null)
+        }
+    }
+
+    private fun handleGhostItems(type: String?, player: Player) {
+        if (type == null) return
+        if (type.startsWith("ghost_")) {
+            val ghostName = type.removePrefix("ghost_").uppercase()
+            val ghost = runCatching {
+                Ghost.valueOf(ghostName)
+            }.getOrNull() ?: return
+
+            consumeOne(player)
+            PlayerManager.changeGhost(player, ghost)
+            player.sendMessage("§5${ghost.name} §7is now binded to your soul...")
         }
     }
 }

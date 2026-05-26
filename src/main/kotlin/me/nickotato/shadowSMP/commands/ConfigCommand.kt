@@ -1,6 +1,6 @@
 package me.nickotato.shadowSMP.commands
 
-import me.nickotato.shadowSMP.gui.ConfigGui
+import me.nickotato.shadowSMP.gui.config.ConfigGui
 import me.nickotato.shadowSMP.manager.GuiManager
 import me.nickotato.shadowSMP.utils.CommandUtils
 import org.bukkit.command.Command
