@@ -1,10 +1,13 @@
 package me.nickotato.shadowSMP.abilities.arachnid
 
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.utils.EntityUtils
 import org.bukkit.Color
+import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.Particle
 import org.bukkit.Sound
+import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import kotlin.math.PI
 import kotlin.math.cos
@@ -15,9 +18,24 @@ class ArachnidUltimate: Ability(60) {
         val radius = 10.0
         val nearbyEntities = player.getNearbyEntities(radius, radius, radius)
 
-        // Spawn a circular particle effect around the player to show AoE
-        val center = player.location.add(0.0, 1.0, 0.0)
-        val points = 100 // number of particles for the circle
+        makeCircleParticles(player, radius)
+
+        for (entity in nearbyEntities) {
+            if (!isValidEntity(entity, player)) continue
+
+            spawnCobweb(entity)
+
+            playCaughtParticles(entity)
+
+            playCaughtSound(entity)
+        }
+
+        playMainSound(player)
+    }
+
+    private fun makeCircleParticles(player: Player, radius: Double) {
+        val center = player.location.clone().add(0.0, 1.0, 0.0)
+        val points = 100
 
         for (i in 0 until points) {
             val angle = 2 * PI * i / points
@@ -32,47 +50,55 @@ class ArachnidUltimate: Ability(60) {
                 Particle.DustOptions(Color.PURPLE, 1.0f)
             )
         }
+    }
 
-        for (entity in nearbyEntities) {
-            if (entity == player) continue
+    private fun spawnCobweb(entity: Entity) {
+        val footBlock = entity.location.block
+        val headBlock = footBlock.getRelative(0, 1, 0)
 
-            val footBlock = entity.location.block
-            val headBlock = footBlock.getRelative(0, 1, 0)
-
-            // Trap the entity in a cobweb if possible
-            if (headBlock.type == Material.AIR) {
-                headBlock.type = Material.COBWEB
-            }
-
-            val entityCenter = entity.location.add(0.0, 1.0, 0.0)
-            for (i in 0 until 20) {
-                val offsetX = Math.random() - 0.5      // random double between -0.5 and 0.5
-                val offsetY = Math.random() * 1.5      // random double between 0.0 and 1.5
-                val offsetZ = Math.random() - 0.5      // random double between -0.5 and 0.5
-                val particleLoc = entityCenter.clone().add(offsetX, offsetY, offsetZ)
-                entity.world.spawnParticle(
-                    Particle.CRIMSON_SPORE,
-                    particleLoc,
-                    1,
-                    0.0, 0.0, 0.0,
-                    0.05
-                )
-            }
-
-            // Play sound effect for trapped entities
-            entity.world.playSound(
-                entity.location,
-                Sound.BLOCK_COBWEB_PLACE,
-                2.0f,
-                1.2f
-            )
+        if (headBlock.type == Material.AIR) {
+            headBlock.type = Material.COBWEB
         }
+    }
 
+    private fun playMainSound(player: Player) {
         player.world.playSound(
             player.location,
             Sound.ENTITY_SPIDER_AMBIENT,
             1.5f,
             1.0f
         )
+    }
+
+    private fun playCaughtParticles(entity: Entity) {
+        val entityCenter = entity.location.clone().add(0.0, 1.0, 0.0)
+        for (i in 0 until 20) {
+            val offsetX = Math.random() - 0.5
+            val offsetY = Math.random() * 1.5
+            val offsetZ = Math.random() - 0.5
+            val particleLoc = entityCenter.clone().add(offsetX, offsetY, offsetZ)
+            entity.world.spawnParticle(
+                Particle.CRIMSON_SPORE,
+                particleLoc,
+                1,
+                0.0, 0.0, 0.0,
+                0.05
+            )
+        }
+    }
+    private fun playCaughtSound(entity: Entity) {
+        entity.world.playSound(
+            entity.location,
+            Sound.BLOCK_COBWEB_PLACE,
+            2.0f,
+            1.2f
+        )
+    }
+
+    private fun isValidEntity(entity: Entity, player: Player): Boolean {
+        if (entity == player) return false
+        if (entity is Player && entity.gameMode == GameMode.SPECTATOR) return false
+        if (EntityUtils.isImmune(entity.type)) return false
+        return true
     }
 }

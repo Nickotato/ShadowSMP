@@ -1,7 +1,9 @@
 package me.nickotato.shadowSMP.abilities.reaper
 
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.utils.EntityUtils
 import org.bukkit.Color
+import org.bukkit.GameMode
 import org.bukkit.Particle
 import org.bukkit.Sound
 import org.bukkit.attribute.Attribute
@@ -18,6 +20,8 @@ class ReaperAbility : Ability(90) {
         for (entity in nearbyEntities) {
             if (entity == player) continue
             if (entity !is LivingEntity) continue
+            if (EntityUtils.isImmune(entity.type)) continue
+            if (entity is Player && entity.gameMode == GameMode.SPECTATOR) continue
 
             val dist = player.location.distanceSquared(entity.location)
             if (dist < closest) {

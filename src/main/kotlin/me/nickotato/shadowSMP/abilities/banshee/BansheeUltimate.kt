@@ -32,12 +32,11 @@ class BansheeUltimate: Ability(60) {
         val center = player.location.clone().add(0.0, 1.0, 0.0)
 
         val radius = 3.0
-        val density = 250 // how many particles (higher = thicker cloud)
+        val density = 250
         val blackDust = Particle.DustOptions(Color.fromRGB(71, 24, 24), 2f)
         val grayDust = Particle.DustOptions(Color.fromRGB(186, 181, 181), 2f)
 
         repeat(density) {
-            // pick a random point inside a circle
             val angle = Random.nextDouble(0.0, 2 * Math.PI)
             val r = Random.nextDouble(0.0, radius)
             val x = cos(angle) * r
@@ -46,7 +45,6 @@ class BansheeUltimate: Ability(60) {
 
             val loc = center.clone().add(x, yOffset, z)
 
-            // mix of dark particles and smoke for atmosphere
             world.spawnParticle(Particle.DUST, loc, 1, 0.05, 0.05, 0.05, 0.0, blackDust)
             if (Random.nextDouble() < 0.5) {
                 world.spawnParticle(Particle.DUST, loc, 1, 0.05, 0.05, 0.05, 0.0, grayDust)

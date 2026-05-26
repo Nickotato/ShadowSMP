@@ -11,12 +11,13 @@ import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.manager.AbilityManager
+import me.nickotato.shadowSMP.utils.EntityUtils
 
 class DeogenUltimate: Ability(90) {
 
     private val hitCount = 20
     private val hitInterval = 5L
-    private val damagePerHit = 2.0
+    private val damagePerHit = 12.0
 
     override fun execute(player: Player) {
         val target = getNearestEntity(player)
@@ -65,8 +66,12 @@ class DeogenUltimate: Ability(90) {
     }
 
     private fun getNearestEntity(player: Player): Entity? {
-        val nearbyEntities = player.getNearbyEntities(10.0, 5.0, 10.0)
-        return nearbyEntities.filterIsInstance<LivingEntity>()
+        return player.getNearbyEntities(10.0, 5.0, 10.0)
+            .asSequence()
+            .filterIsInstance<LivingEntity>()
+            .filter { it != player }
+            .filter { it !is Player || it.gameMode != org.bukkit.GameMode.SPECTATOR }
+            .filter { !EntityUtils.isImmune(it.type) }
             .minByOrNull { it.location.distanceSquared(player.location) }
     }
 }

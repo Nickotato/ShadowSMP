@@ -4,6 +4,7 @@ package me.nickotato.shadowSMP.abilities.chronomancer
 
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.utils.EntityUtils
 import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.Material
@@ -66,6 +67,7 @@ class ChronomancerUltimate : Ability(160) {
                     .filter { it != player }
 
                 for (target in targets) {
+                    if (EntityUtils.isImmune(target.type)) continue
                     target.damage(totalDamage, player)
                     spawnEchoParticles(target.location)
                     world.playSound(target.location, Sound.ENTITY_PLAYER_HURT, 1.0f, 1.2f)
@@ -77,7 +79,6 @@ class ChronomancerUltimate : Ability(160) {
     }
 
 
-    // Particle spirals for start
     private fun spawnSpiral(center: Location, particle: Particle, radius: Double, height: Double, steps: Int) {
         val world = center.world ?: return
         for (i in 0 until steps) {
@@ -89,7 +90,6 @@ class ChronomancerUltimate : Ability(160) {
         }
     }
 
-    // Particles on each echo hit
     private fun spawnEchoParticles(location: Location) {
         val world = location.world ?: return
         val dust1 = Particle.DustOptions(Color.fromRGB(100, 149, 237), 1.5f)
@@ -101,7 +101,6 @@ class ChronomancerUltimate : Ability(160) {
         world.spawnParticle(Particle.END_ROD, location, 10, 0.2, 0.5, 0.2, 0.01)
     }
 
-    // Show 3D AoE pulse
     private fun spawnAoEPulse(center: Location, radius: Double, height: Double, steps: Int) {
         val world = center.world ?: return
         for (hStep in 0..height.toInt()) {
