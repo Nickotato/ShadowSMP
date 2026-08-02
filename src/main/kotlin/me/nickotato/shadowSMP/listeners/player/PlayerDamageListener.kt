@@ -43,7 +43,7 @@ class PlayerDamageListener: Listener {
         event.isCancelled = true
         AbilityManager.trueDamagePlayers.remove(damager.uniqueId)
 
-        val damage = damager.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.value ?: 5.0
+        val damage = damager.getAttribute(Attribute.ATTACK_DAMAGE)?.value ?: 5.0
         val targetHealth = player.health
         val minHealth = 1.0
 
@@ -67,7 +67,9 @@ class PlayerDamageListener: Listener {
             if (
                 event.cause == EntityDamageEvent.DamageCause.FIRE ||
                 event.cause == EntityDamageEvent.DamageCause.FIRE_TICK ||
-                event.cause == EntityDamageEvent.DamageCause.LAVA
+                event.cause == EntityDamageEvent.DamageCause.LAVA ||
+                event.cause == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION ||
+                event.cause == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION
             ) {
                 event.isCancelled = true
                 player.heal(0.05)

@@ -29,8 +29,10 @@ class PlayerDeathListener: Listener {
         }
 
         if (Settings.soulsEnabled) {
-            player.world.dropItemNaturally(player.location, Soul.create())
-            PlayerManager.changePlayerSouls(player, -1)
+            if (playerData.souls >= -5) {
+                player.world.dropItemNaturally(player.location, Soul.create())
+                PlayerManager.changePlayerSouls(player, -1)
+            }
         }
 
         if (ghost in Settings.eventGhosts) {

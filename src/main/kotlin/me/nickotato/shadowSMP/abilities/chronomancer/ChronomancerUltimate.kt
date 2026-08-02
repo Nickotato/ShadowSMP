@@ -42,7 +42,7 @@ class ChronomancerUltimate : Ability(160) {
             Material.IRON_AXE -> 9.0
             Material.DIAMOND_AXE -> 9.0
             Material.NETHERITE_AXE -> 10.0
-            else -> player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue ?: 1.0
+            else -> player.getAttribute(Attribute.ATTACK_DAMAGE)?.baseValue ?: 1.0
         }
 
         val sharpnessLevel = weapon.getEnchantmentLevel(Enchantment.SHARPNESS)

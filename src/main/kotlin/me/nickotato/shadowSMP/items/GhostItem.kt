@@ -18,7 +18,9 @@ object GhostItem {
 
         meta.displayName(Component.text("§d$displayName")) // Consider adding display name to the ghost enum
 
-        val lore = mutableListOf<Component>()
+        val lore = mutableListOf<Component>(
+            Component.text("§7One equipped, this can only be removed by force...")
+        )
         meta.lore(lore)
 
         item.itemMeta = meta

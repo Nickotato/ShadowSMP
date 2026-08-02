@@ -17,6 +17,11 @@ object HauntedDice {
             )
         )
 
+        val cmd = meta.customModelDataComponent
+
+        cmd.strings = listOf("haunted_dice")
+        
+
         item.itemMeta = meta
 
         return ItemUtils.makeUnique(ItemUtils.addRelicLore(item))

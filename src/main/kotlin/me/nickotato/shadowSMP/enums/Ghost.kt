@@ -49,6 +49,8 @@ enum class Ghost(val ability: Ability, val ultimate: Ability) {
     DEOGEN(DeogenAbility(), DeogenUltimate()),
 
     SPRIGGAN(SprigganAbility(), SprigganUltimate()),
+
+//    ARCHITECH()
 }
 // NEED TO CHECK FOR PLAYERS LEAVING THE GAME WITH SPECIAL EFFECTS / ABILITIES. Like Spectator or Invincibility.
 

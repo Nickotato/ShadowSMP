@@ -103,7 +103,7 @@ class SprigganListener: Listener {
     @EventHandler
     fun onMove(event: PlayerMoveEvent) {
         handleNormalAbility(event)
-        handlePassive(event)
+//        handlePassive(event)
     }
 
     private fun handleNormalAbility(event: PlayerMoveEvent) {

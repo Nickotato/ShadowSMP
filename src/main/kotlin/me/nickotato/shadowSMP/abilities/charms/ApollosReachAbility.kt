@@ -17,8 +17,8 @@ class ApollosReachAbility : Ability(120) {
     override fun execute(player: Player) {
         val uuid = player.uniqueId
 
-        val entityAttr = player.getAttribute(Attribute.PLAYER_ENTITY_INTERACTION_RANGE) ?: return
-        val blockAttr = player.getAttribute(Attribute.PLAYER_BLOCK_INTERACTION_RANGE) ?: return
+        val entityAttr = player.getAttribute(Attribute.ENTITY_INTERACTION_RANGE) ?: return
+        val blockAttr = player.getAttribute(Attribute.BLOCK_INTERACTION_RANGE) ?: return
 
         originalEntityRange.putIfAbsent(uuid, entityAttr.baseValue)
         originalBlockRange.putIfAbsent(uuid, blockAttr.baseValue)
@@ -32,8 +32,8 @@ class ApollosReachAbility : Ability(120) {
             override fun run() {
                 val p = Bukkit.getPlayer(uuid) ?: return
 
-                val e = p.getAttribute(Attribute.PLAYER_ENTITY_INTERACTION_RANGE)
-                val b = p.getAttribute(Attribute.PLAYER_BLOCK_INTERACTION_RANGE)
+                val e = p.getAttribute(Attribute.ENTITY_INTERACTION_RANGE)
+                val b = p.getAttribute(Attribute.BLOCK_INTERACTION_RANGE)
 
                 if (e != null && b != null) {
                     e.baseValue = originalEntityRange[uuid] ?: e.defaultValue

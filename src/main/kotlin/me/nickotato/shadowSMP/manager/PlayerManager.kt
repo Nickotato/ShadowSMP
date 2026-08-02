@@ -167,7 +167,7 @@ object PlayerManager {
 
     fun updatePlayerMaxHP(player: Player) {
         val data = getPlayerData(player)
-        val maxHpAttr = player.getAttribute(Attribute.GENERIC_MAX_HEALTH) ?: return
+        val maxHpAttr = player.getAttribute(Attribute.MAX_HEALTH) ?: return
 
         var newMaxHp = maxHpAttr.defaultValue
 
