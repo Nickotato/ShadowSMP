@@ -24,12 +24,19 @@ class PlayerJumpListener : Listener {
         if (player.gameMode == GameMode.CREATIVE || player.gameMode == GameMode.SPECTATOR) return
         val souls = data.souls
 
+
+
+        event.isCancelled = true // cancel default flight
+
         if (souls < -5 && Settings.disableGhostOnSoulLimit) {
             player.sendMessage("§cYou need -5 souls or more to use this ability")
             return
         }
 
-        event.isCancelled = true // cancel default flight
+        if (Settings.ghostsDisabled) {
+            player.sendMessage("§cGhosts are disabled")
+            return
+        }
 
         Bukkit.getScheduler().runTaskLater(ShadowSMP.instance, Runnable {
 //            player.allowFlight = false

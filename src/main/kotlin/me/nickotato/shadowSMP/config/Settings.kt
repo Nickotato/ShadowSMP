@@ -10,6 +10,8 @@ object Settings {
     var disableGhostOnSoulLimit = false
     var revenantCausesSlowness = false
 
+    var ghostsDisabled = false
+
 
     var disabledGhosts = mutableSetOf<Ghost>()
     var eventGhosts = mutableSetOf(
@@ -39,6 +41,11 @@ object Settings {
 
     fun toggleRevenantSlowness() {
         revenantCausesSlowness = !revenantCausesSlowness
+        save()
+    }
+
+    fun toggleGhostsDisabled() {
+        ghostsDisabled = !ghostsDisabled
         save()
     }
 

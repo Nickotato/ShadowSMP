@@ -26,6 +26,11 @@ class AbilityCommand: CommandExecutor {
             return true
         }
 
+        if (Settings.ghostsDisabled) {
+            sender.sendMessage("§cGhosts are disabled")
+            return true
+        }
+
         val ghost = playerData.ghost
 
         if (ghost == Ghost.REVENANT) {

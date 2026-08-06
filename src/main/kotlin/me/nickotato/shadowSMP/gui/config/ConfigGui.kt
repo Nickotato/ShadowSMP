@@ -19,6 +19,8 @@ class ConfigGui : Gui(Component.text("ShadowSMP Config"), 27) {
         private const val SLOT_REVENANT_SLOWNESS = 15
 
         private const val SLOT_CONFIGURE_GHOSTS = 22
+
+        private const val SLOT_GHOSTS_DISABLED = 4
     }
 
     init {
@@ -34,6 +36,7 @@ class ConfigGui : Gui(Component.text("ShadowSMP Config"), 27) {
         makeToggleItem(SLOT_BAN_ON_SOUL_LIMIT, Settings.banOnSoulLimit, "Ban On Soul Limit")
         makeToggleItem(SLOT_DISABLE_GHOST, Settings.disableGhostOnSoulLimit,"Disable Ghost On Soul Limit")
         makeToggleItem(SLOT_REVENANT_SLOWNESS, Settings.revenantCausesSlowness, "Revenant Causes Slowness")
+        makeToggleItem(SLOT_GHOSTS_DISABLED, Settings.ghostsDisabled, "Disable Ghosts")
 
         makeGhostConfigureButton()
     }
@@ -94,6 +97,10 @@ class ConfigGui : Gui(Component.text("ShadowSMP Config"), 27) {
             SLOT_CONFIGURE_GHOSTS -> {
                 player.closeInventory()
                 GuiManager.open(ConfigureGhostsGui(), player)
+            }
+            SLOT_GHOSTS_DISABLED -> {
+                Settings.toggleGhostsDisabled()
+                reloadGui()
             }
         }
     }

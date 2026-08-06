@@ -24,6 +24,7 @@ object SettingsDataStorage {
         config.set("banOnSoulLimit", Settings.banOnSoulLimit)
         config.set("disableGhostOnSoulLimit", Settings.disableGhostOnSoulLimit)
         config.set("revenantCausesSlowness", Settings.revenantCausesSlowness)
+        config.set("ghostsAreDisabled", Settings.ghostsDisabled)
 
         config.set("disabledGhosts",
             Settings.disabledGhosts.map { it.name }
@@ -46,12 +47,14 @@ object SettingsDataStorage {
         val banOnSoulLimit = config.getBoolean("banOnSoulLimit")
         val disableGhostOnSoulLimit = config.getBoolean("disableGhostOnSoulLimit")
         val revenantCausesSlowness = config.getBoolean("revenantCausesSlowness")
+        val ghostsDisabled = config.getBoolean("ghostsAreDisabled")
 
         Settings.soulsEnabled = soulsEnabled
         Settings.upgradersNeeded = upgradersNeeded
         Settings.banOnSoulLimit = banOnSoulLimit
         Settings.disableGhostOnSoulLimit = disableGhostOnSoulLimit
         Settings.revenantCausesSlowness = revenantCausesSlowness
+        Settings.ghostsDisabled = ghostsDisabled
 
         Settings.disabledGhosts.clear()
         Settings.eventGhosts.clear()

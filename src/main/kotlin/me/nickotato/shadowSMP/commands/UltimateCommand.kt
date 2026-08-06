@@ -25,6 +25,11 @@ class UltimateCommand: CommandExecutor {
             return true
         }
 
+        if (Settings.ghostsDisabled) {
+            sender.sendMessage("§cGhosts are disabled")
+            return true
+        }
+
         playerData.ghost.ultimate.activate(player, AbilityType.ULTIMATE)
 
         return true
