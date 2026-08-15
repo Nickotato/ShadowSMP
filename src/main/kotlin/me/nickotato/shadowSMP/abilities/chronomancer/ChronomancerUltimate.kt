@@ -4,6 +4,8 @@ package me.nickotato.shadowSMP.abilities.chronomancer
 
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.abilitycontext.AbilityContext
+import me.nickotato.shadowSMP.abilitycontext.PlayerAbilityContext
 import me.nickotato.shadowSMP.utils.EntityUtils
 import org.bukkit.Color
 import org.bukkit.Location
@@ -13,23 +15,23 @@ import org.bukkit.Sound
 import org.bukkit.attribute.Attribute
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.LivingEntity
-import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
 class ChronomancerUltimate : Ability(160) {
-    override fun execute(player: Player) {
-        if (!player.isOnline) return
+    override fun execute(context: AbilityContext) {
+        if (!context.isValid) return
+        if (context !is PlayerAbilityContext) return
 
-        val world = player.world
-        val center = player.location
+        val world = context.world
+        val center = context.location
         val radius = 5.0
         val hits = 3
         val delayBetweenHits = 5L
 
-        val weapon = player.inventory.itemInMainHand
+        val weapon = context.player.inventory.itemInMainHand
 
         val weaponDamage = when (weapon.type) {
             Material.WOODEN_SWORD -> 4.0
@@ -42,7 +44,7 @@ class ChronomancerUltimate : Ability(160) {
             Material.IRON_AXE -> 9.0
             Material.DIAMOND_AXE -> 9.0
             Material.NETHERITE_AXE -> 10.0
-            else -> player.getAttribute(Attribute.ATTACK_DAMAGE)?.baseValue ?: 1.0
+            else -> context.player.getAttribute(Attribute.ATTACK_DAMAGE)?.baseValue ?: 1.0
         }
 
         val sharpnessLevel = weapon.getEnchantmentLevel(Enchantment.SHARPNESS)
@@ -64,11 +66,11 @@ class ChronomancerUltimate : Ability(160) {
 
                 val targets = world.getNearbyEntities(center, radius, radius, radius)
                     .filterIsInstance<LivingEntity>()
-                    .filter { it != player }
+                    .filter { it != context.player }
 
                 for (target in targets) {
                     if (EntityUtils.isImmune(target.type)) continue
-                    target.damage(totalDamage, player)
+                    target.damage(totalDamage, context.player)
                     spawnEchoParticles(target.location)
                     world.playSound(target.location, Sound.ENTITY_PLAYER_HURT, 1.0f, 1.2f)
                 }

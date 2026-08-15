@@ -1,11 +1,12 @@
 package me.nickotato.shadowSMP.abilities.chronomancer
 
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.abilitycontext.AbilityContext
 import me.nickotato.shadowSMP.manager.AbilityManager
+import net.kyori.adventure.text.Component
 import org.bukkit.Color
 import org.bukkit.Particle
 import org.bukkit.Sound
-import org.bukkit.entity.Player
 import org.bukkit.Location
 import kotlin.math.cos
 import kotlin.math.sin
@@ -13,21 +14,21 @@ import kotlin.math.PI
 
 class ChronomancerAbility: Ability(80) {
 
-    override fun execute(player: Player) {
-        if (!player.isOnline) return
+    override fun execute(context: AbilityContext) {
+        if (!context.isValid) return
 
-        val deque = AbilityManager.locationHistory[player.uniqueId]
+        val deque = AbilityManager.locationHistory[context.caster.uniqueId]
         if (deque == null || deque.size < 30) {
-            player.sendMessage("§cNo where to teleport to...")
+            context.sendMessage(Component.text("§cNo where to teleport to..."))
             return
         }
 
-        val start = player.location
+        val start = context.location
         val target = deque.last()
 
         playStartEffects(start)
 
-        player.teleport(target)
+        context.caster.teleport(target)
 
         playEndEffects(target)
 

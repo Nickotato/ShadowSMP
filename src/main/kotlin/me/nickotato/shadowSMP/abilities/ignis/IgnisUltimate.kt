@@ -2,10 +2,10 @@ package me.nickotato.shadowSMP.abilities.ignis
 
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.abilitycontext.AbilityContext
 import me.nickotato.shadowSMP.utils.EntityUtils
 import org.bukkit.Particle
 import org.bukkit.entity.LivingEntity
-import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 import kotlin.math.cos
@@ -14,8 +14,8 @@ import kotlin.random.Random
 
 class IgnisUltimate : Ability(60) {
 
-    override fun execute(player: Player) {
-        val world = player.world
+    override fun execute(context: AbilityContext) {
+        val world = context.world
         val durationTicks = 100L
         val baseRadius = 3.0
         val height = 6
@@ -27,7 +27,7 @@ class IgnisUltimate : Ability(60) {
 
             override fun run() {
                 ticks++
-                val playerLoc = player.location
+                val playerLoc = context.location
 
                 for (y in 0 until height * 5) {
                     val progress = y.toDouble() / (height * 5)
@@ -39,9 +39,9 @@ class IgnisUltimate : Ability(60) {
                     world.spawnParticle(Particle.FLAME, loc, 5, 0.05, 0.05, 0.05, 0.02)
                 }
 
-                val nearby = player.getNearbyEntities(baseRadius + 2, height.toDouble(), baseRadius + 2)
+                val nearby = context.nearbyEntities(baseRadius + 2, height.toDouble(), baseRadius + 2)
                 for (entity in nearby) {
-                    if (entity == player) continue
+                    if (entity == context.caster) continue
                     if (EntityUtils.isImmune(entity.type)) continue
 
                     val center = playerLoc.clone().add(0.0, height / 2.0, 0.0)
@@ -51,7 +51,7 @@ class IgnisUltimate : Ability(60) {
                     )
 
                         entity.fireTicks = 40
-                    if (entity is LivingEntity) entity.damage(damagePerTick, player)
+                    if (entity is LivingEntity) entity.damage(damagePerTick, context.caster)
                 }
 
                 if (ticks >= durationTicks) cancel()

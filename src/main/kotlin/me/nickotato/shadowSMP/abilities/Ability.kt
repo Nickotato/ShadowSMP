@@ -5,6 +5,8 @@ import me.nickotato.shadowSMP.enums.AbilityType
 import me.nickotato.shadowSMP.enums.Charm
 import me.nickotato.shadowSMP.enums.Ghost
 import me.nickotato.shadowSMP.events.AbilityReadyEvent
+import me.nickotato.shadowSMP.abilitycontext.AbilityContext
+import me.nickotato.shadowSMP.abilitycontext.PlayerAbilityContext
 import me.nickotato.shadowSMP.manager.PlayerManager
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -16,7 +18,7 @@ abstract class Ability(val cooldown: Int) {
 
     private val cooldownEnd = mutableMapOf<UUID, Long>()
 
-    abstract fun execute(player: Player)
+    abstract fun execute(context: AbilityContext)
 
     fun activate(player: Player, type: AbilityType) {
         val remaining = getRemainingCooldown(player)
@@ -27,7 +29,9 @@ abstract class Ability(val cooldown: Int) {
             return
         }
 
-        execute(player)
+        val playerContext = PlayerAbilityContext(player)
+
+        execute(playerContext)
 
         val durationMs = (getEffectiveCooldown(player) * 1000).toLong()
         val endTime = System.currentTimeMillis() + durationMs

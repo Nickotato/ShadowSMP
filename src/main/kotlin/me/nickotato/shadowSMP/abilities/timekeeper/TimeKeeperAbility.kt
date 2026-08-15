@@ -2,9 +2,9 @@ package me.nickotato.shadowSMP.abilities.timekeeper
 
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.abilitycontext.AbilityContext
 import org.bukkit.Color
 import org.bukkit.Particle
-import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
@@ -12,9 +12,9 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 class TimeKeeperAbility : Ability(60) {
-    override fun execute(player: Player) {
+    override fun execute(context: AbilityContext) {
         val haste = PotionEffect(PotionEffectType.HASTE, 10 * 20, 9)
-        player.addPotionEffect(haste)
+        context.addPotionEffect(haste)
 
         object : BukkitRunnable() {
             var timesRun = 0
@@ -31,12 +31,12 @@ class TimeKeeperAbility : Ability(60) {
                 val z = sin(radians) * radius
                 val y = timesRun * 0.07
 
-                val particleLocation = player.location.clone().add(x, y, z)
+                val particleLocation = context.location.clone().add(x, y, z)
 
                 val particle = Particle.DustOptions(Color.fromRGB(210, 0, 0), 1f)
 
 
-                player.world.spawnParticle(Particle.DUST, particleLocation, 10, 0.0, 0.0, 0.0, particle)
+                context.world.spawnParticle(Particle.DUST, particleLocation, 10, 0.0, 0.0, 0.0, particle)
                 timesRun++
             }
         }.runTaskTimer(ShadowSMP.instance, 0L, 1L)

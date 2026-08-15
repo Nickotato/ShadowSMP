@@ -2,20 +2,20 @@ package me.nickotato.shadowSMP.abilities.spirit
 
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.abilitycontext.AbilityContext
 import me.nickotato.shadowSMP.manager.AbilityManager
 import org.bukkit.Particle
-import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import kotlin.math.cos
 import kotlin.math.sin
 
 class SpiritAbility: Ability(120) {
-    override fun execute(player: Player) {
-        AbilityManager.invulnerablePlayers.add(player.uniqueId)
+    override fun execute(context: AbilityContext) {
+        AbilityManager.invulnerablePlayers.add(context.caster.uniqueId)
 
         object : BukkitRunnable(){
             override fun run() {
-                AbilityManager.invulnerablePlayers.remove(player.uniqueId)
+                AbilityManager.invulnerablePlayers.remove(context.caster.uniqueId)
             }
         }.runTaskLater(ShadowSMP.instance, 15 * 20)
 
@@ -23,12 +23,12 @@ class SpiritAbility: Ability(120) {
             var timesRun = 0
             var rotation = 0.0
             override fun run() {
-                if (!AbilityManager.invulnerablePlayers.contains(player.uniqueId)) {
+                if (!AbilityManager.invulnerablePlayers.contains(context.caster.uniqueId)) {
                     cancel()
                     return
                 }
 
-                val playerLoc = player.location.clone()
+                val playerLoc = context.location.clone()
 
                 val angle = 20 * timesRun
                 val radians = Math.toRadians(angle.toDouble())
@@ -40,8 +40,8 @@ class SpiritAbility: Ability(120) {
                 val location1 = playerLoc.clone().add(x, y, z)
                 val location2 = playerLoc.clone().add(-x, y, -z)
 
-                player.world.spawnParticle(Particle.SCRAPE, location1, 10, 0.0, 0.0, 0.0)
-                player.world.spawnParticle(Particle.SCRAPE, location2, 10, 0.0, 0.0, 0.0)
+                context.world.spawnParticle(Particle.SCRAPE, location1, 10, 0.0, 0.0, 0.0)
+                context.world.spawnParticle(Particle.SCRAPE, location2, 10, 0.0, 0.0, 0.0)
 
                 val pillarCount = 2
                 val pillarRadius = 1.5
@@ -54,7 +54,7 @@ class SpiritAbility: Ability(120) {
                     val pz = sin(rad) * pillarRadius
 
                     for (py in 0..pillarHeight) {
-                        player.world.spawnParticle(Particle.SCRAPE,
+                        context.world.spawnParticle(Particle.SCRAPE,
                             playerLoc.clone().add(px, py.toDouble(), pz),
                             1, 0.0, 0.0, 0.0)
                     }

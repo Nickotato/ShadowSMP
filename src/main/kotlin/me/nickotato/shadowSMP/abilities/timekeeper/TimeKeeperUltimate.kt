@@ -5,6 +5,7 @@ import com.comphenix.protocol.ProtocolLibrary
 import com.comphenix.protocol.events.PacketContainer
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.abilitycontext.AbilityContext
 import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.Particle
@@ -16,12 +17,12 @@ import kotlin.math.sin
 
 class TimeKeeperUltimate : Ability(120) {
 
-    override fun execute(player: Player) {
-        val location = player.location
+    override fun execute(context: AbilityContext) {
+        val location = context.location
         val plugin = ShadowSMP.instance
 
-        player.world.playSound(location, "block.bell.resonate", 2f, -1.5f)
-        player.world.playSound(location, "item.trident.throw", 4f, -10f)
+        context.world.playSound(location, "block.bell.resonate", 2f, -1.5f)
+        context.world.playSound(location, "item.trident.throw", 4f, -10f)
 
         object : BukkitRunnable() {
             var loopCount = 0
@@ -29,7 +30,7 @@ class TimeKeeperUltimate : Ability(120) {
 
             override fun run() {
                 if (loopCount >= totalLoops) {
-                    applyTickChanges(location, player)
+                    applyTickChanges(location, context)
                     cancel()
                     return
                 }
@@ -64,11 +65,11 @@ class TimeKeeperUltimate : Ability(120) {
         }.runTaskTimer(plugin, 0L, 2L)
     }
 
-    private fun applyTickChanges(location: Location, player: Player) {
+    private fun applyTickChanges(location: Location, context: AbilityContext) {
         val nearbyPlayers = location.world?.getNearbyPlayers(location, 7.0) ?: return
 
         for (p in nearbyPlayers) {
-            if (p != player) {
+            if (p != context.caster) {
                 temporaryTickChanger(p, 2f)
             } else {
                 temporaryTickChanger(p, 4f)

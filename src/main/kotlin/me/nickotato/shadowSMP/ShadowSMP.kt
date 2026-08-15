@@ -60,6 +60,7 @@ class ShadowSMP : JavaPlugin() {
         getCommand("restarting_in")?.setExecutor(RestartingInCommand())
         getCommand("ghost")?.setExecutor(GhostCommand())
         getCommand("config")?.setExecutor(ConfigCommand())
+        getCommand("test_ability")?.setExecutor(TestAbilityCommand())
 
         ItemManager.register(ItemManager.CustomItemInfo("upgrader", indestructible = true))
         ItemManager.register(ItemManager.CustomItemInfo("haunted_dice", indestructible = true))

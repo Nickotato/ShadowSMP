@@ -2,9 +2,9 @@ package me.nickotato.shadowSMP.abilities.revenant
 
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.abilitycontext.AbilityContext
 import org.bukkit.Color
 import org.bukkit.Particle
-import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 import kotlin.math.cos
@@ -12,11 +12,10 @@ import kotlin.math.sin
 
 class RevenantUltimate : Ability(240) {
 
-    override fun execute(player: Player) {
+    override fun execute(context: AbilityContext) {
         val plugin = ShadowSMP.instance
-        val loc = player.location.clone()
+        val loc = context.location.clone()
 
-        // WIND-UP EFFECT BEFORE JUMP
         object : BukkitRunnable() {
             var tick = 0
             override fun run() {
@@ -39,42 +38,39 @@ class RevenantUltimate : Ability(240) {
                 )
 
                 if (tick % 10 == 0) {
-                    player.world.playSound(player.location, "entity.evoker.prepare_attack", 1f, 1f)
+                    context.world.playSound(context.location, "entity.evoker.prepare_attack", 1f, 1f)
                 }
 
-                if (tick >= 20) { // after ~1 second (20 ticks), launch
+                if (tick >= 20) {
                     cancel()
-                    launchPlayer(player)
+                    launchPlayer(context)
                 }
             }
         }.runTaskTimer(plugin, 0L, 1L)
     }
 
-    private fun launchPlayer(player: Player) {
+    private fun launchPlayer(context: AbilityContext) {
         val plugin = ShadowSMP.instance
-        // Launch player with a strong upward and forward velocity
-        val direction = player.location.direction
-        player.velocity = Vector(direction.x, 2.5, direction.z).multiply(2)
+        val direction = context.location.direction
+        context.caster.velocity = Vector(direction.x, 2.5, direction.z).multiply(2)
         object: BukkitRunnable() {
             override fun run() {
 
-                player.isGliding = true
+                context.caster.isGliding = true
 
             }
         }.runTaskLater(ShadowSMP.instance, 20 * 2L)
 
-        // TRAIL EFFECT DURING JUMP
         object : BukkitRunnable() {
             var tick = 0
 
             override fun run() {
-                if (!player.isValid || tick >= 70) {
+                if (!context.isValid || tick >= 70) {
                     cancel()
                     return
                 }
 
-                val loc = player.location.clone()
-                // Particle trail behind player
+                val loc = context.location.clone()
                 for (i in 0..2) {
                     val offsetX = (Math.random() - 0.5) * 0.5
                     val offsetY = (Math.random() - 0.5) * 0.5

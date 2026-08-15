@@ -2,13 +2,16 @@ package me.nickotato.shadowSMP.abilities.spirit
 
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.abilitycontext.AbilityContext
+import me.nickotato.shadowSMP.abilitycontext.PlayerAbilityContext
 import org.bukkit.GameMode
 import org.bukkit.Particle
-import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 
 class SpiritUltimate: Ability(90) {
-    override fun execute(player: Player) {
+    override fun execute(context: AbilityContext) {
+        if (context !is PlayerAbilityContext) return
+        val player = context.player
         val originalGm = player.gameMode
 
         player.gameMode = GameMode.SPECTATOR

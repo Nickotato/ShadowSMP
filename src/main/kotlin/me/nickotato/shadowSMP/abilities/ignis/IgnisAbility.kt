@@ -2,20 +2,20 @@ package me.nickotato.shadowSMP.abilities.ignis
 
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.abilitycontext.AbilityContext
 import me.nickotato.shadowSMP.utils.EntityUtils
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.Particle
 import org.bukkit.entity.LivingEntity
-import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 
 class IgnisAbility : Ability(60) {
-    override fun execute(player: Player) {
-        val world = player.world
-        val dir = player.location.direction.normalize()
-        val start = player.location.add(dir.multiply(2))
+    override fun execute(context: AbilityContext) {
+        val world = context.world
+        val dir = context.location.direction.normalize()
+        val start = context.location.add(dir.multiply(2))
 
         val wallWidth = 40
         val wallHeight = 7
@@ -54,12 +54,12 @@ class IgnisAbility : Ability(60) {
 
                 val nearby = world.getNearbyEntities(start, wallWidth.toDouble(), wallHeight.toDouble(), 2.0)
                 for (entity in nearby) {
-                    if (entity == player) continue
+                    if (entity == context.caster) continue
                     if (entity !is LivingEntity) continue
                     if (EntityUtils.isImmune(entity.type)) continue
 
                     entity.fireTicks = 60
-                    entity.damage(damagePerTick, player)
+                    entity.damage(damagePerTick, context.caster)
                 }
 
                 if (ticks >= wallDuration / 5) {

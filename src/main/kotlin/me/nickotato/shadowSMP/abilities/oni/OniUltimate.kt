@@ -2,11 +2,11 @@ package me.nickotato.shadowSMP.abilities.oni
 
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.abilitycontext.AbilityContext
 import me.nickotato.shadowSMP.utils.EntityUtils
 import org.bukkit.Color
 import org.bukkit.Particle
 import org.bukkit.entity.EntityType
-import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 import kotlin.math.cos
@@ -14,8 +14,8 @@ import kotlin.math.sin
 import kotlin.random.Random
 
 class OniUltimate : Ability(120) {
-    override fun execute(player: Player) {
-        player.world.strikeLightningEffect(player.location)
+    override fun execute(context: AbilityContext) {
+        context.world.strikeLightningEffect(context.location)
 
         object : BukkitRunnable() {
             var ticksRun = 0
@@ -29,17 +29,17 @@ class OniUltimate : Ability(120) {
                     return
                 }
 
-                val nearbyEntities = player.getNearbyEntities(radius, radius, radius)
+                val nearbyEntities = context.nearbyEntities(radius, radius, radius)
                 for (entity in nearbyEntities) {
-                    if (entity == player) continue
+                    if (entity == context.caster) continue
                     if (entity.type == EntityType.ITEM) continue
                     if (EntityUtils.isImmune(entity.type)) continue
 
                     entity.world.strikeLightning(entity.location)
                 }
 
-                val world = player.world
-                val center = player.location.clone().add(0.0, 0.5, 0.0)
+                val world = context.world
+                val center = context.location.clone().add(0.0, 0.5, 0.0)
 
                 for (i in 0 until particleCount) {
                     val angle = 2 * Math.PI * i / particleCount

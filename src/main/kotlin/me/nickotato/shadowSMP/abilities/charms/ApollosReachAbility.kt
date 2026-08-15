@@ -2,6 +2,8 @@ package me.nickotato.shadowSMP.abilities.charms
 
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.abilitycontext.AbilityContext
+import me.nickotato.shadowSMP.abilitycontext.PlayerAbilityContext
 import org.bukkit.Bukkit
 import org.bukkit.Particle
 import org.bukkit.attribute.Attribute
@@ -14,7 +16,9 @@ class ApollosReachAbility : Ability(120) {
     private val originalEntityRange = mutableMapOf<UUID, Double>()
     private val originalBlockRange = mutableMapOf<UUID, Double>()
 
-    override fun execute(player: Player) {
+    override fun execute(context: AbilityContext) {
+        if (context !is PlayerAbilityContext) return
+        val player = context.player
         val uuid = player.uniqueId
 
         val entityAttr = player.getAttribute(Attribute.ENTITY_INTERACTION_RANGE) ?: return

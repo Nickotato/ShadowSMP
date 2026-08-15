@@ -10,8 +10,10 @@ import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 import me.nickotato.shadowSMP.ShadowSMP
+import me.nickotato.shadowSMP.abilitycontext.AbilityContext
 import me.nickotato.shadowSMP.manager.AbilityManager
 import me.nickotato.shadowSMP.utils.EntityUtils
+import net.kyori.adventure.text.Component
 
 class DeogenUltimate: Ability(90) {
 
@@ -19,45 +21,45 @@ class DeogenUltimate: Ability(90) {
     private val hitInterval = 5L
     private val damagePerHit = 12.0
 
-    override fun execute(player: Player) {
-        val target = getNearestEntity(player)
+    override fun execute(context: AbilityContext) {
+        val target = getNearestEntity(context)
         if (target == null) {
-            player.sendMessage("§cNo target nearby!")
+            context.sendMessage(Component.text("§cNo target nearby!"))
             return
         }
 
-        player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, (hitCount * hitInterval + 20).toInt(), 1, false, false, true))
+        context.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, (hitCount * hitInterval + 20).toInt(), 1, false, false, true))
         if (target is LivingEntity) {
             target.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, (hitCount * hitInterval + 20).toInt(), 1, false, false, true))
         }
 
-        AbilityManager.tempNoFallPlayers.add(player.uniqueId)
+        AbilityManager.tempNoFallPlayers.add(context.caster.uniqueId)
 
         object : BukkitRunnable() {
             var hits = 0
 
             override fun run() {
-                if (hits >= hitCount || !target.isValid || !player.isValid) {
+                if (hits >= hitCount || !target.isValid || !context.isValid) {
                     this.cancel()
                     return
                 }
 
-                player.teleport(player.location.clone().apply { direction = target.location.toVector().subtract(player.location.toVector()) })
+                context.caster.teleport(context.location.clone().apply { direction = target.location.toVector().subtract(context.location.toVector()) })
                 if (target is LivingEntity) {
-                    target.teleport(target.location.clone().apply { direction = player.location.toVector().subtract(target.location.toVector()) })
+                    target.teleport(target.location.clone().apply { direction = context.location.toVector().subtract(target.location.toVector()) })
                 }
 
                 val offsetX = (Math.random() - 0.5) * 1.5
                 val offsetZ = (Math.random() - 0.5) * 1.5
                 val targetLocation: Location = target.location.clone().add(offsetX, 0.0, offsetZ)
-                player.teleport(targetLocation)
+                context.caster.teleport(targetLocation)
 
                 if (target is LivingEntity) {
-                    target.damage(damagePerHit, player)
+                    target.damage(damagePerHit, context.caster)
                     target.velocity = target.velocity.setY(0.5)
                 }
 
-                player.world.playSound(player.location, Sound.ENTITY_PLAYER_ATTACK_STRONG, 1.0f, 1.0f)
+                context.world.playSound(context.location, Sound.ENTITY_PLAYER_ATTACK_STRONG, 1.0f, 1.0f)
                 target.world.playSound(target.location, Sound.ENTITY_PLAYER_HURT, 1.0f, 1.0f)
 
                 hits++
@@ -65,13 +67,13 @@ class DeogenUltimate: Ability(90) {
         }.runTaskTimer(ShadowSMP.instance, 0L, hitInterval)
     }
 
-    private fun getNearestEntity(player: Player): Entity? {
-        return player.getNearbyEntities(10.0, 5.0, 10.0)
+    private fun getNearestEntity(context: AbilityContext): Entity? {
+        return context.nearbyEntities(10.0, 5.0, 10.0)
             .asSequence()
             .filterIsInstance<LivingEntity>()
-            .filter { it != player }
+            .filter { it != context.caster }
             .filter { it !is Player || it.gameMode != org.bukkit.GameMode.SPECTATOR }
             .filter { !EntityUtils.isImmune(it.type) }
-            .minByOrNull { it.location.distanceSquared(player.location) }
+            .minByOrNull { it.location.distanceSquared(context.location) }
     }
 }

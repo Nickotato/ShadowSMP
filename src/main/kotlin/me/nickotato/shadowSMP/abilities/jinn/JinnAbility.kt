@@ -2,13 +2,14 @@ package me.nickotato.shadowSMP.abilities.jinn
 
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.abilitycontext.AbilityContext
+import me.nickotato.shadowSMP.utils.EntityUtils
 import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.Particle
 import org.bukkit.Sound
 import org.bukkit.World
 import org.bukkit.entity.LivingEntity
-import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 import kotlin.math.cos
@@ -18,49 +19,51 @@ class JinnAbility : Ability(90) {
 
     companion object {
         const val CHARGE_TICKS = 20 * 3
-        const val RANGE = 10.0
+        const val RANGE = 15.0
         const val DAMAGE_PER_ENTITY = 2.0
     }
 
-    override fun execute(player: Player) {
-        val world = player.world
+    override fun execute(context: AbilityContext) {
+        val caster = context.caster
+        val world = context.world
+        val contextLocation = context.location
 
-        world.playSound(player.location, Sound.ENTITY_ILLUSIONER_CAST_SPELL, 1.5f, 0.6f)
-        world.playSound(player.location, Sound.BLOCK_BEACON_POWER_SELECT, 1.2f, 0.5f)
+        world.playSound(contextLocation, Sound.ENTITY_ILLUSIONER_CAST_SPELL, 1.5f, 0.6f)
+        world.playSound(contextLocation, Sound.BLOCK_BEACON_POWER_SELECT, 1.2f, 0.5f)
 
-        player.velocity = Vector(0.0, 0.35, 0.0)
+        caster.velocity = Vector(0.0, 0.35, 0.0)
 
         object : BukkitRunnable() {
             var tick = 0
 
             override fun run() {
-                if (!player.isOnline || player.isDead) {
+                if (!context.isValid) {
                     cancel()
                     return
                 }
 
-                player.velocity = Vector(0.0, 0.08, 0.0)
+                caster.velocity = Vector(0.0, 0.08, 0.0)
 
-                playActivationParticles(player, tick)
+                playActivationParticles(caster, tick)
 
                 if (tick % 20 == 0) {
-                    world.playSound(player.location, Sound.BLOCK_BEACON_AMBIENT, 1.0f, 0.7f + (tick / CHARGE_TICKS.toFloat()) * 0.5f)
+                    world.playSound(caster.location, Sound.BLOCK_BEACON_AMBIENT, 1.0f, 0.7f + (tick / CHARGE_TICKS.toFloat()) * 0.5f)
                 }
 
                 tick++
 
                 if (tick >= CHARGE_TICKS) {
                     cancel()
-                    activate(player)
+                    activate(caster)
                 }
             }
 
         }.runTaskTimer(ShadowSMP.instance, 0L, 1L)
     }
 
-    private fun playActivationParticles(player: Player, tick: Int) {
-        val world = player.world
-        val center = player.location.clone().add(0.0, 1.0, 0.0)
+    private fun playActivationParticles(caster: LivingEntity, tick: Int) {
+        val world = caster.world
+        val center = caster.location.clone().add(0.0, 1.0, 0.0)
         val progress = tick.toDouble() / CHARGE_TICKS
 
         playOuterRing(world, center, tick, progress)
@@ -160,17 +163,18 @@ class JinnAbility : Ability(90) {
         )
     }
 
-    private fun activate(player: Player) {
-        val world = player.world
+    private fun activate(caster: LivingEntity) {
+        val world = caster.world
 
-       playActivateSoundsAndParticles(player, world)
+       playActivateSoundsAndParticles(caster, world)
 
-        val entities = player.getNearbyEntities(
+        val entities = caster.getNearbyEntities(
             RANGE,
             RANGE,
             RANGE
         ).filterIsInstance<LivingEntity>()
-            .filter { it != player }
+            .filter { it != caster }
+            .filter { !EntityUtils.isImmune(it.type) }
 
         if (entities.isEmpty()) {
             return
@@ -192,13 +196,13 @@ class JinnAbility : Ability(90) {
 
         for (entity in entities) {
             val direction = entity.location.toVector()
-                .subtract(player.location.toVector())
+                .subtract(caster.location.toVector())
                 .normalize()
 
-            val distance = player.location.distance(entity.location)
+            val distance = caster.location.distance(entity.location)
 
             for (i in 0..distance.toInt()) {
-                val point = player.location.clone()
+                val point = caster.location.clone()
                     .add(direction.clone().multiply(i.toDouble()))
                     .add(0.0, 1.0, 0.0)
 
@@ -228,32 +232,34 @@ class JinnAbility : Ability(90) {
 
             entity.velocity = Vector(0.0, 0.0, 0.0)
 
-            entity.damage(damage, player)
+            entity.damage(damage, caster)
 
             playImpactParticles(world, entity)
 
         }
 
-        player.damage(recoilDamage)
+        caster.damage(recoilDamage)
     }
 
-    private fun playActivateSoundsAndParticles(player: Player, world: World) {
+    private fun playActivateSoundsAndParticles(caster: LivingEntity, world: World) {
+        val location = caster.location
+
         world.playSound(
-            player.location,
+            location,
             Sound.ENTITY_GENERIC_EXPLODE,
             1.5f,
             1.2f
         )
 
         world.playSound(
-            player.location,
+            location,
             Sound.ENTITY_ENDER_DRAGON_SHOOT,
             1.5f,
             0.8f
         )
 
         world.playSound(
-            player.location,
+            location,
             Sound.BLOCK_BEACON_ACTIVATE,
             1.5f,
             0.6f
@@ -261,13 +267,13 @@ class JinnAbility : Ability(90) {
 
         world.spawnParticle(
             Particle.EXPLOSION_EMITTER,
-            player.location.clone().add(0.0, 1.0, 0.0),
+            location.clone().add(0.0, 1.0, 0.0),
             1
         )
 
         world.spawnParticle(
             Particle.END_ROD,
-            player.location.clone().add(0.0, 1.0, 0.0),
+            location.clone().add(0.0, 1.0, 0.0),
             100,
             2.0,
             2.0,
@@ -277,7 +283,7 @@ class JinnAbility : Ability(90) {
 
         world.spawnParticle(
             Particle.SOUL,
-            player.location.clone().add(0.0, 1.0, 0.0),
+            location.clone().add(0.0, 1.0, 0.0),
             100,
             2.0,
             2.0,

@@ -2,27 +2,25 @@ package me.nickotato.shadowSMP.abilities.golem
 
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.abilitycontext.AbilityContext
 import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.Particle
 import org.bukkit.Sound
-import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import kotlin.math.cos
 import kotlin.math.sin
 
 class GolemUltimate: Ability(60) {
-    override fun execute(player: Player) {
-        val plLoc = player.location
+    override fun execute(context: AbilityContext) {
+        val plLoc = context.location
 
-        // 1️⃣ Charge-in particles (shrinking circle, faster)
         object : BukkitRunnable() {
             var loop1 = 0
             override fun run() {
                 if (loop1 >= 15) {
                     cancel()
-                    // After shrinking, start the shoot-out
-                    shootOut(plLoc, player)
+                    shootOut(plLoc, context)
                     return
                 }
                 val r = (15 - loop1) * 0.5
@@ -58,15 +56,13 @@ class GolemUltimate: Ability(60) {
 
     }
 
-    private fun shootOut(loc: Location, player: Player) {
-        // 2️⃣ Reverse/shoot-out particles (almost instant)
+    private fun shootOut(loc: Location, context: AbilityContext) {
         object : BukkitRunnable() {
             var loop2 = 0
             override fun run() {
                 if (loop2 >= 8) {
                     cancel()
-                    // After particles, push entities
-                    blastEntities(loc, player)
+                    blastEntities(loc, context)
                     return
                 }
                 val r = loop2 * 1.0
@@ -100,11 +96,10 @@ class GolemUltimate: Ability(60) {
         }.runTaskTimer(ShadowSMP.instance, 0L, 1L)
     }
 
-    private fun blastEntities(loc: Location, player: Player) {
-        // 3️⃣ Blast nearby entities
+    private fun blastEntities(loc: Location, context: AbilityContext) {
         val nearby = loc.world?.getNearbyEntities(loc, 8.0, 8.0, 8.0)
         nearby?.forEach { entity ->
-            if (entity != player) {
+            if (entity != context.caster) {
                 val direction = entity.location.toVector().subtract(loc.toVector()).normalize()
                 entity.velocity = direction.multiply(10)
             }

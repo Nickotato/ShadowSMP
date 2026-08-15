@@ -1,6 +1,7 @@
 package me.nickotato.shadowSMP.abilities.arachnid
 
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.abilitycontext.AbilityContext
 import me.nickotato.shadowSMP.utils.EntityUtils
 import org.bukkit.Color
 import org.bukkit.GameMode
@@ -8,20 +9,22 @@ import org.bukkit.Material
 import org.bukkit.Particle
 import org.bukkit.Sound
 import org.bukkit.entity.Entity
+import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
 class ArachnidUltimate: Ability(60) {
-    override fun execute(player: Player) {
+    override fun execute(context: AbilityContext) {
+        val caster = context.caster
         val radius = 10.0
-        val nearbyEntities = player.getNearbyEntities(radius, radius, radius)
+        val nearbyEntities = context.nearbyEntities(radius, radius, radius)
 
-        makeCircleParticles(player, radius)
+        makeCircleParticles(caster, radius)
 
         for (entity in nearbyEntities) {
-            if (!isValidEntity(entity, player)) continue
+            if (!isValidEntity(entity, caster)) continue
 
             spawnCobweb(entity)
 
@@ -30,11 +33,11 @@ class ArachnidUltimate: Ability(60) {
             playCaughtSound(entity)
         }
 
-        playMainSound(player)
+        playMainSound(context)
     }
 
-    private fun makeCircleParticles(player: Player, radius: Double) {
-        val center = player.location.clone().add(0.0, 1.0, 0.0)
+    private fun makeCircleParticles(caster: LivingEntity, radius: Double) {
+        val center = caster.location.clone().add(0.0, 1.0, 0.0)
         val points = 100
 
         for (i in 0 until points) {
@@ -42,7 +45,7 @@ class ArachnidUltimate: Ability(60) {
             val x = radius * cos(angle)
             val z = radius * sin(angle)
             val particleLocation = center.clone().add(x, 0.0, z)
-            player.world.spawnParticle(
+            caster.world.spawnParticle(
                 Particle.DUST,
                 particleLocation,
                 1,
@@ -61,13 +64,8 @@ class ArachnidUltimate: Ability(60) {
         }
     }
 
-    private fun playMainSound(player: Player) {
-        player.world.playSound(
-            player.location,
-            Sound.ENTITY_SPIDER_AMBIENT,
-            1.5f,
-            1.0f
-        )
+    private fun playMainSound(context: AbilityContext) {
+        context.playSound(Sound.ENTITY_SPIDER_AMBIENT, 1.5f, 1.0f)
     }
 
     private fun playCaughtParticles(entity: Entity) {
@@ -95,8 +93,8 @@ class ArachnidUltimate: Ability(60) {
         )
     }
 
-    private fun isValidEntity(entity: Entity, player: Player): Boolean {
-        if (entity == player) return false
+    private fun isValidEntity(entity: Entity, caster: LivingEntity): Boolean {
+        if (entity == caster) return false
         if (entity is Player && entity.gameMode == GameMode.SPECTATOR) return false
         if (EntityUtils.isImmune(entity.type)) return false
         return true

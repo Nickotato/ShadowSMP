@@ -2,13 +2,13 @@ package me.nickotato.shadowSMP.abilities.jinn
 
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.abilitycontext.AbilityContext
 import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.Particle
 import org.bukkit.Sound
 import org.bukkit.entity.Item
 import org.bukkit.entity.LivingEntity
-import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
@@ -16,32 +16,32 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 @Suppress("SameParameterValue")
-class JinnUltimate() : Ability(120) {
+class JinnUltimate : Ability(120) {
 
-    override fun execute(player: Player) {
-        val center = player.location.clone().add(0.0, 20.0, 0.0) // 12 blocks above player
+    override fun execute(context: AbilityContext) {
+        val center = context.location.clone().add(0.0, 20.0, 0.0) // 12 blocks above player
         val radiusSound = 40.0
 
-        player.world.getNearbyPlayers(center, radiusSound).forEach {
+        context.world.getNearbyPlayers(center, radiusSound).forEach {
             it.playSound(center, Sound.ENTITY_WARDEN_EMERGE, 1f, 1f)
         }
 
-        startFirstLoop(player, center, radiusSound)
+        startFirstLoop(context, center, radiusSound)
     }
 
-    private fun startFirstLoop(player: Player, center: Location, radiusSound: Double) {
+    private fun startFirstLoop(context: AbilityContext, center: Location, radiusSound: Double) {
         object : BukkitRunnable() {
             var loopCount = 0
             override fun run() {
                 if (loopCount >= 5) {
                     this.cancel()
-                    startSecondLoop(player, center, radiusSound)
+                    startSecondLoop(context, center, radiusSound)
                     return
                 }
 
                 val iteration = loopCount + 1
 
-                player.world.getNearbyPlayers(center, radiusSound).forEach {
+                context.world.getNearbyPlayers(center, radiusSound).forEach {
                     it.playSound(center, Sound.BLOCK_SCULK_SPREAD, 0.7f, 3f / iteration)
                     it.playSound(center, Sound.BLOCK_SCULK_PLACE, 2f, -3f + iteration)
                 }
@@ -60,19 +60,19 @@ class JinnUltimate() : Ability(120) {
         }.runTaskTimer(ShadowSMP.instance, 0L, 2L)
     }
 
-    private fun startSecondLoop(player: Player, center: Location, radiusSound: Double) {
+    private fun startSecondLoop(context: AbilityContext, center: Location, radiusSound: Double) {
         object : BukkitRunnable() {
             var loopCount = 0
             override fun run() {
                 if (loopCount >= 8) {
                     this.cancel()
-                    startMainLoop(player, center, radiusSound)
+                    startMainLoop(context, center, radiusSound)
                     return
                 }
 
                 val iteration = loopCount + 1
 
-                player.world.getNearbyPlayers(center, radiusSound).forEach {
+                context.world.getNearbyPlayers(center, radiusSound).forEach {
                     it.playSound(center, Sound.BLOCK_SCULK_SPREAD, 0.7f, 3f / iteration)
                     it.playSound(center, Sound.BLOCK_SCULK_PLACE, 2f, -3f + iteration)
                 }
@@ -87,7 +87,7 @@ class JinnUltimate() : Ability(120) {
         }.runTaskTimer(ShadowSMP.instance, 0L, 2L)
     }
 
-    private fun startMainLoop(player: Player, center: Location, radiusSound: Double) {
+    private fun startMainLoop(context: AbilityContext, center: Location, radiusSound: Double) {
         object : BukkitRunnable() {
             var loopCount = 0
             override fun run() {
@@ -98,13 +98,13 @@ class JinnUltimate() : Ability(120) {
 
                 val iteration = loopCount + 1
 
-                player.world.getNearbyPlayers(center, radiusSound).forEach {
+                context.world.getNearbyPlayers(center, radiusSound).forEach {
                     it.playSound(center, Sound.BLOCK_SCULK_SPREAD, 0.03f, 3f / iteration)
                     it.playSound(center, Sound.BLOCK_SCULK_PLACE, 0.05f, -3f + iteration)
                 }
 
                 center.world.getNearbyEntities(center, 45.0, 45.0, 45.0).forEach { entity ->
-                    if (entity == player || entity is Item) return@forEach
+                    if (entity == context.caster || entity is Item) return@forEach
                     if (entity !is LivingEntity) return@forEach
 
                     entity.addPotionEffect(PotionEffect(PotionEffectType.LEVITATION, 1, 0))
@@ -116,7 +116,7 @@ class JinnUltimate() : Ability(120) {
                         entity.velocity = direction.normalize().multiply(0.1)
                     } else {
                         entity.velocity = direction.normalize().multiply(1.5)
-                        entity.damage(0.14, player)
+                        entity.damage(0.14, context.caster)
                     }
                 }
 

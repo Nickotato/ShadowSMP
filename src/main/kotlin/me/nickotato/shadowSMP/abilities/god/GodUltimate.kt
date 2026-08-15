@@ -2,11 +2,11 @@ package me.nickotato.shadowSMP.abilities.god
 
 import me.nickotato.shadowSMP.ShadowSMP
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.abilitycontext.AbilityContext
 import org.bukkit.Particle
 import org.bukkit.Sound
 import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
-import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import kotlin.math.cos
 import kotlin.math.sin
@@ -14,7 +14,7 @@ import kotlin.math.sin
 @Suppress("SameParameterValue")
 class GodUltimate: Ability(120) {
 
-    override fun execute(player: Player) {
+    override fun execute(context: AbilityContext) {
         val plugin = ShadowSMP.instance
         val warningRadius = 10.0
         val warningDuration = 60L // 3 seconds
@@ -28,11 +28,11 @@ class GodUltimate: Ability(120) {
             override fun run() {
                 if (tickCount > warningDuration) {
                     cancel()
-                    startGodBeam(player, beamRadius, beamHeight, damagePerTick, plugin)
+                    startGodBeam(context, beamRadius, beamHeight, damagePerTick, plugin)
                     return
                 }
 
-                val center = player.location // Update warning circle to follow player
+                val center = context.location // Update warning circle to follow player
                 val points = 48
                 for (i in 0 until points) {
                     val angle = 2 * Math.PI / points * i
@@ -49,14 +49,14 @@ class GodUltimate: Ability(120) {
     }
 
     private fun startGodBeam(
-        player: Player,
+        context: AbilityContext,
         radius: Double,
         height: Double,
         damage: Double,
         plugin: ShadowSMP
     ) {
         // Epic sound to signal beam start
-        player.world.playSound(player.location, Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 6f, 1f)
+        context.world.playSound(context.location, Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 6f, 1f)
 
         object : BukkitRunnable() {
             var ticks = 0
@@ -68,7 +68,7 @@ class GodUltimate: Ability(120) {
                     return
                 }
 
-                val center = player.location // Update the beam center every tick so it follows the player
+                val center = context.location // Update the beam center every tick so it follows the player
 
                 // Giant golden beam: multiple concentric circles for solid look
                 val rings = 5
@@ -90,10 +90,10 @@ class GodUltimate: Ability(120) {
 
                 // Damage all living entities inside the beam
                 val entities: List<Entity> = center.world.getNearbyEntities(center, radius, height, radius)
-                    .filter { it != player }
+                    .filter { it != context.caster }
                 entities.forEach { entity ->
                     if (entity is LivingEntity) {
-                        entity.damage(damage, player)
+                        entity.damage(damage, context.caster)
                     }
                 }
 

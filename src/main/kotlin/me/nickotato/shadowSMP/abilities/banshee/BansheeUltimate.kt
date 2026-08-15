@@ -1,10 +1,10 @@
 package me.nickotato.shadowSMP.abilities.banshee
 
 import me.nickotato.shadowSMP.abilities.Ability
+import me.nickotato.shadowSMP.abilitycontext.AbilityContext
 import org.bukkit.Color
 import org.bukkit.Particle
 import org.bukkit.Sound
-import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import kotlin.math.cos
@@ -12,24 +12,24 @@ import kotlin.math.sin
 import kotlin.random.Random
 
 class BansheeUltimate: Ability(60) {
-    override fun execute(player: Player) {
-        val nearbyPlayers = player.world.getNearbyPlayers(player.location, 1.5)
+    override fun execute(context: AbilityContext) {
+        val nearbyPlayers = context.world.getNearbyPlayers(context.location, 1.5)
         val blindness = PotionEffect(PotionEffectType.BLINDNESS, 20 * 5, 6)
         val slowness = PotionEffect(PotionEffectType.SLOWNESS, 20*5, 6)
 
         for (nearbyPlayer in nearbyPlayers) {
-            if (nearbyPlayer == player) continue
+            if (nearbyPlayer == context.caster) continue
             nearbyPlayer.addPotionEffect(blindness)
             nearbyPlayer.addPotionEffect(slowness)
         }
 
-        playSoundEffects(player)
-        playShadeParticles(player)
+        playSoundEffects(context)
+        playShadeParticles(context)
     }
 
-    private fun playShadeParticles(player: Player) {
-        val world = player.world
-        val center = player.location.clone().add(0.0, 1.0, 0.0)
+    private fun playShadeParticles(context: AbilityContext) {
+        val world = context.world
+        val center = context.location.clone().add(0.0, 1.0, 0.0)
 
         val radius = 3.0
         val density = 250
@@ -55,9 +55,9 @@ class BansheeUltimate: Ability(60) {
         }
     }
 
-    private fun playSoundEffects(player: Player) {
-        val world = player.world
-        val loc = player.location
+    private fun playSoundEffects(context: AbilityContext) {
+        val world = context.world
+        val loc = context.location
 
         world.playSound(loc, Sound.AMBIENT_SOUL_SAND_VALLEY_ADDITIONS, 1.0f, 0.6f)
 
@@ -68,7 +68,7 @@ class BansheeUltimate: Ability(60) {
         world.playSound(loc, Sound.BLOCK_BEACON_DEACTIVATE, 0.7f, 0.8f)
 
         for (nearby in world.getNearbyPlayers(loc, 10.0)) {
-            if (nearby != player) {
+            if (nearby != context.caster) {
                 nearby.playSound(loc, Sound.ENTITY_PHANTOM_AMBIENT, 0.7f, 0.6f)
             }
         }
